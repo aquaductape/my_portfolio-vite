@@ -43,7 +43,8 @@ const Row = ({
   title,
   children,
   depth,
-}: Omit<TTableOfContents, "index">) => {
+  visibleMarker,
+}: Omit<TTableOfContents, "index"> & { visibleMarker: boolean }) => {
   const [context, { setTableOfContents, setSmoothScroll }] =
     useContext(GlobalContext);
   const paddingLeft = depth === 0 ? "" : `${depth * 50}px`;
@@ -85,7 +86,9 @@ const Row = ({
         class={
           style["content-item"] +
           " " +
-          (id === context.tableOfContents.anchorId ? style["active"] : "")
+          (visibleMarker && id === context.tableOfContents.anchorId
+            ? style["active"]
+            : "")
         }
         style={{ "padding-left": paddingLeft }}
         onClick={onClick}
@@ -96,7 +99,7 @@ const Row = ({
         <ul>
           <For each={nextChildren}>
             {(props) => {
-              return <Row {...props}></Row>;
+              return <Row {...props} visibleMarker={visibleMarker}></Row>;
             }}
           </For>
         </ul>
@@ -176,7 +179,7 @@ const TableOfContents = ({
         <ul>
           <For each={table}>
             {(content) => {
-              return <Row {...content}></Row>;
+              return <Row {...content} visibleMarker={visualMarker}></Row>;
             }}
           </For>
         </ul>

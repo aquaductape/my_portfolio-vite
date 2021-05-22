@@ -4,6 +4,8 @@ import { createEffect, onCleanup, onMount, useContext } from "solid-js";
 import { GlobalContext } from "../../../context/context";
 import useMatchMedia from "../../../hooks/useMatchMedia";
 
+type TPosition = { x: number; y: number };
+
 const Marker = () => {
   const [context] = useContext(GlobalContext);
   const { minWidth_400, minWidth_1680, minWidth_1900 } = useMatchMedia();
@@ -13,9 +15,61 @@ const Marker = () => {
   let markerElRef!: HTMLDivElement;
   let markerAnimation: Animation;
   let animationFinished = true;
+  let currentIndex = 0;
   let init = false;
 
-  const getPosition = (anchorId: string) => {
+  const getMidPosition = ({
+    currentIndex,
+    newIndex,
+  }: {
+    currentIndex: number;
+    newIndex: number;
+  }) => {
+    const position = { x: 0, y: 0, type: "short" };
+    const startingIdx = currentIndex > newIndex ? newIndex : currentIndex;
+    const lastIdx = currentIndex > newIndex ? currentIndex : newIndex;
+
+    if (startingIdx - lastIdx === 1) return null;
+    if (startingIdx - lastIdx > 2) {
+      position.type = "long";
+    }
+
+    const contents = context.tableOfContents.contents;
+    const startingItem = contents![startingIdx];
+    const lastItem = contents![lastIdx];
+    const minItem =
+      startingItem.depth > lastItem.depth ? lastItem : startingItem;
+    let diffDepth = minItem.depth;
+    let resultIdx = minItem.index;
+    let foundMin = false;
+
+    for (let i = startingIdx; i < lastIdx; i++) {
+      const item = contents![i];
+
+      if (startingItem.depth > lastItem.depth) {
+        if (item.depth < diffDepth) {
+          foundMin = true;
+          diffDepth = item.depth;
+          resultIdx = item.index;
+        }
+      } else {
+        if (item.depth > diffDepth) {
+          foundMin = true;
+          diffDepth = item.depth;
+          resultIdx = item.index;
+        }
+      }
+    }
+
+    if (!foundMin) return null;
+
+    position.y = resultIdx;
+    position.x = diffDepth;
+
+    return position;
+  };
+
+  const getEndPosition = (anchorId: string) => {
     const markerWidth = minWidth_1680.matches && !minWidth_1900 ? 21 : 25;
     const titleHeight =
       (minWidth_1680.matches || !minWidth_400.matches) && !minWidth_1900
@@ -33,22 +87,24 @@ const Marker = () => {
       (activeItem.depth === 0 ? startingDepthWidth : activeItem.depth * 50) -
       markerWidth;
 
-    return position;
+    return { position, index: activeItem.index };
   };
 
   const animate = ({
     currentPosition,
     newPosition,
+    midPosition,
   }: {
-    currentPosition: { x: number; y: number };
-    newPosition: { x: number; y: number };
+    currentPosition: TPosition;
+    newPosition: TPosition;
+    midPosition: (TPosition & { type: string }) | null;
   }) => {
     if (markerAnimation && !animationFinished) {
       markerAnimation.pause();
       // @ts-ignore
       markerAnimation.commitStyles();
       const [x, y] = markerElRef.style.transform
-        .match(/(\d|\.)+/g)
+        .match(/(\d|\.)+/g)!
         .map((str) => Number(str));
 
       currentPosition.x = x;
@@ -60,9 +116,13 @@ const Marker = () => {
       if (currentPosition.x > newPosition.x) {
         markerAnimation = markerElRef.animate(
           [
-            {
-              transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
-            },
+            ...[
+              !midPosition || midPosition.type === "long"
+                ? {
+                    transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
+                  }
+                : {},
+            ],
             {
               transform: `translate(${newPosition.x}px, ${currentPosition.y}px)`,
             },
@@ -121,7 +181,9 @@ const Marker = () => {
   onMount(() => {
     if (!tableOfContents.anchorId) return;
 
-    const { x, y } = getPosition(tableOfContents.anchorId);
+    const {
+      position: { x, y },
+    } = getEndPosition(tableOfContents.anchorId);
     currentPosition.y = y;
     currentPosition.x = x;
 
@@ -136,10 +198,12 @@ const Marker = () => {
       return;
     }
 
-    const newPosition = getPosition(anchorId);
+    const { index, position: newPosition } = getEndPosition(anchorId!);
+    const midPosition = getMidPosition({ currentIndex, newIndex: index });
 
-    animate({ currentPosition, newPosition });
+    animate({ currentPosition, newPosition, midPosition });
 
+    currentIndex = index;
     currentPosition.x = newPosition.x;
     currentPosition.y = newPosition.y;
   });
