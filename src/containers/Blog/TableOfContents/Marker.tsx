@@ -3,73 +3,94 @@ import { Cevron } from "../../../components/svg/icons/icons";
 import { createEffect, onCleanup, onMount, useContext } from "solid-js";
 import { GlobalContext } from "../../../context/context";
 import useMatchMedia from "../../../hooks/useMatchMedia";
+import { TTableOfContents } from "./TableOfContents";
 
 type TPosition = { x: number; y: number };
+type TKeyframe = { transform: string } | Keyframe;
 
 const Marker = () => {
   const [context] = useContext(GlobalContext);
   const { minWidth_400, minWidth_1680, minWidth_1900 } = useMatchMedia();
-  const currentPosition = { x: 0, y: 0 };
   const tableOfContents = context.tableOfContents;
   const translateDuration = 300;
+  let prevContent: TTableOfContents;
   let markerElRef!: HTMLDivElement;
   let markerAnimation: Animation;
   let animationFinished = true;
-  let currentIndex = 0;
   let init = false;
 
-  const getMidPosition = ({
-    currentIndex,
-    newIndex,
+  const generateKeyframes = ({
+    activeContent,
+    prevContent,
   }: {
-    currentIndex: number;
-    newIndex: number;
+    activeContent: TTableOfContents;
+    prevContent: TTableOfContents;
   }) => {
-    const position = { x: 0, y: 0, type: "short" };
-    const startingIdx = currentIndex > newIndex ? newIndex : currentIndex;
-    const lastIdx = currentIndex > newIndex ? currentIndex : newIndex;
+    const contents = context.tableOfContents.contents!;
+    const keyframes: TKeyframe[] = [];
+    const directionForwards = prevContent.index < activeContent.index;
+    const startingIdx = directionForwards
+      ? prevContent.index
+      : activeContent.index;
+    const lastIdx = !directionForwards
+      ? prevContent.index
+      : activeContent.index;
 
-    if (startingIdx - lastIdx === 1) return null;
-    if (startingIdx - lastIdx > 2) {
-      position.type = "long";
-    }
+    const loopCb = (content: TTableOfContents, idx: number) => {
+      const { x, y } = getPosition(content);
 
-    const contents = context.tableOfContents.contents;
-    const startingItem = contents![startingIdx];
-    const lastItem = contents![lastIdx];
-    const minItem =
-      startingItem.depth > lastItem.depth ? lastItem : startingItem;
-    let diffDepth = minItem.depth;
-    let resultIdx = minItem.index;
-    let foundMin = false;
+      const nextIdx = idx + (directionForwards ? 1 : -1);
+      const nextContent = contents[nextIdx];
+      if (
+        nextContent &&
+        startingIdx <= nextIdx &&
+        lastIdx >= nextIdx &&
+        nextContent.depth !== content.depth
+      ) {
+        const nextPosition = getPosition(nextContent);
 
-    for (let i = startingIdx; i < lastIdx; i++) {
-      const item = contents![i];
-
-      if (startingItem.depth > lastItem.depth) {
-        if (item.depth < diffDepth) {
-          foundMin = true;
-          diffDepth = item.depth;
-          resultIdx = item.index;
+        if (nextContent.depth > content.depth) {
+          keyframes.push({
+            transform: `translate(${x}px, ${y}px)`,
+          });
+          keyframes.push({
+            transform: `translate(${x}px, ${nextPosition.y}px)`,
+          });
+          return;
         }
-      } else {
-        if (item.depth > diffDepth) {
-          foundMin = true;
-          diffDepth = item.depth;
-          resultIdx = item.index;
-        }
+
+        keyframes.push({ transform: `translate(${x}px, ${y}px)` });
+        keyframes.push({ transform: `translate(${nextPosition.x}px, ${y}px)` });
+        return;
       }
+
+      keyframes.push({ transform: `translate(${x}px, ${y}px)` });
+    };
+
+    const forwards = () => {
+      for (let i = startingIdx; i <= lastIdx; i++) {
+        const item = contents![i];
+        loopCb(item, i);
+      }
+    };
+
+    const backwards = () => {
+      for (let i = lastIdx; i >= startingIdx; i--) {
+        const item = contents![i];
+        loopCb(item, i);
+      }
+    };
+
+    if (directionForwards) {
+      forwards();
+    } else {
+      backwards();
     }
 
-    if (!foundMin) return null;
-
-    position.y = resultIdx;
-    position.x = diffDepth;
-
-    return position;
+    return keyframes;
   };
 
-  const getEndPosition = (anchorId: string) => {
+  const getPosition = ({ depth, index }: { depth: number; index: number }) => {
     const markerWidth = minWidth_1680.matches && !minWidth_1900 ? 21 : 25;
     const titleHeight =
       (minWidth_1680.matches || !minWidth_400.matches) && !minWidth_1900
@@ -78,27 +99,14 @@ const Marker = () => {
     const startingDepthWidth =
       minWidth_1680.matches && !minWidth_1900 ? 21 : 25;
     const position = { x: 0, y: 0 };
-    const activeItem = context.tableOfContents.contents!.find(
-      (content) => content.id === anchorId
-    )!;
 
-    position.y = activeItem.index * titleHeight;
-    position.x =
-      (activeItem.depth === 0 ? startingDepthWidth : activeItem.depth * 50) -
-      markerWidth;
+    position.y = index * titleHeight;
+    position.x = (depth === 0 ? startingDepthWidth : depth * 50) - markerWidth;
 
-    return { position, index: activeItem.index };
+    return position;
   };
 
-  const animate = ({
-    currentPosition,
-    newPosition,
-    midPosition,
-  }: {
-    currentPosition: TPosition;
-    newPosition: TPosition;
-    midPosition: (TPosition & { type: string }) | null;
-  }) => {
+  const animate = ({ keyframes }: { keyframes: TKeyframe[] }) => {
     if (markerAnimation && !animationFinished) {
       markerAnimation.pause();
       // @ts-ignore
@@ -107,69 +115,17 @@ const Marker = () => {
         .match(/(\d|\.)+/g)!
         .map((str) => Number(str));
 
-      currentPosition.x = x;
-      currentPosition.y = y;
+      keyframes[0].transform = `translate(${x}px, ${y}px)`;
     }
 
     animationFinished = false;
-    const run = () => {
-      if (currentPosition.x > newPosition.x) {
-        markerAnimation = markerElRef.animate(
-          [
-            ...[
-              !midPosition || midPosition.type === "long"
-                ? {
-                    transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
-                  }
-                : {},
-            ],
-            {
-              transform: `translate(${newPosition.x}px, ${currentPosition.y}px)`,
-            },
-            {
-              transform: `translate(${newPosition.x}px, ${newPosition.y}px)`,
-            },
-          ],
-          { duration: translateDuration, fill: "forwards" }
-        );
 
-        return;
-      }
+    markerAnimation = markerElRef.animate(keyframes, {
+      duration: translateDuration,
+      easing: "ease-in-out",
+      fill: "forwards",
+    });
 
-      if (currentPosition.x < newPosition.x) {
-        markerAnimation = markerElRef.animate(
-          [
-            {
-              transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
-            },
-            {
-              transform: `translate(${currentPosition.x}px, ${newPosition.y}px)`,
-            },
-            {
-              transform: `translate(${newPosition.x}px, ${newPosition.y}px)`,
-            },
-          ],
-          { duration: translateDuration, fill: "forwards" }
-        );
-        return;
-      }
-
-      if (currentPosition.y !== newPosition.y) {
-        markerAnimation = markerElRef.animate(
-          [
-            {
-              transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
-            },
-            {
-              transform: `translate(${currentPosition.x}px, ${newPosition.y}px)`,
-            },
-          ],
-          { duration: translateDuration, fill: "forwards" }
-        );
-      }
-    };
-
-    run();
     if (!markerAnimation) return;
 
     markerAnimation.onfinish = () => {
@@ -177,16 +133,17 @@ const Marker = () => {
     };
   };
 
+  const getContent = (anchorId: string) => {
+    return context.tableOfContents.contents!.find(
+      (content) => content.id === anchorId
+    )!;
+  };
   // mobile: 33px, large: 36px, 1680: 30px, 1900: 36px
   onMount(() => {
     if (!tableOfContents.anchorId) return;
 
-    const {
-      position: { x, y },
-    } = getEndPosition(tableOfContents.anchorId);
-    currentPosition.y = y;
-    currentPosition.x = x;
-
+    prevContent = getContent(tableOfContents.anchorId);
+    const { x, y } = getPosition(prevContent);
     markerElRef.style.transform = `translate(${x}px, ${y}px)`;
   });
 
@@ -198,14 +155,16 @@ const Marker = () => {
       return;
     }
 
-    const { index, position: newPosition } = getEndPosition(anchorId!);
-    const midPosition = getMidPosition({ currentIndex, newIndex: index });
+    if (anchorId === prevContent.id) return;
 
-    animate({ currentPosition, newPosition, midPosition });
+    const activeContent = getContent(anchorId!);
 
-    currentIndex = index;
-    currentPosition.x = newPosition.x;
-    currentPosition.y = newPosition.y;
+    const keyframes = generateKeyframes({ activeContent, prevContent });
+    console.log({ keyframes });
+
+    animate({ keyframes });
+
+    prevContent = activeContent;
   });
 
   onCleanup(() => {

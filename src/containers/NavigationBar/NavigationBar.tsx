@@ -23,7 +23,7 @@ const NavigationBar = () => {
         const windowScrollY = window.scrollY;
         let isVisible = false;
 
-        if (entry.intersectionRatio > 0) {
+        if (entry.isIntersecting) {
           isVisible = true;
         }
 
@@ -33,7 +33,13 @@ const NavigationBar = () => {
         }
 
         prevWindowScrollY = windowScrollY;
-        if (context.smoothScroll.active) return;
+
+        if (context.smoothScroll.active) {
+          if (!context.header.visible) {
+            setHeader({ shadow: false, visible: true });
+          }
+          return;
+        }
 
         if (isVisible) {
           setHeader({ shadow: false, visible: true });

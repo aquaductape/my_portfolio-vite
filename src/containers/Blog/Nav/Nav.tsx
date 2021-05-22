@@ -21,7 +21,8 @@ type TNavProps = {
   setScrollToId: (v: string) => void;
 };
 const Nav = ({ project, navActive, refs, setScrollToId }: TNavProps) => {
-  const [context, { setBlog, setTableOfContents }] = useContext(GlobalContext);
+  const [context, { setBlog, setTableOfContents, setSmoothScroll }] =
+    useContext(GlobalContext);
   const [[_, setToggle], { onFOBlur, onFOClick, onFOFocus }] = useFocusOut({
     onToggle,
   });
@@ -50,7 +51,16 @@ const Nav = ({ project, navActive, refs, setScrollToId }: TNavProps) => {
 
   const onClickTitle = (e: MouseEvent) => {
     e.preventDefault();
-    smoothScrollTo({ destination: 0 });
+    setSmoothScroll({ active: true });
+    setTableOfContents({ anchorId: context.tableOfContents.contents![0].id });
+
+    smoothScrollTo({
+      destination: 0,
+      duration: 300,
+      onEnd: () => {
+        setSmoothScroll({ active: false });
+      },
+    });
   };
 
   createEffect(() => {
