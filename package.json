@@ -1,0 +1,29 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "My solid + vite project + ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "26.0.20",
+    "@types/jquery": "^3.5.5",
+    "@types/lodash-es": "^4.17.4",
+    "sass": "^1.32.12",
+    "vite": "^2.3.1",
+    "vite-plugin-solid": "^1.7.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "focus-visible": "^5.2.0",
+    "fusioncharts": "aquaductape/fusioncharts-dist",
+    "jquery": "^3.5.1",
+    "jquery-fusioncharts": "^1.2.1",
+    "lodash-es": "^4.17.20",
+    "solid-js": "^0.26.5"
+  }
+}
