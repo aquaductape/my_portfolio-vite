@@ -91,13 +91,13 @@ const Marker = () => {
   };
 
   const getPosition = ({ depth, index }: { depth: number; index: number }) => {
-    const markerWidth = minWidth_1680.matches && !minWidth_1900 ? 21 : 25;
+    const markerWidth =
+      minWidth_1680.matches && !minWidth_1900.matches ? 21 : 25;
     const titleHeight =
-      (minWidth_1680.matches || !minWidth_400.matches) && !minWidth_1900
+      (minWidth_1680.matches || !minWidth_400.matches) && !minWidth_1900.matches
         ? 33
         : 36;
-    const startingDepthWidth =
-      minWidth_1680.matches && !minWidth_1900 ? 21 : 25;
+    const startingDepthWidth = !minWidth_1680.matches ? 25 : 25;
     const position = { x: 0, y: 0 };
 
     position.y = index * titleHeight;
@@ -160,7 +160,6 @@ const Marker = () => {
     const activeContent = getContent(anchorId!);
 
     const keyframes = generateKeyframes({ activeContent, prevContent });
-    console.log({ keyframes });
 
     animate({ keyframes });
 

@@ -65,11 +65,11 @@ export const ImgContainer = ({
 
 export const HyperLink = ({
   text,
-  href,
+  href = "javascript: void(0)",
   anchorId,
 }: {
   text: string;
-  href: string;
+  href?: string;
   anchorId?: string;
 }) => {
   const [_, { setTableOfContents, setSmoothScroll }] =
@@ -100,6 +100,7 @@ export const HyperLink = ({
       duration: 300,
       padding,
       onEnd: () => {
+        el.focus();
         setSmoothScroll({ active: false });
       },
     });
@@ -135,7 +136,7 @@ const observerHeadingCb: IntersectionObserverCallback = (entries) => {
 
     const anchorId = (entry.target as HTMLElement).dataset.anchor;
 
-    if (entry.boundingClientRect.top > entry.rootBounds.height * 0.8) {
+    if (entry.boundingClientRect.top > entry.rootBounds!.height * 0.8) {
       return;
     }
 
@@ -173,10 +174,10 @@ const Heading = ({
   switch (level) {
     case "h1":
       return (
-        <h1>
+        <h1 data-anchor={dataAttr} tabIndex={-1}>
           <div
             ref={headingSentinel}
-            data-anchor={dataAttr}
+            tabIndex={-1}
             class={style["heading-sentinel"]}
           ></div>
           {text}
@@ -184,7 +185,7 @@ const Heading = ({
       );
     case "h2":
       return (
-        <h2 data-anchor={dataAttr}>
+        <h2 data-anchor={dataAttr} tabIndex={-1}>
           <div
             ref={headingSentinel}
             data-anchor={dataAttr}
@@ -195,10 +196,11 @@ const Heading = ({
       );
     case "h3":
       return (
-        <h3 data-anchor={dataAttr}>
+        <h3 data-anchor={dataAttr} tabIndex={-1}>
           <div
             ref={headingSentinel}
             data-anchor={dataAttr}
+            tabIndex={-1}
             class={style["heading-sentinel"]}
           ></div>
           {text}
@@ -206,10 +208,11 @@ const Heading = ({
       );
     case "h4":
       return (
-        <h4 data-anchor={dataAttr}>
+        <h4 data-anchor={dataAttr} tabIndex={-1}>
           <div
             ref={headingSentinel}
             data-anchor={dataAttr}
+            tabIndex={-1}
             class={style["heading-sentinel"]}
           ></div>
           {text}
@@ -217,10 +220,11 @@ const Heading = ({
       );
     case "h5":
       return (
-        <h5 data-anchor={dataAttr}>
+        <h5 data-anchor={dataAttr} tabIndex={-1}>
           <div
             ref={headingSentinel}
             data-anchor={dataAttr}
+            tabIndex={-1}
             class={style["heading-sentinel"]}
           ></div>
           {text}

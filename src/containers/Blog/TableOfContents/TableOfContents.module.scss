@@ -12,8 +12,18 @@
   width: max-content;
   height: 100%;
 
+  .table-of-contents {
+    color: #93a1bb;
+  }
+
   .content-item {
     padding-left: 25px;
+  }
+
+  &.active {
+    .inner {
+      opacity: 1;
+    }
   }
 
   &:hover {
@@ -51,6 +61,7 @@
   height: 21px;
   padding: 5px;
   color: #fff;
+  pointer-events: none;
 
   svg {
     height: 100%;
@@ -58,21 +69,30 @@
 }
 
 .content-item {
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
   height: 33px;
   padding: 6px 0;
   cursor: pointer;
-  transition: 250ms background-color;
+  text-align: left;
+  color: inherit;
+  outline: none;
+  transition: 250ms background-color, 250ms color;
 
-  &.active {
-    color: #fff;
-  }
-
-  &:hover {
+  &[data-focus-visible-added] {
     background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    outline: 2px solid #fff;
 
     .content-item-text::after {
       transform: scaleX(1);
     }
+  }
+
+  &.active {
+    color: #fff;
   }
 }
 
@@ -99,23 +119,23 @@
 }
 
 .dropdown {
-  position: absolute;
+  position: fixed;
   top: 50px;
   right: 0;
+  width: 100%;
   overflow: hidden;
 
   .content-item {
     padding-left: 25px;
-    &:hover {
+
+    &[data-focus-visible-added] {
       background: rgba(0, 0, 0, 0.4);
     }
   }
 
   .inner {
     display: flex;
-    width: 100vw;
     margin-bottom: 20px;
-    margin-left: 20px;
     padding: 25px 12px;
     background: #0b1834;
     border-radius: 20px;
@@ -148,9 +168,13 @@
 
   .content-item {
     height: 36px;
-    padding-right: 100px;
+    padding-right: 50px;
   }
+
   .dropdown {
+    position: absolute;
+    width: auto;
+
     .inner {
       width: max-content;
     }
@@ -158,6 +182,11 @@
 }
 
 @media (min-width: 500px) {
+  .content-item {
+    padding-left: 21px;
+    padding-right: 100px;
+  }
+
   .dropdown {
     .inner {
       font-size: 20px;
@@ -170,8 +199,9 @@
   .content-item {
     padding-left: 21px;
   }
+
   .marker {
-    top: 5px;
+    top: 7px;
     height: 21px;
     width: 21px;
   }
@@ -186,14 +216,35 @@
       font-size: 20px;
     }
 
-    .inner {
-      opacity: 0.6;
-    }
+    // .inner {
+    //   opacity: 0.7;
+    // }
   }
 
   .marker {
     top: 6px;
     height: 25px;
     width: 25px;
+  }
+}
+
+@media not all and (pointer: coarse) {
+  .content-item {
+    &:hover {
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+
+      .content-item-text::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .dropdown {
+    .content-item {
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
   }
 }

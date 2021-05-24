@@ -20,6 +20,12 @@
   h3,
   h4 {
     position: relative;
+    outline: none;
+
+    &[data-focus-visible-added] {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
   }
 
   h2,

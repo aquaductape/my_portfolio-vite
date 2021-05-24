@@ -14,6 +14,7 @@ import Marker from "./Marker";
 import style from "./TableOfContents.module.scss";
 import stylePost from "../Posts/Post.module.scss";
 import useMatchMedia from "../../../hooks/useMatchMedia";
+import onKeyUpFocus from "./keyUpFocus";
 
 export type TTableOfContentsInput = {
   title: string;
@@ -47,6 +48,7 @@ const Row = ({
 }: Omit<TTableOfContents, "index"> & { visibleMarker: boolean }) => {
   const [context, { setTableOfContents, setSmoothScroll }] =
     useContext(GlobalContext);
+  const { minWidth_1680 } = useMatchMedia();
   const paddingLeft = depth === 0 ? "" : `${depth * 50}px`;
   const nextChildren: TTableOfContents[] = children.map((id) => {
     const result = context.tableOfContents.contents!.find(
@@ -55,11 +57,11 @@ const Row = ({
     return result;
   });
 
-  const onClick = () => {
+  const onClick = (e: MouseEvent) => {
+    const target = e.currentTarget as HTMLElement;
     batch(() => {
       setSmoothScroll({ active: true });
       setTableOfContents({
-        dropdownActive: false,
         anchorId: id,
       });
     });
@@ -75,14 +77,24 @@ const Row = ({
       duration: 300,
       padding,
       onEnd: () => {
+        if (!minWidth_1680.matches) {
+          if (target.closest(`.${style["dropdown"]}`)) return;
+          el.focus();
+        }
         setSmoothScroll({ active: false });
       },
     });
   };
+  const onKeyUp = (e: KeyboardEvent) => {
+    if (!minWidth_1680.matches) return;
+
+    onKeyUpFocus(e);
+  };
 
   return (
     <li>
-      <div
+      <button
+        aria-label={`Jump to ${title}`}
         class={
           style["content-item"] +
           " " +
@@ -92,9 +104,10 @@ const Row = ({
         }
         style={{ "padding-left": paddingLeft }}
         onClick={onClick}
+        onKeyUp={onKeyUp}
       >
         <span class={style["content-item-text"]}>{title}</span>
-      </div>
+      </button>
       {children && (
         <ul>
           <For each={nextChildren}>
@@ -200,7 +213,6 @@ export const TableOfContentsDropdown = () => {
       return;
     }
     if (context.tableOfContents.dropdownActive === false) {
-      console.log("close");
       setTimeout(() => {
         setToggleDropdown(false);
       }, dropdownDuration + 200);

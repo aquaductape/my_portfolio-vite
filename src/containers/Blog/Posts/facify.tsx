@@ -1,6 +1,7 @@
 import style from "./Post.module.scss";
 
 import themeImg from "../../../assets/facify/img/theme.png";
+import renderTreeImg from "../../../assets/facify/img/render-tree.png";
 import corsSuccess from "../../../assets/facify/img/cors-success.png";
 import corsError from "../../../assets/facify/img/cors-error.png";
 import corsServerSuccess from "../../../assets/facify/img/cors-server-success.png";
@@ -8,7 +9,7 @@ import buttonsComparisonImg from "../../../assets/facify/img/buttons-comparison.
 import alwaysInViewImg from "../../../assets/facify/img/alwaysInView.png";
 import uploadVid from "../../../assets/facify/video/upload.mp4";
 import notificationsComparisonsVid from "../../../assets/facify/video/notifications-comparisions.mp4";
-import { Heading2, HyperLink, ImgContainer, Video } from "./Post";
+import { Heading2, Heading3, HyperLink, ImgContainer, Video } from "./Post";
 import { useContext } from "solid-js";
 import { GlobalContext } from "../../../context/context";
 import {
@@ -35,14 +36,14 @@ const PostFacify = () => {
     {
       title: "Highlights",
       children: [
-        { title: "Sticky Table Header" },
+        { title: "Fixed Table Header" },
         { title: "URL Text Input" },
         { title: "Scroll Shadows" },
       ],
     },
   ];
 
-  setTableOfContents({ contents: tableOfContents });
+  setTableOfContents({ contents: tableOfContents, anchorId: "how-to-use" });
 
   return (
     <div class={style["blog-post"]}>
@@ -153,17 +154,134 @@ const PostFacify = () => {
         depth related to that topic in
         <HyperLink
           text={" Fixed Table Header "}
-          href={"javascript: void(0)"}
           anchorId={"Fixed Table Header"}
         ></HyperLink>
         section.
       </p>
-      <ImgContainer src={corsError} alt="CORS error"></ImgContainer>
+      <Heading2>Tech Stack</Heading2>
+      <Heading3>Frontend</Heading3>
+      <p>
+        I choose React for two reasons. One because it’s fun, I love working
+        with JavaScript and React is a framework that completely embraces
+        control with everything with JavaScript. Where other frameworks such as
+        Angular or Svelte have separation of concerns, with React you get to
+        write the content, state and logic all in one file thanks to the awesome
+        JSX syntax. Second reason is the large ecosystem and community it has,
+        so I have plenty of resources to utilize any time I’m stuck.
+      </p>
+      <p>
+        React does have some pitfalls, you have to be careful not to cause
+        unnecessary rerenders. The solution is that you have to make sure the
+        state lives as close to it’s relevant descendants as possible.
+      </p>
+      <ImgContainer src={renderTreeImg} alt={"render tree"}></ImgContainer>
+      <p>
+        I use Redux for state management. React can get unproductive quickly if
+        the app is using root level state, because you end up writing children
+        properties everywhere, or what’s known in the React community,
+        <HyperLink
+          text={" prop drilling"}
+          href={"https://kentcdodds.com/blog/prop-drilling"}
+        ></HyperLink>
+        . React has it’s solution to grab global state properties without
+        manually writing props and it’s ‘useContext’. However Context is not
+        meant to be a global root level state, since even if one property in
+        it’s large state updates, all of its descendants rerenders. That’s why
+        Redux is popular in React apps, because it can make state management
+        productive while keeping decent performance.
+      </p>
+      <p>
+        Redux is famous for its large boilerplate setup, writing files of
+        reducers, actions, and dispatches, even for a simple counter app. Well
+        not anymore, the team released an opinionated, lighter, batteries
+        included alternative, Redux Toolkit. Redux Toolkit makes it easier for
+        my mental model to think of state as slices. Writing the actions and
+        dispatches is really fun and productive compared to classic Redux where
+        you had to write more imperative code.
+      </p>
+      <p>
+        For CSS, I used ‘styled-jsx’. This library lets you write style
+        declarations within your components, inject Javascript and it also
+        scopes styles the component, which prevents css clashes due to its
+        global cascading nature.
+      </p>
+      <p>
+        This boosted productivity tremendously, which global style sheets I
+        would have to manage the namespacing myself. Unlike CSS modules or
+        CSS-in-JS(ie styled-components), I can just write classes as is, without
+        resorting to abstractions. I am aware that CSS modules is the better CSS
+        modular choice for performance, but I choose to be productive for
+        writing styles and allow easier maintenance, since everything is in one
+        file.
+      </p>
+      <Heading3>Backend</Heading3>
+      <p>
+        Since I’m using the NextJS framework, it was easy to create API
+        endpoints for backend functionality, and since the backend runs on
+        NodeJS, I can quickly write logic without needing to switch to a
+        different programming language.
+      </p>
+      <p>
+        This is where I placed the functionality to parse images and perform
+        Exif orientation.{" "}
+      </p>
+      <p>
+        Since one of the inputs is image URL string, it needs to be converted to
+        base64 and compressed if needed. Converting to base64 could be done
+        client side by using canvas or fetch, but that depends on whether the
+        image follows
+        <HyperLink
+          text={" CORS (Cross Origin Resource Sharing Policy) "}
+          href={"https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"}
+        ></HyperLink>
+        guidelines. In a gist, CORS is a specific security framework baked into
+        the networking layer of the browser. Since the browser executes code
+        dynamically from websites, it needs this layer of protection.
+      </p>
       <ImgContainer src={corsSuccess} alt="CORS success"></ImgContainer>
+      <p>
+        In this example a user uses an image from a popular site Imgur, the
+        image response that is sent from Imgur’s servers has important
+        information attached to it, such as ‘access-control-allow-origin’. It’s
+        access origin value is a wildcard ‘*’, and it means any site can access
+        it. Facify site allowed by the CORS ruleset, can convert the image to
+        base64. The same cannot be said if the image had a restrictive origin or
+        no origin value present.
+      </p>
+      <ImgContainer src={corsError} alt="CORS error"></ImgContainer>
+      <p>
+        In this example a user grabs an image from a site Pinterest. That image
+        doesn’t have ‘access-control-allow-origin’ present. So when there’s an
+        attempt to get base64 from the image on the client side, CORS kicks in
+        and prevents the site from converting the image to base64.
+      </p>
+      <p>
+        The solution was moving logic of the image conversion from client to the
+        server. Unlike browsers, which are tightly controlled sandboxes, servers
+        don’t have to follow CORS policies.
+      </p>
       <ImgContainer
         src={corsServerSuccess}
         alt="CORS server success"
       ></ImgContainer>
+      <p>
+        The client communicates to the Facify server to fetch the image from
+        pinterest and convert it to base64. Then the base64 data is sent to the
+        client.
+      </p>
+      <Heading3>API Services</Heading3>
+      <p>
+        Face detection as well as demographic estimation, was made possible by
+        using a service called Clarifai. Clarifai is an object detection in
+        image service, by using machine learning AI. Face detection is one of
+        the many models that Clarifai provides, and in order to use it, they
+        provide a NodeJS package for the backend.{" "}
+      </p>
+      <p>
+        Since Clarifai accepts certain kinds of images and has a size limit of
+        3.4 megabytes, I made sure that on the frontend, image types are
+        validated and images are compressed if they over the size limit.
+      </p>
     </div>
   );
 };

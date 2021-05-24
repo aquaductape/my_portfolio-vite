@@ -5,6 +5,7 @@ import {
 } from "../../../components/svg/icons/icons";
 import { GlobalContext } from "../../../context/context";
 import useFocusOut from "../../../hooks/useFocusOut";
+import useMatchMedia from "../../../hooks/useMatchMedia";
 import { capitalize } from "../../../utils";
 import smoothScrollTo from "../../../utils/smoothScrollTo";
 import style from "../Blog.module.scss";
@@ -26,6 +27,7 @@ const Nav = ({ project, navActive, refs, setScrollToId }: TNavProps) => {
   const [[_, setToggle], { onFOBlur, onFOClick, onFOFocus }] = useFocusOut({
     onToggle,
   });
+  const { minWidth_1680 } = useMatchMedia();
 
   function onToggle(toggle: boolean) {
     setTableOfContents({
@@ -102,7 +104,11 @@ const Nav = ({ project, navActive, refs, setScrollToId }: TNavProps) => {
               {capitalize(project)}
             </span>
           </h1>
-          <Show when={context.tableOfContents.headerActive}>
+          <Show
+            when={
+              context.tableOfContents.headerActive && !minWidth_1680.matches
+            }
+          >
             <div
               class={`${style["util-bar"]}`}
               // @ts-ignore
