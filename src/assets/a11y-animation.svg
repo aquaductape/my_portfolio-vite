@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 41.292 16.815">
+  <g class="card">
+    <path d="M10.853 1.455h19.09c.58 0 1.048.468 1.048 1.049v11.767c0 .581-.468 1.049-1.049 1.049H10.853a1.047 1.047 0 01-1.049-1.049V2.504c0-.581.468-1.049 1.05-1.049z" fill="#fff" paint-order="markers fill stroke"/>
+    <path d="M12.986 5.643h.78v2.364h2.835V5.643h.78v5.766h-.78V8.663h-2.835v2.746h-.78zm5.917 1.441h.71v4.325h-.71zm0-1.684h.71v.9h-.71z" aria-label="Hi" fill="#8d8d8d"/>
+    <path d="M25.601 15.292V3.68" fill="none" stroke="green" stroke-width=".265"/>
+    <g paint-order="markers fill stroke">
+      <path d="M23.265 6.968s.505 1.137 1.115 1.747c.61.61.92.636 1.094.461z" fill="#8fff8f"/>
+      <path d="M23.265 6.968s1.137.505 1.747 1.115c.61.61.636.919.462 1.093z" fill="green"/>
+    </g>
+    <g stroke-width=".912" paint-order="markers fill stroke">
+      <path d="M28.16 9.25s-.555 1.247-1.224 1.916c-.669.67-1.008.698-1.2.507z" fill="#8fff8f"/>
+      <path d="M28.16 9.25s-1.248.554-1.917 1.223c-.669.67-.698 1.008-.506 1.2z" fill="green"/>
+    </g>
+    <g paint-order="markers fill stroke">
+      <path d="M25.65 2.833s-.903.82-.903 2.563c0 1.742.404 1.765.903 1.765s.903-.023.903-1.765c0-1.743-.903-2.563-.903-2.563z" fill="#ff2d79"/>
+      <path d="M24.89 4.437s-.143-.784-.143.959c0 1.742.404 1.765.903 1.765 1.051-.094-.63-1.85-.76-2.724z" fill="#d42100"/>
+    </g>
+    <path d="M30.282 3.498a1.31 1.31 0 11-2.622 0 1.311 1.311 0 012.622 0z" fill="#5858ff" paint-order="markers fill stroke"/>
+  </g>
+  <path d="M1.185.232a.95.95 0 00-.952.952V15.63a.95.95 0 00.952.952h15.754a.95.95 0 00.952-.952v-4.361l4.547-2.626-4.547-2.625V1.184a.95.95 0 00-.952-.952z" fill="#fff" stroke="#000" stroke-width=".465" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="16.97" paint-order="markers fill stroke"/>
+  <g id="a" class="contrast-small-fail" stroke-width="1.468">
+    <path fill="#fff" d="M4.057.688a3.4 3.4 0 10.03 0z" transform="translate(12.882 6.319) scale(.46922)"/>
+    <path d="M4.05 0A4.088 4.088 0 000 4.088a4.088 4.088 0 004.088 4.087 4.088 4.088 0 004.087-4.087A4.088 4.088 0 004.088 0a4.088 4.088 0 00-.038 0zm-1.6 1.948l1.638 1.638 1.637-1.638.502.502-1.638 1.638 1.638 1.637-.502.502L4.088 4.59 2.45 6.227l-.502-.502 1.638-1.637L1.948 2.45z" fill="#ba115b" transform="translate(12.882 6.319) scale(.46922)"/>
+  </g>
+  <g id="b" class="contrast-small-success" stroke-width="1.481">
+    <path d="M4.072.528a3.577 3.577 0 10.033 0z" fill="#fff" transform="translate(12.882 6.319) scale(.4672)"/>
+    <path fill="#19ad19" d="M4.068 0A4.105 4.105 0 000 4.105 4.105 4.105 0 004.105 8.21 4.105 4.105 0 008.21 4.105 4.105 4.105 0 004.105 0a4.105 4.105 0 00-.037 0zm2.161 2.102l.505.505-2.996 2.995-.504.504-.002.002c-.167-.168-.342-.338-.503-.506L1.477 4.35l.503-.504 1.254 1.253z" transform="translate(12.882 6.319) scale(.4672)"/>
+  </g>
+  <use xlink:href="#a" transform="translate(0 4.839)" width="100%" height="100%" class="contrast-large-fail"/>
+  <use xlink:href="#b" transform="translate(0 4.839)" width="100%" height="100%" class="contrast-large-success"/>
+  <text style="line-height:1.25" x="2.367" y="9.648" font-size="4.619" font-family="sans-serif" letter-spacing="0" word-spacing="0">
+    <tspan x="2.367" y="9.648" style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal" font-weight="400" font-family="Ubuntu">AA</tspan>
+  </text>
+  <text style="line-height:1.25" x="2.367" y="14.847" font-size="4.619" font-family="sans-serif" letter-spacing="0" word-spacing="0">
+    <tspan x="2.367" y="14.847" style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal" font-weight="400" font-family="Ubuntu">AAA</tspan>
+  </text>
+  <g class="rgb" transform="translate(-265.66 -337.842)">
+    <rect width="14.524" height="5.136" x="267.52" y="339.018" ry="1.021" fill="#fff" paint-order="markers fill stroke"/>
+    <text x="269.537" y="343.363">
+      <tspan x="269.537" y="343.363" style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal" font-weight="400" font-size="5.276" font-family="Ubuntu"><tspan class="rgb-r" fill="#d20000">R</tspan><tspan class="rgb-g" fill="#0d9c00">G</tspan><tspan class="rgb-b" fill="#0000d6">B</tspan></tspan>
+    </text>
+    <use xlink:href="#c" transform="translate(3.456)" width="100%" height="100%" class="block-g"/>
+    <path d="M271.203 340.116a1.49 1.49 0 00-1.487 1.486 1.49 1.49 0 001.487 1.487 1.49 1.49 0 001.486-1.487 1.49 1.49 0 00-1.486-1.486zm-1.19 1.486c0-.654.536-1.189 1.19-1.189.267 0 .52.09.728.253l-1.665 1.665a1.171 1.171 0 01-.252-.729zm1.19 1.19c-.268 0-.52-.09-.729-.253l1.665-1.665c.164.208.253.46.253.728 0 .654-.535 1.19-1.19 1.19z" id="c" class="block-r" fill="#000" fill-rule="evenodd" stroke="none" stroke-width=".265"/>
+    <use xlink:href="#c" transform="translate(6.911)" width="100%" height="100%" class="block-b"/>
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 25.481 36.191">
+  <g class="browser" transform="translate(-122.204 -441.435)">
+    <path d="M123.253 458.953h19.09c.58 0 1.048.468 1.048 1.049v11.767c0 .581-.468 1.049-1.049 1.049h-19.089a1.047 1.047 0 01-1.049-1.05v-11.766c0-.581.468-1.05 1.05-1.05z" fill="#fff" paint-order="markers fill stroke"/>
+    <path d="M123.253 458.142h19.09c.58 0 1.048.468 1.048 1.049v1.198h-21.187v-1.198c0-.581.468-1.05 1.05-1.05z" fill="#333" paint-order="markers fill stroke"/>
+    <circle cx="123.428" cy="459.335" r=".474" fill="#ff2a2a" paint-order="markers fill stroke"/>
+    <circle cx="125.168" cy="459.335" r=".474" fill="#fc0" paint-order="markers fill stroke"/>
+    <circle cx="126.907" cy="459.335" r=".474" fill="#00d400" paint-order="markers fill stroke"/>
+    <g class="page">
+      <path opacity=".392" fill="#500" paint-order="markers fill stroke" d="M122.204 460.389h21.213v5.167h-21.213z"/>
+      <path d="M125.905 466.48h14.174m-14.174 1.273h12.117m-12.117 1.273h12.74" fill="none" stroke="gray" stroke-width=".265"/>
+      <path opacity=".392" fill="#500" paint-order="markers fill stroke" d="M125.869 469.845h2.851v1.708h-2.851zm3.919 0h2.851v1.708h-2.851z"/>
+      <circle cx="131.465" cy="462.745" r="2.073" fill="#6d06ff" fill-opacity=".579" paint-order="markers fill stroke"/>
+      <circle cx="134.212" cy="462.745" r="2.073" fill="#25ffc5" fill-opacity=".546" paint-order="markers fill stroke"/>
+      <path d="M126.669 470.237l.283.49.283.491h-1.133l.283-.49zm3.889.96l-.458-.317-.046-.555.504-.238.503.238-.046.555z" fill="#714c4c" paint-order="markers fill stroke"/>
+      <path d="M125.905 472.273h4.965" fill="none" stroke="gray" stroke-width=".265"/>
+    </g>
+    <g class="url-bar">
+      <rect width="18.094" height="2.897" x="123.75" y="461.635" ry="1.003" fill="#fff" stroke="#4d4d4d" stroke-width=".297" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="16.97" paint-order="markers fill stroke"/>
+      <text style="line-height:1.25;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal" x="125.697" y="463.884" font-weight="400" font-size="2.407" font-family="Ubuntu" letter-spacing="0" word-spacing="0">
+        <tspan x="125.697" y="463.884" style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">www.foo.bar</tspan>
+      </text>
+    </g>
+  </g>
+  <use xlink:href="#a" transform="translate(1.043 1.184)" width="100%" height="100%" class="file-img-2" stroke-width="1.014"/>
+  <g id="a" class="file-img-1" stroke-width=".999">
+    <path d="M105.745 259.277l-1.6-1.825a.293.293 0 00-.22-.1h-4.04a.339.339 0 00-.34.34v7.967a.34.34 0 00.34.339h5.594a.34.34 0 00.339-.34v-6.188a.293.293 0 00-.073-.193z" stroke-width=".264" transform="translate(-91.16 -252.924) scale(1.0015)"/>
+    <path d="M99.885 265.673v-7.981h3.927v1.734c0 .094.076.17.17.17h1.497v6.076z" fill="#e580ff" stroke-width=".264" transform="translate(-91.16 -252.924) scale(1.0015)"/>
+    <path d="M100.473 264.457c-.14-.039-.25-.18-.222-.326v-3.593c.054-.132.182-.244.33-.216h4.286c.132.053.245.182.216.33v3.594c-.054.132-.182.244-.33.216-1.427-.001-2.854.008-4.28-.005zm.837-1.72c.232-.27.447-.556.69-.815.235-.166.402.142.55.279.17.155.297.382.513.473.209-.03.317-.342.548-.266.39.385.752.795 1.126 1.194 0-.92.012-1.842-.004-2.762.013-.197-.215-.176-.215-.176-1.141 0-2.578-.011-3.719.006-.292-.05-.187.307-.207.48-.002.817-.001 1.635-.001 2.453.24-.287.479-.577.718-.866zm2.44-.708c-.334-.077-.506-.515-.3-.792.178-.284.628-.305.828-.035.234.26.093.712-.234.814a.494.494 0 01-.295.013z" fill="#405" transform="translate(-91.16 -252.924) scale(1.0015)"/>
+  </g>
+  <use xlink:href="#a" transform="translate(-1.043 -1.184)" width="100%" height="100%" class="file-img-0" stroke-width="1.014"/>
+  <g class="file-js">
+    <path d="M12.638 4.326l-1.6-1.824a.293.293 0 00-.22-.1h-4.04a.339.339 0 00-.34.34v7.967a.34.34 0 00.34.339h5.594a.339.339 0 00.339-.34V4.52a.293.293 0 00-.073-.193z"/>
+    <path d="M6.778 10.722v-7.98h3.927v1.734c0 .093.076.17.17.17h1.497v6.076z" fill="#f5de19"/>
+    <path d="M9.803 8.526a.694.694 0 00.63.387c.263 0 .432-.132.432-.315 0-.218-.173-.296-.464-.423l-.16-.068c-.46-.196-.765-.442-.765-.96 0-.478.364-.842.934-.842a.942.942 0 01.906.51l-.498.319a.433.433 0 00-.41-.274.277.277 0 00-.304.274c0 .19.118.268.392.387l.16.068c.54.233.847.47.847 1.002 0 .574-.45.888-1.056.888a1.225 1.225 0 01-1.162-.652zM7.55 8.58c.1.177.191.328.41.328.21 0 .342-.082.342-.4V6.34h.637v2.176c0 .66-.388.96-.952.96a.99.99 0 01-.956-.581z"/>
+  </g>
+  <g class="file-css">
+    <path d="M11.58 3.125l-1.6-1.824a.293.293 0 00-.22-.1H5.72a.339.339 0 00-.34.34v7.966c0 .188.152.34.34.34h5.593a.34.34 0 00.34-.34V3.318a.293.293 0 00-.073-.193z"/>
+    <path d="M5.72 9.521v-7.98h3.926v1.734c0 .093.076.17.17.17h1.497V9.52z" fill="#1572b6"/>
+    <path d="M6.9 4.358l.017.183.03.346.014.153h2.611l-.062.7H7.797l.015.182.031.346.014.153h1.592l-.08.885-.76.205-.76-.205-.049-.544h-.685l.096 1.071 1.397.388h.003l1.396-.388.01-.115.117-1.297.167-1.88.017-.183H8.607z" fill="#fff"/>
+  </g>
+  <g class="file-html">
+    <path d="M10.521 1.924L8.921.1a.293.293 0 00-.22-.1h-4.04a.339.339 0 00-.34.339v7.967c0 .188.153.34.34.34h5.594a.34.34 0 00.339-.34V2.117a.293.293 0 00-.073-.193z"/>
+    <path d="M4.66 8.32V.339h3.928v1.735c0 .093.076.17.17.17h1.497V8.32z" fill="#e44f26"/>
+    <path d="M5.828 3.752l.016.173.158 1.773h2.23l-.075.835-.715.193h-.003l-.717-.193-.046-.513h-.645l.09 1.01 1.318.366h.003l1.317-.366.01-.108.151-1.694.015-.173H6.591l-.059-.66h2.462l.013-.144.03-.326.015-.173H7.44z" fill="#fff"/>
+  </g>
+  <g class="percent" transform="translate(-122.204 -441.435)">
+    <circle transform="rotate(-90)" cx="-472.212" cy="142.271" r="4.851" fill="#afe9af" paint-order="markers fill stroke"/>
+    <circle transform="rotate(-90)" r="4.851" cy="142.271" cx="-472.212" class="percent-progress-bar" fill="none" stroke="green" stroke-width="1.126" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="16.97" paint-order="markers fill stroke"/>
+    <path d="M138.977 473.315h.632v-2.183l-.688.138v-.352l.684-.138h.387v2.535h.633v.326h-1.648zm3.259-2.28q-.299 0-.45.295-.15.293-.15.883 0 .589.15.884.151.293.45.293.301 0 .45-.293.152-.295.152-.884 0-.59-.151-.883-.15-.295-.45-.295zm0-.307q.481 0 .734.381.255.38.255 1.104 0 .723-.255 1.104-.253.38-.734.38-.48 0-.735-.38-.253-.381-.253-1.104 0-.724.253-1.104.254-.381.735-.381zm2.499.307q-.298 0-.45.295-.15.293-.15.883 0 .589.15.884.152.293.45.293.301 0 .45-.293.152-.295.152-.884 0-.59-.151-.883-.15-.295-.45-.295zm0-.307q.481 0 .734.381.255.38.255 1.104 0 .723-.255 1.104-.252.38-.734.38-.48 0-.735-.38-.253-.381-.253-1.104 0-.724.253-1.104.254-.381.735-.381z" aria-label="100" fill="green"/>
+  </g>
+  <g class="result">
+    <path d="M20.023 26.059a4.718 4.718 0 10.043 0z" fill="#fff"/>
+    <path fill="green" d="M20.017 25.362a5.414 5.414 0 00-5.365 5.415 5.414 5.414 0 005.414 5.414 5.414 5.414 0 005.415-5.414 5.414 5.414 0 00-5.415-5.415 5.414 5.414 0 00-.049 0zm2.851 2.773l.665.666-3.951 3.95-.665.666-.003.002c-.22-.221-.45-.446-.662-.667L16.6 31.099l.664-.665 1.653 1.652z"/>
+  </g>
+</svg>

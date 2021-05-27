@@ -31,6 +31,28 @@
      id="defs6">
     <inkscape:path-effect
        effect="bspline"
+       id="path-effect1737"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect1733"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
        id="path-effect1651"
        is_visible="true"
        lpeversion="1"
@@ -65,9 +87,9 @@
      inkscape:window-height="1016"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.80476268"
-     inkscape:cx="700.63089"
-     inkscape:cy="445.79589"
+     inkscape:zoom="1.0067899"
+     inkscape:cx="169.30287"
+     inkscape:cy="549.81899"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -151,7 +173,7 @@
          sodipodi:role="line"
          id="tspan1411"
          x="117.89559"
-         y="304.61542">Cheltenham, UK</tspan></text>
+         y="304.61542">Cheltenham, England</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:17.3333px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#cccccc"
@@ -592,5 +614,77 @@
          x="721.10803"
          y="672.18066"
          id="tspan1723">2.3 MB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:17.3333px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#cccccc"
+       x="721.10803"
+       y="699.83997"
+       id="text1729"><tspan
+         sodipodi:role="line"
+         x="721.10803"
+         y="699.83997"
+         id="tspan1727">121 files</tspan></text>
+    <path
+       style="fill:none;stroke:#cccccc;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 729.39314,578.444 c -3.7978,-1.34688 -7.60282,-2.69633 -9.66969,-5.41422 c -2.06686,-2.71788 -2.3892,-6.81235 -2.39994,-9.28856 c -0.0107,-2.47622 0.293,-3.32917 0.29881,-3.49074 c 0.006,-0.16158 -0.28643,0.37046 -1.09122,1.59483 c -0.80479,1.22436 -2.12256,3.14237 -2.68897,3.94263 c -0.56642,0.80026 -0.38111,0.48176 -0.26972,0.15124 c 0.1114,-0.33052 0.14801,-0.67878 0.86214,-1.70046 c 0.71412,-1.02168 2.10569,-2.70896 2.98658,-3.83839 c 0.88089,-1.12943 1.25184,-1.70245 1.49398,-1.9902 c 0.24214,-0.28775 0.3345,-0.28775 0.36083,0.48008 c 0.0263,0.76784 -0.0219,2.29708 0.19642,3.85955 c 0.21832,1.56246 0.70351,3.1663 1.18923,4.77188"
+       id="path1735"
+       inkscape:path-effect="#path-effect1737"
+       inkscape:original-d="m 729.39314,578.444 c -3.798,-1.34631 -7.60302,-2.69576 -11.41506,-4.04834 c -0.31233,-4.08448 -0.63467,-8.17895 -0.96701,-12.28343 c 0.31374,-0.84294 0.61748,-1.69589 0.91121,-2.55883 c -0.28224,0.54204 -0.57449,1.07408 -0.87673,1.59612 c -1.30778,1.92802 -2.62555,3.84603 -3.95332,5.75405 c 0.1953,-0.3085 0.3806,-0.627 0.5559,-0.95549 c 0.0466,-0.33827 0.0832,-0.68653 0.10983,-1.04479 c 1.40157,-1.67729 2.79314,-3.36458 4.17471,-5.06186 c 0.38095,-0.56302 0.75191,-1.13603 1.11286,-1.71905 c 0.11172,0.01 0.20408,10e-4 0.30516,0 c -0.0474,1.5357 -0.0898,3.06513 -0.14468,4.58774 c 0.48531,1.60191 0.9705,3.20575 1.45558,4.81152"
+       sodipodi:nodetypes="ccccccccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:86.927px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#cccccc;fill-opacity:0.309984;stroke-width:1"
+       x="39.654308"
+       y="1013.5498"
+       id="text959"><tspan
+         sodipodi:role="line"
+         id="tspan957"
+         x="39.654308"
+         y="1013.5498"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:86.927px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;fill-opacity:0.309984;stroke-width:1">“</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:13.8971px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#cccccc;fill-opacity:1;stroke-width:0.999998"
+       x="64.651917"
+       y="981.95544"
+       id="text949"><tspan
+         sodipodi:role="line"
+         id="tspan947"
+         x="64.651917"
+         y="981.95544"
+         style="stroke-width:0.999998">And we are never going to find</tspan><tspan
+         sodipodi:role="line"
+         x="64.651917"
+         y="999.32684"
+         id="tspan951"
+         style="stroke-width:0.999998">the new unless we get a little crazy...</tspan><tspan
+         sodipodi:role="line"
+         x="64.651917"
+         y="1016.6982"
+         style="stroke-width:0.999998"
+         id="tspan953" /><tspan
+         sodipodi:role="line"
+         x="64.651917"
+         y="1034.0696"
+         style="stroke-width:0.999998"
+         id="tspan955">— Need for Madness</tspan></text>
+    <circle
+       style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
+       id="path961"
+       cx="83.419365"
+       cy="348.80969"
+       r="2.4110234" />
+    <circle
+       style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
+       id="circle963"
+       cx="305.70502"
+       cy="455.40295"
+       r="2.411" />
+    <circle
+       style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
+       id="circle965"
+       cx="96.423424"
+       cy="644.33734"
+       r="2.411" />
   </g>
 </svg>
