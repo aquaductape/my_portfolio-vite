@@ -9,11 +9,17 @@ import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
 import { For } from "solid-js";
 import MonochromeCharacterLogo from "../../components/svg/logos/MonochromeCharacterLogo";
 import {
-  AccessabilityIcon,
-  AirplaneIcon,
-  ResponsiveIcon,
+  // AccessabilityIcon,
+  // AirplaneIcon,
+  // ResponsiveIcon,
   ResumeIcon,
 } from "../../components/svg/icons/icons";
+import {
+  A11yIcon,
+  PerformanceIcon,
+  ResponsiveIcon,
+} from "../../components/svg/icons/hero-icons";
+import { onHover } from "./heroAnimation";
 
 type TSocialLink = {
   href: string;
@@ -60,16 +66,6 @@ const AboutMe = () => {
             >
               <MonochromeCharacterLogo></MonochromeCharacterLogo>
             </h1>
-            <div class="contact-item">
-              <div className="contact-phone">
-                <span class="sr-only">Phone Number: </span>(323) 637-1232
-              </div>
-            </div>
-            <div class="contact-item">
-              <a class="contact-email" href="mailto:caleb1taylor2@gmail.com">
-                caleb1taylor2@gmail.com
-              </a>
-            </div>
           </div>
           <div class="about-me-intro">
             <p class="about-me-intro__declaration">
@@ -77,21 +73,30 @@ const AboutMe = () => {
             </p>
             <p id="project-promises">Building projects that are:</p>
             <ul aria-labelledby="project-promises" class="about-me-group-list">
-              <li class="about-me-list">
+              <li
+                class="about-me-list"
+                onMouseEnter={(e) => onHover(e, "responsive")}
+              >
                 <span class="about-me-icon">
                   <ResponsiveIcon></ResponsiveIcon>
                 </span>
                 Responsive
               </li>
-              <li class="about-me-list">
+              <li
+                class="about-me-list"
+                onMouseEnter={(e) => onHover(e, "performance")}
+              >
                 <span class="about-me-icon">
-                  <AirplaneIcon></AirplaneIcon>
+                  <PerformanceIcon></PerformanceIcon>
                 </span>
                 Performant
               </li>
-              <li class="about-me-list">
+              <li
+                class="about-me-list"
+                onMouseEnter={(e) => onHover(e, "a11y")}
+              >
                 <span class="about-me-icon">
-                  <AccessabilityIcon></AccessabilityIcon>
+                  <A11yIcon></A11yIcon>
                 </span>
                 Accessible
               </li>
