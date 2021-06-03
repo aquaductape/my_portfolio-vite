@@ -7,10 +7,6 @@ import {
 
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
 import { For, onMount } from "solid-js";
-import MonochromeCharacterLogo, {
-  animateDuplicatedPath,
-  createDuplicatedPaths,
-} from "../../components/svg/logos/MonochromeCharacterLogo";
 import {
   // AccessabilityIcon,
   // AirplaneIcon,
@@ -23,6 +19,12 @@ import {
   ResponsiveIcon,
 } from "../../components/svg/icons/hero-icons";
 import { onHover } from "./heroAnimation";
+import {
+  animateDuplicatedPath,
+  createDuplicatedPaths,
+  hideFullNameLetterCombo,
+} from "../../components/svg/logos/animation";
+import MonochromeCharacterLogo from "../../components/svg/logos/MonochromeCharacterLogo";
 
 type TSocialLink = {
   href: string;
@@ -60,6 +62,7 @@ const AboutMe = () => {
   let bcr!: DOMRect;
   let prevScrollY = 0;
   let svgEl!: HTMLElement;
+  let aboutMeElRef!: HTMLElement;
   let paths: HTMLElement[];
   let animationReady = false;
 
@@ -85,7 +88,7 @@ const AboutMe = () => {
     const deltaX = e.clientX - bcr.left - midX;
     const deltaY = e.clientY - +bcr.top - midY;
 
-    animateDuplicatedPath({ deltaX, deltaY, el: svgEl, paths });
+    animateDuplicatedPath({ deltaX, deltaY, paths });
   };
 
   const onTouchmove = (e: TouchEvent) => {
@@ -98,14 +101,16 @@ const AboutMe = () => {
     const deltaX = touch.clientX - bcr.left - midX;
     const deltaY = touch.clientY - +bcr.top - midY;
 
-    animateDuplicatedPath({ deltaX, deltaY, el: svgEl, paths });
+    animateDuplicatedPath({ deltaX, deltaY, paths });
   };
 
   onMount(() => {
-    setTimeout(() => {
+    document.body.addEventListener("mousemove", function init() {
       paths = createDuplicatedPaths(svgEl);
+      hideFullNameLetterCombo();
       animationReady = true;
-    }, 1000);
+      document.body.removeEventListener("mousemove", init);
+    });
   });
 
   return (
