@@ -24,6 +24,6 @@
     "jquery": "^3.5.1",
     "jquery-fusioncharts": "^1.2.1",
     "lodash-es": "^4.17.20",
-    "solid-js": "^0.26.5"
+    "solid-js": "0.26.0"
   }
 }

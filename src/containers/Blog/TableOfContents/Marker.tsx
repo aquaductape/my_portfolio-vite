@@ -4,9 +4,9 @@ import { createEffect, onCleanup, onMount, useContext } from "solid-js";
 import { GlobalContext } from "../../../context/context";
 import useMatchMedia from "../../../hooks/useMatchMedia";
 import { TTableOfContents } from "./TableOfContents";
+import { TKeyframe } from "../../../ts";
 
 type TPosition = { x: number; y: number };
-type TKeyframe = { transform: string } | Keyframe;
 
 const Marker = () => {
   const [context] = useContext(GlobalContext);

@@ -41,354 +41,271 @@ export const A11yIcon = () => (
         ></feColorMatrix>
       </filter>
     </defs>
-    <g class="card" opacity="0">
-      <path
-        d="M3.672 2.293h4.253c.13 0 .234.104.234.234v2.622c0 .13-.104.233-.234.233H3.672a.233.233 0 01-.234-.233V2.527c0-.13.104-.234.234-.234z"
-        fill="#fff"
-        paint-order="markers fill stroke"
-      />
-      <path
-        class="card-text"
-        d="M4.147 3.226h.174v.527h.632v-.527h.173v1.285h-.173v-.612H4.32v.612h-.174zm1.319.321h.158v.964h-.158zm0-.375h.158v.2h-.158z"
-        aria-label="Hi"
-        fill="#b7b7b7"
-      />
-      <g class="card-img-0">
+    <g class="animated-content">
+      <g class="card" opacity="0">
         <path
-          d="M6.958 5.376V2.79"
-          fill="none"
-          stroke="green"
-          stroke-width=".059"
-        />
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
-            fill="green"
-          />
-        </g>
-        <g stroke-width=".912" paint-order="markers fill stroke">
-          <path
-            d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
-            fill="green"
-          />
-        </g>
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
-            fill="#ff2d79"
-          />
-          <path
-            d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-            fill="#d42100"
-          />
-        </g>
-        <path
-          d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-          fill="#5858ff"
-          paint-order="markers fill stroke"
-        />
-      </g>
-      <g class="card-img-1" opacity="0" style="filter: url(#a11y-protanopia)">
-        <path
-          d="M6.958 5.376V2.79"
-          fill="none"
-          stroke="green"
-          stroke-width=".059"
-        />
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
-            fill="green"
-          />
-        </g>
-        <g stroke-width=".912" paint-order="markers fill stroke">
-          <path
-            d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
-            fill="green"
-          />
-        </g>
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
-            fill="#ff2d79"
-          />
-          <path
-            d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-            fill="#d42100"
-          />
-        </g>
-        <path
-          d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-          fill="#5858ff"
-          paint-order="markers fill stroke"
-        />
-      </g>
-      <g class="card-img-2" opacity="0" style="filter: url(#a11y-deuteranopia)">
-        <path
-          d="M6.958 5.376V2.79"
-          fill="none"
-          stroke="green"
-          stroke-width=".059"
-        />
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
-            fill="green"
-          />
-        </g>
-        <g stroke-width=".912" paint-order="markers fill stroke">
-          <path
-            d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
-            fill="green"
-          />
-        </g>
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
-            fill="#ff2d79"
-          />
-          <path
-            d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-            fill="#d42100"
-          />
-        </g>
-        <path
-          d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-          fill="#5858ff"
-          paint-order="markers fill stroke"
-        />
-      </g>
-      <g class="card-img-3" opacity="0" style="filter: url(#a11y-tritanopia)">
-        <path
-          d="M6.958 5.376V2.79"
-          fill="none"
-          stroke="green"
-          stroke-width=".059"
-        />
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
-            fill="green"
-          />
-        </g>
-        <g stroke-width=".912" paint-order="markers fill stroke">
-          <path
-            d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
-            fill="#8fff8f"
-          />
-          <path
-            d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
-            fill="green"
-          />
-        </g>
-        <g paint-order="markers fill stroke">
-          <path
-            d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
-            fill="#ff2d79"
-          />
-          <path
-            d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-            fill="#d42100"
-          />
-        </g>
-        <path
-          d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-          fill="#5858ff"
-          paint-order="markers fill stroke"
-        />
-      </g>
-    </g>
-    <g class="contrast" opacity="0">
-      <path
-        d="M1.518 2.02a.212.212 0 00-.213.213V5.45a.212.212 0 00.213.213h3.51a.212.212 0 00.212-.213v-.97l1.013-.585L5.24 3.31V2.233a.212.212 0 00-.212-.213z"
-        fill="#fff"
-        stroke="#000"
-        stroke-width=".104"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-dashoffset="16.97"
-        paint-order="markers fill stroke"
-      />
-      <g class="contrast-small-fail">
-        <path fill="#fff" d="M4.548 3.449a.355.355 0 10.003 0z" />
-        <path
-          d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.203l.171.172.171-.172.053.053-.171.171.171.171-.053.053-.17-.171-.172.17-.052-.052.17-.17-.17-.172z"
-          fill="#ba115b"
-        />
-      </g>
-      <g class="contrast-small-success" opacity="0">
-        <path d="M4.548 3.432a.372.372 0 10.003 0z" fill="#fff" />
-        <path
-          fill="#19ad19"
-          d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.052-.053-.052-.13-.13.052-.053.13.13z"
-        />
-      </g>
-      <g class="contrast-large-fail">
-        <path fill="#fff" d="M4.548 4.527a.355.355 0 10.003 0z" />
-        <path
-          d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.204l.171.17.171-.17.053.052-.171.171.171.172-.053.052-.17-.171-.172.171-.052-.052.17-.172-.17-.17z"
-          fill="#ba115b"
-        />
-      </g>
-      <g class="contrast-large-success" opacity="0">
-        <path d="M4.548 4.51a.372.372 0 10.003 0z" fill="#fff" />
-        <path
-          fill="#19ad19"
-          d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.053-.053-.053-.13-.13.052-.053.13.13z"
-        />
-      </g>
-      <text
-        style="line-height:1.25"
-        x="1.781"
-        y="4.119"
-        font-size="1.029"
-        font-family="sans-serif"
-        letter-spacing="0"
-        word-spacing="0"
-        stroke-width=".223"
-      >
-        <tspan
-          x="1.781"
-          y="4.119"
-          style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-          font-weight="400"
-          font-family="Ubuntu"
-          stroke-width=".05"
-        >
-          AA
-        </tspan>
-      </text>
-      <text
-        style="line-height:1.25"
-        x="1.781"
-        y="5.277"
-        font-size="1.029"
-        font-family="sans-serif"
-        letter-spacing="0"
-        word-spacing="0"
-        stroke-width=".223"
-      >
-        <tspan
-          x="1.781"
-          y="5.277"
-          style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-          font-weight="400"
-          font-family="Ubuntu"
-          stroke-width=".05"
-        >
-          AAA
-        </tspan>
-      </text>
-      <text
-        style="line-height:1.25"
-        x="1.726"
-        y="3.03"
-        font-size=".98"
-        font-family="sans-serif"
-        letter-spacing="0"
-        word-spacing="0"
-        stroke-width=".057"
-      >
-        <tspan
-          x="1.726"
-          y="3.03"
-          style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-          font-weight="400"
-          font-family="Ubuntu"
-          class="contrast-text"
-        >
-          2.0
-        </tspan>
-      </text>
-    </g>
-    <g style="transform: translate(-1px, 0.21px); transform-origin: center; transform-box: fill-box; ">
-      <g class="rgb" opacity="0">
-        <rect
-          width="3.236"
-          height="1.144"
-          x="1.261"
-          y="2.073"
-          ry=".227"
+          d="M3.672 2.293h4.253c.13 0 .234.104.234.234v2.622c0 .13-.104.233-.234.233H3.672a.233.233 0 01-.234-.233V2.527c0-.13.104-.234.234-.234z"
           fill="#fff"
           paint-order="markers fill stroke"
         />
-        <text x="1.711" y="3.041" font-size="2.674" stroke-width=".223">
+        <path
+          class="card-text"
+          d="M4.147 3.226h.174v.527h.632v-.527h.173v1.285h-.173v-.612H4.32v.612h-.174zm1.319.321h.158v.964h-.158zm0-.375h.158v.2h-.158z"
+          aria-label="Hi"
+          fill="#b7b7b7"
+        />
+        <g class="card-img-0">
+          <path
+            d="M6.958 5.376V2.79"
+            fill="none"
+            stroke="green"
+            stroke-width=".059"
+          />
+          <g paint-order="markers fill stroke">
+            <path
+              d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
+              fill="#8fff8f"
+            />
+            <path
+              d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
+              fill="green"
+            />
+          </g>
+          <g stroke-width=".912" paint-order="markers fill stroke">
+            <path
+              d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
+              fill="#8fff8f"
+            />
+            <path
+              d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
+              fill="green"
+            />
+          </g>
+          <g paint-order="markers fill stroke">
+            <path
+              d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
+              fill="#ff2d79"
+            />
+            <path
+              d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
+              fill="#d42100"
+            />
+          </g>
+          <path
+            d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
+            fill="#5858ff"
+            paint-order="markers fill stroke"
+          />
+        </g>
+        <g class="card-img-1" opacity="0" style="filter: url(#a11y-protanopia)">
+          <path
+            d="M6.958 5.376V2.79"
+            fill="none"
+            stroke="green"
+            stroke-width=".059"
+          />
+          <g paint-order="markers fill stroke">
+            <path
+              d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
+              fill="#8fff8f"
+            />
+            <path
+              d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
+              fill="green"
+            />
+          </g>
+          <g stroke-width=".912" paint-order="markers fill stroke">
+            <path
+              d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
+              fill="#8fff8f"
+            />
+            <path
+              d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
+              fill="green"
+            />
+          </g>
+          <g paint-order="markers fill stroke">
+            <path
+              d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
+              fill="#ff2d79"
+            />
+            <path
+              d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
+              fill="#d42100"
+            />
+          </g>
+          <path
+            d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
+            fill="#5858ff"
+            paint-order="markers fill stroke"
+          />
+        </g>
+      </g>
+      <g class="contrast" opacity="0">
+        <path
+          d="M1.518 2.02a.212.212 0 00-.213.213V5.45a.212.212 0 00.213.213h3.51a.212.212 0 00.212-.213v-.97l1.013-.585L5.24 3.31V2.233a.212.212 0 00-.212-.213z"
+          fill="#fff"
+          stroke="#000"
+          stroke-width=".104"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-dashoffset="16.97"
+          paint-order="markers fill stroke"
+        />
+        <g class="contrast-small-fail">
+          <path fill="#fff" d="M4.548 3.449a.355.355 0 10.003 0z" />
+          <path
+            d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.203l.171.172.171-.172.053.053-.171.171.171.171-.053.053-.17-.171-.172.17-.052-.052.17-.17-.17-.172z"
+            fill="#ba115b"
+          />
+        </g>
+        <g class="contrast-small-success" opacity="0">
+          <path d="M4.548 3.432a.372.372 0 10.003 0z" fill="#fff" />
+          <path
+            fill="#19ad19"
+            d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.052-.053-.052-.13-.13.052-.053.13.13z"
+          />
+        </g>
+        <g class="contrast-large-fail">
+          <path fill="#fff" d="M4.548 4.527a.355.355 0 10.003 0z" />
+          <path
+            d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.204l.171.17.171-.17.053.052-.171.171.171.172-.053.052-.17-.171-.172.171-.052-.052.17-.172-.17-.17z"
+            fill="#ba115b"
+          />
+        </g>
+        <g class="contrast-large-success" opacity="0">
+          <path d="M4.548 4.51a.372.372 0 10.003 0z" fill="#fff" />
+          <path
+            fill="#19ad19"
+            d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.053-.053-.053-.13-.13.052-.053.13.13z"
+          />
+        </g>
+        <text
+          style="line-height:1.25"
+          x="1.781"
+          y="4.119"
+          font-size="1.029"
+          font-family="sans-serif"
+          letter-spacing="0"
+          word-spacing="0"
+          stroke-width=".223"
+        >
           <tspan
-            x="1.711"
-            y="3.041"
+            x="1.781"
+            y="4.119"
             style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
             font-weight="400"
-            font-size="1.176"
             font-family="Ubuntu"
             stroke-width=".05"
           >
-            <tspan class="rgb-r" fill="#d20000" stroke-width=".011">
-              R
-            </tspan>
-            <tspan class="rgb-g" fill="#0d9c00" stroke-width=".011">
-              G
-            </tspan>
-            <tspan class="rgb-b" fill="#0000d6" stroke-width=".011">
-              B
-            </tspan>
+            AA
           </tspan>
         </text>
-        <use
-          {...{ "xlink:href": "#a11y-a" }}
-          transform="translate(.77)"
-          width="100%"
-          height="100%"
-          class="block-g"
-          opacity="0"
-        />
-        <g class="block-r" opacity="0">
-          <path
-            d="M2.082 2.317a.332.332 0 00-.331.332.332.332 0 00.33.33.332.332 0 00.332-.33.332.332 0 00-.331-.332zm-.265.332c0-.146.12-.265.265-.265.06 0 .116.02.162.056l-.37.371a.26.26 0 01-.057-.162zm.265.265a.262.262 0 01-.163-.057l.37-.37a.26.26 0 01.058.162c0 .145-.12.265-.265.265z"
-            id="a11y-a"
-            fill="#000"
-            fill-rule="evenodd"
-            stroke="none"
-            stroke-width=".059"
+        <text
+          style="line-height:1.25"
+          x="1.781"
+          y="5.277"
+          font-size="1.029"
+          font-family="sans-serif"
+          letter-spacing="0"
+          word-spacing="0"
+          stroke-width=".223"
+        >
+          <tspan
+            x="1.781"
+            y="5.277"
+            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+            font-weight="400"
+            font-family="Ubuntu"
+            stroke-width=".05"
+          >
+            AAA
+          </tspan>
+        </text>
+        <text
+          style="line-height:1.25"
+          x="1.726"
+          y="3.03"
+          font-size=".98"
+          font-family="sans-serif"
+          letter-spacing="0"
+          word-spacing="0"
+          stroke-width=".057"
+        >
+          <tspan
+            x="1.726"
+            y="3.03"
+            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+            font-weight="400"
+            font-family="Ubuntu"
+            class="contrast-text"
+          >
+            2.0
+          </tspan>
+        </text>
+      </g>
+      <g style="transform: translate(-1px, 0.21px); transform-origin: center; transform-box: fill-box; ">
+        <g class="rgb" opacity="0">
+          <rect
+            width="3.236"
+            height="1.144"
+            x="1.261"
+            y="2.073"
+            ry=".227"
+            fill="#fff"
+            paint-order="markers fill stroke"
+          />
+          <text x="1.711" y="3.041" font-size="2.674" stroke-width=".223">
+            <tspan
+              x="1.711"
+              y="3.041"
+              style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+              font-weight="400"
+              font-size="1.176"
+              font-family="Ubuntu"
+              stroke-width=".05"
+            >
+              <tspan class="rgb-r" fill="#d20000" stroke-width=".011">
+                R
+              </tspan>
+              <tspan class="rgb-g" fill="#0d9c00" stroke-width=".011">
+                G
+              </tspan>
+              <tspan class="rgb-b" fill="#0000d6" stroke-width=".011">
+                B
+              </tspan>
+            </tspan>
+          </text>
+          <use
+            {...{ "xlink:href": "#a11y-a" }}
+            transform="translate(.77)"
+            width="100%"
+            height="100%"
+            class="block-g"
+            opacity="0"
+          />
+          <g class="block-r" opacity="0">
+            <path
+              d="M2.082 2.317a.332.332 0 00-.331.332.332.332 0 00.33.33.332.332 0 00.332-.33.332.332 0 00-.331-.332zm-.265.332c0-.146.12-.265.265-.265.06 0 .116.02.162.056l-.37.371a.26.26 0 01-.057-.162zm.265.265a.262.262 0 01-.163-.057l.37-.37a.26.26 0 01.058.162c0 .145-.12.265-.265.265z"
+              id="a11y-a"
+              fill="#000"
+              fill-rule="evenodd"
+              stroke="none"
+              stroke-width=".059"
+            />
+          </g>
+          <use
+            {...{ "xlink:href": "#a11y-a" }}
+            transform="translate(1.54)"
+            width="100%"
+            height="100%"
+            class="block-b"
+            opacity="0"
           />
         </g>
-        <use
-          {...{ "xlink:href": "#a11y-a" }}
-          transform="translate(1.54)"
-          width="100%"
-          height="100%"
-          class="block-b"
-          opacity="0"
-        />
       </g>
     </g>
+
     <path
       d="M5.001 2.347a.734.734 0 00.039-1.3.688.688 0 00-.334-.074.674.674 0 00-.334.074.767.767 0 00-.382.646c0 .294.223.598.508.691.137.045.37.028.503-.037zm-.894 4.304c.06-.05.091-.117.168-.364.11-.353.22-.783.301-1.183.058-.281.085-.348.14-.348.067 0 .107.106.203.537.108.48.288 1.142.346 1.27.07.152.286.192.41.075.09-.085.093-.178.012-.441-.253-.827-.41-1.64-.456-2.375-.031-.487-.016-.596.091-.65a1.38 1.38 0 01.326-.049c.596-.037 1.18-.116 1.264-.17.194-.127.106-.462-.123-.464-.041 0-.245.02-.453.047-.98.121-2.233.127-3.384.015-.365-.036-.448-.021-.515.088-.108.178-.003.375.216.407.176.025.995.087 1.154.087.18 0 .292.03.366.1.051.048.055.07.055.304 0 .659-.147 1.549-.399 2.41-.117.402-.145.588-.096.648.107.13.26.153.374.056z"
       fill="#888f9b"

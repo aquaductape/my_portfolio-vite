@@ -34,6 +34,15 @@
   }
 }
 
+@keyframes Translate {
+  from {
+    transform: translate3d(0, 0%, 0);
+  }
+  to {
+    transform: translate3d(0, 150%, 0);
+  }
+}
+
 .Reveal-delay {
   opacity: 0;
   animation: Reveal 250ms 500ms forwards;

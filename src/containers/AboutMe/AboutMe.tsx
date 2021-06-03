@@ -6,8 +6,11 @@ import {
 } from "../../components/font-awesome/icons";
 
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
-import { For } from "solid-js";
-import MonochromeCharacterLogo from "../../components/svg/logos/MonochromeCharacterLogo";
+import { For, onMount } from "solid-js";
+import MonochromeCharacterLogo, {
+  animateDuplicatedPath,
+  createDuplicatedPaths,
+} from "../../components/svg/logos/MonochromeCharacterLogo";
 import {
   // AccessabilityIcon,
   // AirplaneIcon,
@@ -53,20 +56,76 @@ const AboutMe = () => {
     },
   ];
 
+  let hasCalcBCR = false;
+  let bcr!: DOMRect;
+  let prevScrollY = 0;
+  let svgEl!: HTMLElement;
+  let paths: HTMLElement[];
+  let animationReady = false;
+
+  const getBCR = () => {
+    if (prevScrollY !== window.scrollY) {
+      bcr = svgEl.getBoundingClientRect();
+      return bcr;
+    }
+
+    if (hasCalcBCR) return bcr;
+
+    hasCalcBCR = true;
+    bcr = svgEl.getBoundingClientRect();
+    return bcr;
+  };
+
+  const onMousemove = (e: MouseEvent) => {
+    if (!animationReady) return;
+
+    const bcr = getBCR();
+    const midX = bcr.width / 2;
+    const midY = bcr.height / 2;
+    const deltaX = e.clientX - bcr.left - midX;
+    const deltaY = e.clientY - +bcr.top - midY;
+
+    animateDuplicatedPath({ deltaX, deltaY, el: svgEl, paths });
+  };
+
+  const onTouchmove = (e: TouchEvent) => {
+    if (!animationReady) return;
+
+    const touch = e.touches[0] || e.changedTouches[0];
+    const bcr = getBCR();
+    const midX = bcr.width / 2;
+    const midY = bcr.height / 2;
+    const deltaX = touch.clientX - bcr.left - midX;
+    const deltaY = touch.clientY - +bcr.top - midY;
+
+    animateDuplicatedPath({ deltaX, deltaY, el: svgEl, paths });
+  };
+
+  onMount(() => {
+    setTimeout(() => {
+      paths = createDuplicatedPaths(svgEl);
+      animationReady = true;
+    }, 1000);
+  });
+
   return (
-    <section id="about-me" class="about-me">
+    <section
+      id="about-me"
+      class="about-me"
+      onMouseMove={onMousemove}
+      onTouchMove={onTouchmove}
+    >
       <div class="about-me-inner">
         <div class="about-me-content">
-          <div class="about-me-contact">
-            <h1
-              id="about-me-logo"
-              class="about-me-logo"
-              aria-label="Caleb Taylor"
-              tabindex="-1"
-            >
-              <MonochromeCharacterLogo></MonochromeCharacterLogo>
-            </h1>
-          </div>
+          <h1
+            id="about-me-logo"
+            class="about-me-logo"
+            aria-label="Caleb Taylor"
+            tabindex="-1"
+          >
+            <MonochromeCharacterLogo ref={svgEl}></MonochromeCharacterLogo>
+          </h1>
+
           <div class="about-me-intro">
             <p class="about-me-intro__declaration">
               Dedicated self-taught Front-End developer.

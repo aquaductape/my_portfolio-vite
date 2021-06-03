@@ -372,12 +372,6 @@ section {
   }
 }
 
-.about-me-contact {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 40px;
-}
-
 .contact-item {
   margin: 0;
   margin-bottom: 10px;
@@ -408,9 +402,13 @@ section {
 .about-me-logo {
   margin-top: 50px;
   height: 125px;
+  overflow: hidden;
+
   svg {
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    transform: translateZ(0);
   }
 }
 
@@ -849,7 +847,9 @@ section {
   }
 
   .about-me-logo {
-    height: 180px;
+    height: 350px;
+    margin-top: -25px;
+    margin-bottom: -25px;
   }
   .skills-item {
     font-size: 20px;
@@ -895,10 +895,6 @@ section {
     margin-bottom: 5px;
   }
 
-  .about-me-contact {
-    margin-bottom: 30px;
-  }
-
   .about-me-icon {
     width: 25px;
     height: 25px;
@@ -925,9 +921,5 @@ section {
 
   .contact-item {
     margin-bottom: 5px;
-  }
-
-  .about-me-contact {
-    margin-bottom: 25px;
   }
 }
