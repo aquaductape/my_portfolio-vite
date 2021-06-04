@@ -110,6 +110,7 @@ section {
   // background: var(--nav-bg-color);
   background: linear-gradient(90deg, #1d2d4b, var(--nav-bg-color) 75%);
   z-index: 200;
+  pointer-events: none;
   transition: transform 500ms;
 
   &::before {
@@ -183,6 +184,7 @@ section {
   font-size: 16px;
   color: var(--nav-txt-color);
   padding: 20px 12px;
+  pointer-events: all;
   transition: 500ms color;
 
   .nav-list-link-content {
@@ -221,6 +223,7 @@ section {
 
 .logo {
   height: 28px;
+  pointer-events: all;
 
   svg {
     height: 100%;
@@ -400,9 +403,9 @@ section {
 }
 
 .about-me-logo {
-  margin-top: 50px;
-  height: 125px;
-  overflow: hidden;
+  margin-top: 0px;
+  height: 195px;
+  margin-bottom: -5px;
 
   svg {
     width: 100%;
@@ -413,18 +416,34 @@ section {
 }
 
 .about-me-group-list {
-  padding-left: 25px;
+  padding-left: 15px;
 }
 
 .about-me-list {
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin: 5px 0;
+
+  span {
+    transition: transform 500ms;
+  }
+
+  &.active {
+    span {
+      transform: translateX(50px);
+    }
+  }
+}
+
+.fullname-shadow {
+  path {
+    transition: transform 250ms;
+  }
 }
 
 .about-me-icon {
-  width: 70px;
-  height: 70px;
+  width: 45px;
+  height: 45px;
   margin-right: 20px;
 
   svg {
@@ -478,7 +497,7 @@ section {
 }
 
 .social-links__li {
-  &[data-link-name="Stack Overflow"] {
+  &[data-link-name="LinkedIn"] {
     display: none;
   }
 }
@@ -701,6 +720,17 @@ section {
   }
 }
 
+@media (max-height: 590px) {
+  .about-me-logo {
+    height: 190px;
+  }
+
+  .about-me-icon {
+    width: 42px;
+    height: 42px;
+  }
+}
+
 @media (max-width: 300px) {
   .header-bar-inner {
     padding: 0 15px;
@@ -729,7 +759,66 @@ section {
   }
 }
 
+@media (max-width: 350px) {
+  .nav-list-link {
+    font-size: 14px;
+    padding: 20px 5px;
+  }
+}
+
+@media (max-width: 380px) and (min-height: 800px) {
+  .about-me-logo {
+    margin-top: 12px;
+    height: 230px;
+    margin-bottom: 0px;
+  }
+  .about-me-group-list {
+    margin: 18px 0;
+  }
+
+  .about-me-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (min-width: 410px) {
+  .about-me-logo {
+    margin-top: 15px;
+    height: 215px;
+    margin-bottom: 10px;
+  }
+
+  .about-me-group-list {
+    margin: 15px 0;
+  }
+}
+
 @media (min-width: 500px) {
+  .fullname-shadow {
+    path {
+      transition: transform 150ms;
+    }
+  }
+  .about-me-group-list {
+    padding-left: 25px;
+  }
+
+  .about-me-logo {
+    height: 300px;
+    margin-top: 0;
+    margin-bottom: -25px;
+  }
+
+  .about-me-list {
+    margin: 10px 0;
+  }
+
+  .about-me-icon {
+    width: 55px;
+    height: 55px;
+  }
+
   .logo {
     height: 45px;
   }
@@ -743,7 +832,7 @@ section {
   }
 
   .nav-list-link {
-    font-size: 20px;
+    font-size: 18px;
     margin: 0 20px;
   }
 
@@ -752,12 +841,49 @@ section {
       margin: 20px 0;
     }
   }
-  .about-me-intro {
+  .about-me-intro,
+  .card-pg {
     font-size: 20px;
+  }
+  .card {
+    margin: 50px 20px;
+  }
+
+  .card-link-item {
+    font-size: 18px;
+  }
+
+  .card-title {
+    font-size: 25px;
+  }
+
+  .social-links__li {
+    &[data-link-name="LinkedIn"] {
+      display: unset;
+    }
   }
 }
 
 @media (min-width: 655px) {
+  .nav-list-link {
+    font-size: 20px;
+    margin: 0 20px;
+  }
+
+  .about-me-logo {
+    height: 350px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+  }
+
+  .about-me-icon {
+    width: 70px;
+    height: 70px;
+  }
+  section {
+    padding: 100px 80px;
+  }
+
   .skills-group {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     margin: 0 auto;
@@ -783,6 +909,15 @@ section {
   }
 }
 
+@media (min-width: 730px) {
+  .about-me-list {
+    &.active {
+      span {
+        transform: none;
+      }
+    }
+  }
+}
 @media (min-width: 755px) {
   .pfooter {
     flex-direction: row;
@@ -829,10 +964,6 @@ section {
   }
 
   .social-links__li {
-    &[data-link-name="Stack Overflow"] {
-      display: unset;
-    }
-
     &[data-link-name="Download PDF Resume"] {
       svg {
         transform: scale(1.13) translateY(-0.5px) !important;
@@ -846,11 +977,6 @@ section {
     max-width: 380px;
   }
 
-  .about-me-logo {
-    height: 350px;
-    margin-top: -25px;
-    margin-bottom: -25px;
-  }
   .skills-item {
     font-size: 20px;
   }
@@ -881,45 +1007,5 @@ section {
 @media (min-width: 1650px) {
   .skip-to-content__inner {
     background: transparent;
-  }
-}
-
-@media (max-height: 700px) {
-  .about-me-logo {
-    margin-top: 40px;
-    height: 100px;
-    margin-bottom: 10px;
-  }
-
-  .contact-item {
-    margin-bottom: 5px;
-  }
-
-  .about-me-icon {
-    width: 25px;
-    height: 25px;
-  }
-
-  .contact-item {
-    font-size: 16px;
-  }
-}
-
-@media (max-height: 610px) {
-  .about-me-logo {
-    height: 90px;
-    margin-bottom: 5px;
-  }
-
-  .about-me-icon {
-    width: 20px;
-    height: 20px;
-  }
-  .about-me-list {
-    margin: 15px 0;
-  }
-
-  .contact-item {
-    margin-bottom: 5px;
   }
 }

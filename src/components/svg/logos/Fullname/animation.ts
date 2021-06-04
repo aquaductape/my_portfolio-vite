@@ -1,4 +1,4 @@
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
 
 const numberOfNodes = 30;
 
@@ -11,7 +11,7 @@ export const createDuplicatedPaths = (svgEl: HTMLElement) => {
   ) as HTMLElement;
   let firstEl = fullNameShadowEl.firstElementChild as HTMLElement;
 
-  const transition = "transform 150ms";
+  const transition = "transform 250ms";
   const paths = Array.from({ length: numberOfNodes }, (_, idx) => {
     if (idx === 0) {
       return firstEl;
@@ -106,15 +106,17 @@ export const animateDuplicatedPath = ({
   deltaX,
   deltaY,
   paths,
+  deltaSize,
 }: {
   deltaX: number;
   deltaY: number;
   paths: HTMLElement[];
+  deltaSize: number;
 }) => {
   const max = numberOfNodes;
 
-  deltaX = Math.ceil(deltaX / 15);
-  deltaY = Math.ceil(deltaY / 15);
+  deltaX = Math.ceil(deltaX / deltaSize);
+  deltaY = Math.ceil(deltaY / deltaSize);
 
   const deltaXBigger = Math.abs(deltaX) > Math.abs(deltaY);
   let biggerDelta = Math.abs(deltaXBigger ? deltaX : deltaY);

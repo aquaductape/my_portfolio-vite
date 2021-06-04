@@ -1,5 +1,5 @@
 import { onMount } from "solid-js";
-import { createHTMLFromString, round } from "../../../utils";
+import { createHTMLFromString, round } from "../../../../utils";
 
 type TAnimatedBGNode = {
   el: HTMLElement | null;
@@ -8,7 +8,7 @@ type TAnimatedBGNode = {
   endPosition: number;
 };
 
-const MonochromeCharacterLogo = (props: { ref: HTMLElement }) => {
+const FullnameLogo = (props: { ref: HTMLElement }) => {
   const bgNodes: TAnimatedBGNode[] = [];
   let throttle = 0;
 
@@ -19,13 +19,13 @@ const MonochromeCharacterLogo = (props: { ref: HTMLElement }) => {
     }
 
     el!.style.transform = `translateY(${round(position, 3)}px)`;
-    props.position += 0.05;
+    props.position += 0.025;
   };
 
   const animateBGs = () => {
     if (throttle > 1) {
       throttle++;
-      throttle = throttle % 7;
+      throttle = throttle % 4;
       return window.requestAnimationFrame(animateBGs);
     }
     throttle++;
@@ -76,11 +76,17 @@ const MonochromeCharacterLogo = (props: { ref: HTMLElement }) => {
   };
 
   onMount(() => {
-    document.body.addEventListener("mousemove", function init() {
+    let timeoutId: number;
+
+    const init = () => {
+      window.clearTimeout(timeoutId);
+      document.body.removeEventListener("mousemove", init);
+      document.removeEventListener("scroll", init);
+
       calculateBGNodes([
         {
           selector: ".full-name-shadow-bg",
-          beginPosition: 8,
+          beginPosition: 12,
           startPosition: 0,
           multiplyEnd: 2,
         },
@@ -88,8 +94,15 @@ const MonochromeCharacterLogo = (props: { ref: HTMLElement }) => {
         { selector: ".last-name-bg" },
       ]);
       // animateBGs();
+    };
+
+    timeoutId = window.setTimeout(() => {
       document.body.removeEventListener("mousemove", init);
-    });
+      init();
+    }, 5000);
+
+    document.body.addEventListener("mousemove", init);
+    document.addEventListener("scroll", init);
   });
 
   return (
@@ -228,4 +241,4 @@ const MonochromeCharacterLogo = (props: { ref: HTMLElement }) => {
   );
 };
 
-export default MonochromeCharacterLogo;
+export default FullnameLogo;

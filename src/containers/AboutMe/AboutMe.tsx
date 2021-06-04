@@ -23,8 +23,9 @@ import {
   animateDuplicatedPath,
   createDuplicatedPaths,
   hideFullNameLetterCombo,
-} from "../../components/svg/logos/animation";
-import MonochromeCharacterLogo from "../../components/svg/logos/MonochromeCharacterLogo";
+} from "../../components/svg/logos/Fullname/animation";
+import FullnameLogo from "../../components/svg/logos/Fullname/FullnameLogo";
+import useMatchMedia from "../../hooks/useMatchMedia";
 
 type TSocialLink = {
   href: string;
@@ -58,6 +59,8 @@ const AboutMe = () => {
     },
   ];
 
+  const { minWidth_400 } = useMatchMedia();
+
   let hasCalcBCR = false;
   let bcr!: DOMRect;
   let prevScrollY = 0;
@@ -65,10 +68,16 @@ const AboutMe = () => {
   let aboutMeElRef!: HTMLElement;
   let paths: HTMLElement[];
   let animationReady = false;
+  let deltaSize = minWidth_400.matches ? 15 : 5;
+
+  minWidth_400.addEventListener("change", (e) => {
+    deltaSize = e.matches ? 15 : 5;
+  });
 
   const getBCR = () => {
     if (prevScrollY !== window.scrollY) {
       bcr = svgEl.getBoundingClientRect();
+      prevScrollY = window.scrollY;
       return bcr;
     }
 
@@ -88,7 +97,7 @@ const AboutMe = () => {
     const deltaX = e.clientX - bcr.left - midX;
     const deltaY = e.clientY - +bcr.top - midY;
 
-    animateDuplicatedPath({ deltaX, deltaY, paths });
+    animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
   };
 
   const onTouchmove = (e: TouchEvent) => {
@@ -101,7 +110,7 @@ const AboutMe = () => {
     const deltaX = touch.clientX - bcr.left - midX;
     const deltaY = touch.clientY - +bcr.top - midY;
 
-    animateDuplicatedPath({ deltaX, deltaY, paths });
+    animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
   };
 
   onMount(() => {
@@ -117,8 +126,8 @@ const AboutMe = () => {
     <section
       id="about-me"
       class="about-me"
-      onMouseMove={onMousemove}
-      onTouchMove={onTouchmove}
+      // onMouseMove={onMousemove}
+      // onTouchMove={onTouchmove}
     >
       <div class="about-me-inner">
         <div class="about-me-content">
@@ -128,7 +137,7 @@ const AboutMe = () => {
             aria-label="Caleb Taylor"
             tabindex="-1"
           >
-            <MonochromeCharacterLogo ref={svgEl}></MonochromeCharacterLogo>
+            <FullnameLogo ref={svgEl}></FullnameLogo>
           </h1>
 
           <div class="about-me-intro">
@@ -144,7 +153,7 @@ const AboutMe = () => {
                 <span class="about-me-icon">
                   <ResponsiveIcon></ResponsiveIcon>
                 </span>
-                Responsive
+                <span>Responsive</span>
               </li>
               <li
                 class="about-me-list"
@@ -153,7 +162,7 @@ const AboutMe = () => {
                 <span class="about-me-icon">
                   <PerformanceIcon></PerformanceIcon>
                 </span>
-                Performant
+                <span>Performant</span>
               </li>
               <li
                 class="about-me-list"
@@ -162,7 +171,7 @@ const AboutMe = () => {
                 <span class="about-me-icon">
                   <A11yIcon></A11yIcon>
                 </span>
-                Accessible
+                <span>Accessible</span>
               </li>
             </ul>
           </div>
