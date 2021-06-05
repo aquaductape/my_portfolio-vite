@@ -181,9 +181,9 @@
      inkscape:window-height="1016"
      id="namedview118"
      showgrid="false"
-     inkscape:zoom="90.509668"
-     inkscape:cx="2.8604098"
-     inkscape:cy="5.4270847"
+     inkscape:zoom="91.22895"
+     inkscape:cx="4.6365192"
+     inkscape:cy="4.3654315"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -309,22 +309,6 @@
          style="stroke-width:0.369024" />
     </g>
   </g>
-  <text
-     xml:space="preserve"
-     style="font-size:17.3333px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.999999"
-     x="-602.61731"
-     y="416.20929"
-     id="text2102"><tspan
-       sodipodi:role="line"
-       id="tspan2100"
-       x="-602.61731"
-       y="416.20929"
-       style="stroke-width:0.999999" /></text>
-  <path
-     id="path1826"
-     style="fill:#ffffff;fill-opacity:1;stroke-width:0.0721882;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-     d="m -9.1563562,4.214788 h 4.639688 c 0.1412491,0 0.2549654,0.1137162 0.2549654,0.2549665 v 2.8600546 c 0,0.1412518 -0.1137163,0.2549654 -0.2549654,0.2549654 h -4.639688 c -0.141254,0 -0.2549649,-0.1137136 -0.2549649,-0.2549654 V 4.4697545 c 0,-0.1412503 0.1137109,-0.2549665 0.2549649,-0.2549665 z"
-     sodipodi:nodetypes="sssssssss" />
   <g
      id="g1137"
      class="browser">
@@ -731,8 +715,7 @@
   <g
      class="airplane"
      fill="#888f9b"
-     id="g114"
-     style="opacity:1">
+     id="g114">
     <path
        d="M4.705 6.408s.315-.613.385-2.346l2.287.414.002-.214-2.25-1.285-.02-1.28s-.08-.539-.335-.74c-.05-.037-.087-.033-.138 0-.255.201-.335.74-.335.74l-.02 1.28-2.25 1.285.002.214 2.287-.414c.07 1.733.385 2.346.385 2.346"
        id="path100" />
