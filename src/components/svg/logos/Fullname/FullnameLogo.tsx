@@ -93,7 +93,7 @@ const FullnameLogo = (props: { ref: HTMLElement }) => {
         { selector: ".first-name-bg" },
         { selector: ".last-name-bg" },
       ]);
-      animateBGs();
+      // animateBGs();
     };
 
     timeoutId = window.setTimeout(() => {

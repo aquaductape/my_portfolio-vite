@@ -1,4 +1,4 @@
-import { MainTimeline } from "./heroAnimation";
+import { MainTimeline } from "./animateProjectPromise";
 
 export const performanceAnimation = ({
   target,

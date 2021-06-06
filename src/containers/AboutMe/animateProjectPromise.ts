@@ -1,7 +1,7 @@
 import { TKeyframe } from "../../ts";
 import reflow from "../../utils/reflow";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
-import { performanceAnimation } from "./performanceAnimation";
+import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 
 export class MainTimeline {
   id: string;
@@ -10,18 +10,26 @@ export class MainTimeline {
     { animation: Animation; reset?: Keyframe[]; duration: number }
   >;
   finished: boolean;
+  running: boolean;
   timeoutMap: { [key: string]: boolean };
+  scenes: { cb: () => void; duration?: number }[];
+  sceneRunning: boolean;
   constructor(id: string) {
     this.id = id;
     this.finished = false;
+    this.running = false;
     this.animationMap = new Map();
     this.timeoutMap = {};
+    this.scenes = [];
+    this.sceneRunning = false;
   }
 
   setTimeout(cb: () => void, duration: number) {
     const timeoutId = window.setTimeout(() => {
       if (this.finished) return;
+
       this.timeoutMap[timeoutId] = false;
+
       cb();
     }, duration);
 
@@ -33,6 +41,31 @@ export class MainTimeline {
   reqAnimation(cb: () => void) {
     if (this.finished) return;
     window.requestAnimationFrame(cb);
+  }
+
+  scene(cb: () => void, { duration }: { duration?: number } = {}) {
+    if (this.sceneRunning) {
+      this.scenes.push({ cb, duration });
+      return;
+    }
+
+    this.sceneRunning = true;
+
+    const goNext = (duration: number) => {
+      this.setTimeout(() => {
+        if (!this.scenes.length) {
+          this.sceneRunning = false;
+          return;
+        }
+
+        const nextScene = this.scenes.shift()!;
+        nextScene.cb();
+        goNext(nextScene.duration!);
+      }, duration || 0);
+    };
+
+    cb();
+    goNext(duration || 0);
   }
 
   animate(
@@ -57,6 +90,11 @@ export class MainTimeline {
   }
 
   cancelAll() {
+    if (!this.running) return;
+    this.running = false;
+    this.sceneRunning = false;
+    this.scenes = [];
+
     const animationEntries = this.animationMap.entries();
     const duration = 300;
 
@@ -75,11 +113,10 @@ export class MainTimeline {
 
     for (const [el, options] of animationEntries) {
       const { animation, reset } = options;
-      if (!el.isConnected) continue;
+      if (!el.isConnected) return;
       // @ts-ignore
       animation.commitStyles();
 
-      // el.getAnimations(animation => el.remove())
       if (reset) {
         const startKeyframe: TKeyframe = {};
         if (el.style.transform) {
@@ -99,13 +136,16 @@ export class MainTimeline {
 
       if (el.style.opacity === "0") {
         el.getAnimations().forEach((animation) => {
-          // @ts-ignore
           animation.cancel();
         });
-        el.style.transform = "";
         el.style.opacity = "";
-        const clone = el.cloneNode(true);
+        el.style.transform = "";
+        const clone = el.cloneNode(true) as HTMLElement;
+        clone.style.transform = "";
+        clone.style.opacity = "";
         el.replaceWith(clone);
+        // reflow();
+        // console.log('el.style.opacity === "0"', el, el.getAnimations());
         continue;
       }
 
@@ -133,31 +173,31 @@ export class MainTimeline {
           fill: "forwards",
         }
       );
-      this.animationMap.clear();
 
       /** NUCLEAR SOLUTION - clone, delete, replace element
        *
        * I don't know why but Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
        * */
+      /**
+       * turns out I prematurly cleared Map which caused the issue ... maybe
+       */
       endAnimation.onfinish = () => {
         el.getAnimations().forEach((animation) => {
-          // @ts-ignore
           animation.cancel();
         });
-        // reflow();
-        el.style.opacity = "";
-        el.style.transform = "";
-        // reflow();
-        // console.log(el, el.getAnimations());
+        // el.style.opacity = "";
+        // el.style.transform = "";
+        // console.log(el, el.getAnimations()); // log that proves that Animation is buggy, el has inline styles that conflicts with rendered state, and getAnimations returns empty array, which means that previous animations were removed
         const clone = el.cloneNode(true) as HTMLElement;
-        // const parent = el.parentElement;
+        clone.style.opacity = "";
+        clone.style.transform = "";
         el.replaceWith(clone);
-        // parent?.appendChild(clone);
-        reflow();
-        console.log(clone, clone.getAnimations());
-        // el.replaceWith(clone);
+        // reflow();
+        // console.log('el.style.opacity === "0"', el, el.getAnimations());
       };
     }
+
+    this.animationMap.clear();
   }
 }
 
@@ -167,21 +207,17 @@ const a11yTimeline = new MainTimeline("a11y");
 const performanceTimeline = new MainTimeline("performance");
 const responsiveTimeline = new MainTimeline("responsive");
 
-export const onHover = (
-  e: MouseEvent,
+export const startAnimateProjectPromise = (
+  target: HTMLElement,
   type: "a11y" | "performance" | "responsive"
 ) => {
-  const target = e.currentTarget as HTMLElement;
-  const svgEl = target.querySelector("svg") as unknown as HTMLElement;
-  target.classList.add("active");
-
   const runAnimation = () => {
     switch (type) {
       case "a11y":
-        return a11yAnimation({ target: svgEl, mTimeline: a11yTimeline });
+        return a11yAnimation({ target, mTimeline: a11yTimeline });
       case "performance":
         return performanceAnimation({
-          target: svgEl,
+          target,
           mTimeline: performanceTimeline,
         });
       case "responsive":
@@ -189,23 +225,20 @@ export const onHover = (
     }
   };
   runAnimation();
+};
 
-  const onLeave = () => {
-    const runAnimation = () => {
-      switch (type) {
-        case "a11y":
-          return a11yEnd({ mTimeline: a11yTimeline });
-        case "performance":
-          return; // performanceAnimation();
-        case "responsive":
-          return responsiveAnimation();
-      }
-    };
-
-    target.classList.remove("active");
-    runAnimation();
-    target.removeEventListener("mouseleave", onLeave);
+export const endAnimateProjectPromise = (
+  type: "a11y" | "performance" | "responsive"
+) => {
+  const runAnimation = () => {
+    switch (type) {
+      case "a11y":
+        return a11yEnd({ mTimeline: a11yTimeline });
+      case "performance":
+        return performanceEnd({ mTimeline: performanceTimeline });
+      case "responsive":
+        return;
+    }
   };
-
-  target.addEventListener("mouseleave", onLeave);
+  runAnimation();
 };

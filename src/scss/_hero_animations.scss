@@ -1,0 +1,36 @@
+.title-bar-mac {
+  .hover {
+    opacity: 0;
+  }
+
+  .title-bar-close,
+  .title-bar-collapse,
+  .title-bar-expand {
+    &:hover .hover {
+      opacity: 1;
+    }
+  }
+}
+
+.title-bar-windows10 {
+  .hover {
+    &:hover {
+      fill: #e6e6e6;
+    }
+  }
+  .title-bar-close {
+    .hover {
+      &:hover {
+        fill: #f00;
+      }
+    }
+  }
+}
+
+.title-bar-windowsxp {
+  .hover {
+    &:hover {
+      filter: brightness(1.2);
+    }
+  }
+}

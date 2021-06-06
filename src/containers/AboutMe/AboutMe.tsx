@@ -6,7 +6,16 @@ import {
 } from "../../components/font-awesome/icons";
 
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
-import { For, onMount } from "solid-js";
+import {
+  For,
+  onMount,
+  JSX,
+  createState,
+  createEffect,
+  batch,
+  on,
+  createSignal,
+} from "solid-js";
 import {
   // AccessabilityIcon,
   // AirplaneIcon,
@@ -18,7 +27,10 @@ import {
   PerformanceIcon,
   ResponsiveIcon,
 } from "../../components/svg/icons/hero-icons";
-import { onHover } from "./heroAnimation";
+import {
+  endAnimateProjectPromise,
+  startAnimateProjectPromise,
+} from "./animateProjectPromise";
 import {
   animateDuplicatedPath,
   createDuplicatedPaths,
@@ -32,6 +44,13 @@ type TSocialLink = {
   ariaLabel: string;
   download?: string;
   icon: string;
+};
+
+type TProjectPromise = {
+  type: string;
+  active: boolean;
+  content: string;
+  icon: () => JSX.Element;
 };
 
 const AboutMe = () => {
@@ -59,13 +78,37 @@ const AboutMe = () => {
     },
   ];
 
-  const { minWidth_400 } = useMatchMedia();
+  const [projectPromises, setProjectPromises] = createState<TProjectPromise[]>([
+    {
+      type: "responsive",
+      active: false,
+      content: "Responsive",
+      icon: ResponsiveIcon,
+    },
+    {
+      type: "performance",
+      active: false,
+      content: "Performant",
+      icon: PerformanceIcon,
+    },
+    {
+      type: "a11y",
+      active: false,
+      content: "Accessible",
+      icon: A11yIcon,
+    },
+  ]);
 
+  const { minWidth_400 } = useMatchMedia();
+  const [projectPromiseAnimationActive, setProjectPromiseAnimationActive] =
+    createSignal("");
+
+  let init = true;
   let hasCalcBCR = false;
   let bcr!: DOMRect;
   let prevScrollY = 0;
   let svgEl!: HTMLElement;
-  let aboutMeElRef!: HTMLElement;
+  let projectPromisesGroupEl!: HTMLUListElement;
   let paths: HTMLElement[];
   let animationReady = false;
   let deltaSize = minWidth_400.matches ? 15 : 5;
@@ -113,6 +156,29 @@ const AboutMe = () => {
     animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
   };
 
+  const mouseEnterProjectPromise = (idx: number) => {
+    const filteredPP = projectPromises
+      .map((_, idx) => idx)
+      .filter((pIdx) => idx !== pIdx);
+
+    batch(() => {
+      setProjectPromises(filteredPP, "active", false);
+      setProjectPromises(idx, "active", true);
+      setProjectPromiseAnimationActive(projectPromises[idx].type);
+    });
+  };
+
+  const mouseLeaveProjectPromise = () => {
+    batch(() => {
+      setProjectPromiseAnimationActive("");
+      setProjectPromises(
+        { from: 0, to: projectPromises.length - 1 },
+        "active",
+        false
+      );
+    });
+  };
+
   onMount(() => {
     document.body.addEventListener("mousemove", function init() {
       paths = createDuplicatedPaths(svgEl);
@@ -122,12 +188,27 @@ const AboutMe = () => {
     });
   });
 
+  createEffect(() => {
+    projectPromises.forEach((proj) => {
+      const el = projectPromisesGroupEl.querySelector(
+        `[data-project-promise-id="${proj.type}"]`
+      ) as HTMLElement;
+      const svgEl = el.querySelector("svg") as unknown as HTMLElement;
+
+      if (proj.active) {
+        startAnimateProjectPromise(svgEl, proj.type as "a11y");
+      } else {
+        endAnimateProjectPromise(proj.type as "a11y");
+      }
+    });
+  });
+
   return (
     <section
       id="about-me"
       class="about-me"
-      onMouseMove={onMousemove}
-      onTouchMove={onTouchmove}
+      // onMouseMove={onMousemove}
+      // onTouchMove={onTouchmove}
     >
       <div class="about-me-inner">
         <div class="about-me-content">
@@ -145,34 +226,49 @@ const AboutMe = () => {
               Dedicated self-taught Front-End developer.
             </p>
             <p id="project-promises">Building projects that are:</p>
-            <ul aria-labelledby="project-promises" class="about-me-group-list">
-              <li
-                class="about-me-list"
-                onMouseEnter={(e) => onHover(e, "responsive")}
-              >
-                <span class="about-me-icon">
-                  <ResponsiveIcon></ResponsiveIcon>
-                </span>
-                <span>Responsive</span>
-              </li>
-              <li
-                class="about-me-list"
-                onMouseEnter={(e) => onHover(e, "performance")}
-              >
-                <span class="about-me-icon">
-                  <PerformanceIcon></PerformanceIcon>
-                </span>
-                <span>Performant</span>
-              </li>
-              <li
-                class="about-me-list"
-                onMouseEnter={(e) => onHover(e, "a11y")}
-              >
-                <span class="about-me-icon">
-                  <A11yIcon></A11yIcon>
-                </span>
-                <span>Accessible</span>
-              </li>
+            <ul
+              aria-labelledby="project-promises"
+              class="about-me-group-list"
+              onMouseLeave={mouseLeaveProjectPromise}
+              ref={projectPromisesGroupEl}
+            >
+              <For each={projectPromises}>
+                {(props, idx) => {
+                  const Icon = props.icon;
+
+                  return (
+                    <li
+                      data-project-promise-id={props.type}
+                      class={`about-me-list ${props.active ? "active" : ""} ${
+                        props.active && props.type === "performance"
+                          ? "active-performance"
+                          : ""
+                      } ${
+                        !props.active &&
+                        projectPromiseAnimationActive() === "performance"
+                          ? "deactivate"
+                          : ""
+                      }`}
+                      onMouseEnter={() => mouseEnterProjectPromise(idx())}
+                    >
+                      <span class="about-me-icon-container">
+                        <span
+                          class={`about-me-icon ${
+                            !props.active && !!projectPromiseAnimationActive()
+                              ? "deactivate"
+                              : ""
+                          }`}
+                        >
+                          <Icon></Icon>
+                        </span>
+                      </span>
+                      <span class="about-me-promise-description">
+                        {props.content}
+                      </span>
+                    </li>
+                  );
+                }}
+              </For>
             </ul>
           </div>
         </div>

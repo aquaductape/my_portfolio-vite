@@ -380,7 +380,7 @@ export const PerformanceIcon = () => (
         gradientTransform="matrix(.24306 0 0 .24306 -25.093 -87.534)"
       />
     </defs>
-    <g class="files">
+    <g class="files" opacity="0" style="transform-origin: center;">
       <g class="file-img-2">
         <path d="M4.98.861L4.837.697a.026.026 0 00-.02-.009h-.363a.03.03 0 00-.03.03v.716a.03.03 0 00.03.03h.502a.03.03 0 00.03-.03V.878A.026.026 0 004.98.861z" />
         <path
@@ -445,7 +445,7 @@ export const PerformanceIcon = () => (
         />
       </g>
     </g>
-    <g class="browser">
+    <g class="browser" opacity="0" style="transform-origin: center;">
       <rect
         width="5.15"
         height="3.397"
@@ -455,7 +455,7 @@ export const PerformanceIcon = () => (
         class="browser-body"
         fill="#fff"
       />
-      <g class="page">
+      <g class="page" opacity="0">
         <path
           fill="#d18f8f"
           paint-order="markers fill stroke"
@@ -500,11 +500,11 @@ export const PerformanceIcon = () => (
           stroke-width=".064"
         />
       </g>
-      <g class="title-bar-windowsxp">
+      <g class="title-bar-windowsxp" opacity="0">
         <path
           d="M2.387 3.985a.254.254 0 00-.255.255v3.437h5.15V4.24a.254.254 0 00-.255-.255zm-.158.644h4.956v2.95H2.229z"
           class="title-bar-frame"
-          fill="url(#e)"
+          fill="url(#performance-e)"
           paint-order="markers fill stroke"
         />
         <g class="title-bar-close">
@@ -515,7 +515,7 @@ export const PerformanceIcon = () => (
             y="4.088"
             ry=".095"
             class="hover"
-            fill="url(#f)"
+            fill="url(#performance-f)"
             stroke="#fff"
             stroke-width=".026"
             stroke-linecap="round"
@@ -538,7 +538,7 @@ export const PerformanceIcon = () => (
             y="4.088"
             ry=".095"
             class="hover"
-            fill="url(#g)"
+            fill="url(#performance-g)"
             stroke="#fff"
             stroke-width=".026"
             stroke-linecap="round"
@@ -559,7 +559,7 @@ export const PerformanceIcon = () => (
             y="4.088"
             ry=".095"
             class="hover"
-            fill="url(#h)"
+            fill="url(#performance-h)"
             stroke="#fff"
             stroke-width=".026"
             stroke-linecap="round"
@@ -583,6 +583,7 @@ export const PerformanceIcon = () => (
           <path
             d="M6.182 4.279v-.075h.213v.173h-.054m-.235-.097h.213v.173h-.213z"
             class="minimize"
+            opacity="0"
             fill="none"
             stroke="#fff"
             stroke-width=".039"
@@ -592,14 +593,14 @@ export const PerformanceIcon = () => (
           />
         </g>
       </g>
-      <g class="title-bar-windows10">
+      <g class="title-bar-windows10" opacity="0">
         <path
           fill="#fff"
           paint-order="markers fill stroke"
           d="M2.132 4.147h5.156v.433H2.132z"
         />
         <g class="title-bar-close">
-          <path class="hover" fill="red" d="M6.432 4.147h.856v.433h-.856z" />
+          <path class="hover" fill="#fff" d="M6.432 4.147h.856v.433h-.856z" />
           <g
             class="hover-icon"
             // @ts-ignore
@@ -611,11 +612,7 @@ export const PerformanceIcon = () => (
           </g>
         </g>
         <g class="title-bar-collapse">
-          <path
-            class="hover"
-            fill="#e6e6e6"
-            d="M4.721 4.147h.856v.433h-.856z"
-          />
+          <path class="hover" fill="#fff" d="M4.721 4.147h.856v.433h-.856z" />
           <path
             d="M5.266 4.363h-.234"
             fill="none"
@@ -624,11 +621,7 @@ export const PerformanceIcon = () => (
           />
         </g>
         <g class="title-bar-expand">
-          <path
-            class="hover"
-            fill="#e6e6e6"
-            d="M5.577 4.147h.856v.433h-.856z"
-          />
+          <path class="hover" fill="#fff" d="M5.577 4.147h.856v.433h-.856z" />
           <path
             class="expand"
             fill="none"
@@ -643,6 +636,7 @@ export const PerformanceIcon = () => (
             d="M6.06 4.413h.035v-.14h-.14v.035m-.04.145h.14v-.14h-.14z"
             class="minimize"
             fill="none"
+            opacity="0"
             stroke="#000"
             stroke-width=".02"
           />
@@ -715,7 +709,7 @@ export const PerformanceIcon = () => (
         </g>
       </g>
     </g>
-    <g class="url-bar">
+    <g class="url-bar" opacity="0" style="transform-origin: center;">
       <rect
         width="4.398"
         height=".704"
@@ -750,7 +744,7 @@ export const PerformanceIcon = () => (
         </tspan>
       </text>
     </g>
-    <g class="percent">
+    <g class="percent" opacity="0">
       <circle
         transform="rotate(-90)"
         cx="-7.507"
@@ -796,7 +790,7 @@ export const PerformanceIcon = () => (
         </tspan>
       </text>
     </g>
-    <g class="checkmark">
+    <g class="checkmark" opacity="0">
       <path d="M6.999 6.36a1.147 1.147 0 10.01 0z" fill="#fff" />
       <path
         fill="green"
@@ -807,6 +801,7 @@ export const PerformanceIcon = () => (
       class="airplane"
       // @ts-ignore
       fill="#888f9b"
+      style="transform-origin: center;"
     >
       <path d="M4.705 6.408s.315-.613.385-2.346l2.287.414.002-.214-2.25-1.285-.02-1.28s-.08-.539-.335-.74c-.05-.037-.087-.033-.138 0-.255.201-.335.74-.335.74l-.02 1.28-2.25 1.285.002.214 2.287-.414c.07 1.733.385 2.346.385 2.346" />
       <path d="M6.032 6.182v-.314l-1.327-.46-1.323.46v.319l1.323-.212z" />

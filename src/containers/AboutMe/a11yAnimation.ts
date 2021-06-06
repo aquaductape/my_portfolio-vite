@@ -1,4 +1,4 @@
-import { MainTimeline } from "./heroAnimation";
+import { MainTimeline } from "./animateProjectPromise";
 
 export const a11yAnimation = ({
   target,
@@ -7,6 +7,8 @@ export const a11yAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
+  mTimeline.running = true;
+
   const contrastEndNum = 7;
   const contrastStartNum = 2;
   const cardTextEndColor = "#595959";
@@ -120,8 +122,6 @@ export const a11yAnimation = ({
     );
   };
 
-  start();
-
   const countAnimation = ({
     duration,
     endNum,
@@ -149,142 +149,219 @@ export const a11yAnimation = ({
   };
 
   const runner = () => {
-    mTimeline.animate(
-      contrastEl,
-      [
-        {
-          opacity: 0,
-          transform: "translateX(0)",
-        },
-        {
-          opacity: 1,
-          transform: "translateX(-1.35px)",
-        },
-      ],
-      {
-        duration: 500,
-        fill: "forwards",
-      }
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          contrastEl,
+          [
+            {
+              opacity: 0,
+              transform: "translateX(0)",
+            },
+            {
+              opacity: 1,
+              transform: "translateX(-1.35px)",
+            },
+          ],
+          {
+            duration: 500,
+            fill: "forwards",
+          }
+        );
+      },
+      { duration: 750 }
     );
 
-    mTimeline.setTimeout(() => {
-      cardTextEl.style.fill = cardTextEndColor;
-      cardTextEl.style.transition = "fill 1000ms";
-      countAnimation({
-        duration: 1000,
-        startNum: contrastStartNum,
-        endNum: contrastEndNum,
-      });
+    mTimeline.scene(
+      () => {
+        cardTextEl.style.fill = cardTextEndColor;
+        cardTextEl.style.transition = "fill 1500ms";
+        countAnimation({
+          duration: 1500,
+          startNum: contrastStartNum,
+          endNum: contrastEndNum,
+        });
 
-      mTimeline.setTimeout(() => {
-        contrastSmallSuccessEl.style.opacity = "1";
-        contrastSmallFailEl.style.opacity = "0";
-      }, 400);
+        mTimeline.setTimeout(() => {
+          contrastSmallSuccessEl.style.opacity = "1";
+          contrastSmallFailEl.style.opacity = "0";
+        }, 600);
 
-      mTimeline.setTimeout(() => {
-        contrastLargeSuccessEl.style.opacity = "1";
-        contrastLargeFailEl.style.opacity = "0";
-      }, 1000);
-    }, 750);
+        mTimeline.setTimeout(() => {
+          contrastLargeSuccessEl.style.opacity = "1";
+          contrastLargeFailEl.style.opacity = "0";
+        }, 1500);
+      },
+      { duration: 2500 }
+    );
 
-    mTimeline.setTimeout(() => {
-      mTimeline.animate(
-        contrastEl,
-        [
-          {
-            opacity: 1,
-          },
-          {
-            opacity: 0,
-          },
-        ],
-        { duration: 200, fill: "forwards" }
-      );
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          contrastEl,
+          [
+            {
+              opacity: 1,
+            },
+            {
+              opacity: 0,
+            },
+          ],
+          { duration: 200, fill: "forwards" }
+        );
 
-      mTimeline.animate(
-        rgbEl,
-        [
-          {
-            opacity: 0,
-          },
-          {
-            opacity: 1,
-          },
-        ],
-        { duration: 200, delay: 200, fill: "forwards" }
-      );
-    }, 2000);
+        mTimeline.animate(
+          rgbEl,
+          [
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+            },
+          ],
+          { duration: 200, delay: 200, fill: "forwards" }
+        );
+      },
+      { duration: 1000 }
+    );
 
-    mTimeline.setTimeout(() => {
-      cardImg0.style.transition = "opacity 400ms";
-      cardImg1.style.transition = "opacity 400ms";
+    const cardImgDuration = 600;
 
-      cardImg1.style.filter = "url(#a11y-protanopia)";
-      cardImg1.style.opacity = "1";
-      cardImg0.style.opacity = "0";
+    mTimeline.scene(
+      () => {
+        cardImg1.style.filter = "url(#a11y-protanopia)";
+        // cardImg1.style.opacity = "1";
+        // cardImg0.style.opacity = "0";
+        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
 
-      blockREl.style.opacity = "1";
-      rgbREl.style.fillOpacity = "0";
+        blockREl.style.opacity = "1";
+        rgbREl.style.fillOpacity = "0";
+      },
+      { duration: 1500 }
+    );
 
-      mTimeline.setTimeout(() => {
+    mTimeline.scene(
+      () => {
         cardImg0.style.filter = "url(#a11y-deuteranopia)";
-        cardImg0.style.opacity = "1";
-        cardImg1.style.opacity = "0";
+        // cardImg0.style.opacity = "1";
+        // cardImg1.style.opacity = "0";
+        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
 
         blockREl.style.opacity = "0";
         rgbREl.style.fillOpacity = "1";
 
         blockGEl.style.opacity = "1";
         rgbGEl.style.fillOpacity = "0";
-      }, 1000);
+      },
+      { duration: 1500 }
+    );
 
-      mTimeline.setTimeout(() => {
+    mTimeline.scene(
+      () => {
         cardImg1.style.filter = "url(#a11y-tritanopia)";
-        cardImg1.style.opacity = "1";
-        cardImg0.style.opacity = "0";
+        // cardImg1.style.opacity = "1";
+        // cardImg0.style.opacity = "0";
+        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
 
         blockGEl.style.opacity = "0";
         rgbGEl.style.fillOpacity = "1";
 
         blockBEl.style.opacity = "1";
         rgbBEl.style.fillOpacity = "0";
-      }, 2000);
+      },
+      { duration: 1500 }
+    );
 
-      mTimeline.setTimeout(() => {
+    mTimeline.scene(
+      () => {
         cardImg0.style.filter = "url(#a11y-achromatopsia)";
-        cardImg0.style.opacity = "1";
-        cardImg1.style.opacity = "0";
+        // cardImg0.style.opacity = "1";
+        // cardImg1.style.opacity = "0";
+        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
 
         blockREl.style.opacity = "1";
         rgbREl.style.fillOpacity = "0";
         blockGEl.style.opacity = "1";
         rgbGEl.style.fillOpacity = "0";
-      }, 3000);
+      },
+      { duration: 1500 }
+    );
+
+    mTimeline.scene(
+      () => {
+        cardImg1.style.filter = "";
+
+        blockREl.style.opacity = "0";
+        blockGEl.style.opacity = "0";
+        blockBEl.style.opacity = "0";
+        rgbREl.style.fillOpacity = "1";
+        rgbGEl.style.fillOpacity = "1";
+        rgbBEl.style.fillOpacity = "1";
+
+        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+          duration: cardImgDuration,
+        });
+      },
+      { duration: 1000 }
+    );
+
+    mTimeline.scene(() => {
+      cardImg0.style.filter = "";
+
+      mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
+        duration: 400,
+        fill: "forwards",
+      });
+
+      mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
+        fill: "forwards",
+      });
+      mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
+        fill: "forwards",
+      });
 
       mTimeline.setTimeout(() => {
-        cardImg1.style.filter = "";
-        cardImg1.style.opacity = "1";
-        cardImg0.style.opacity = "0";
-
-        mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
-          duration: 400,
-          fill: "forwards",
-        });
-
-        mTimeline.setTimeout(() => {
-          cardImg0.style.filter = "";
-          cardImg0.style.opacity = "1";
-          cardImg1.style.opacity = "0";
-          cardImg0.style.transition = "";
-          cardImg1.style.transition = "";
-
-          resetStyles();
-          runner();
-        }, 400);
-      }, 3700);
-    }, 3000);
+        resetStyles();
+        runner();
+      }, 800);
+    });
   };
 
+  start();
   runner();
 };
 
