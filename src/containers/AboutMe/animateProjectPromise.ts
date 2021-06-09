@@ -1,7 +1,9 @@
+import { FireFox } from "../../lib/browserInfo";
 import { TKeyframe } from "../../ts";
 import reflow from "../../utils/reflow";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
+import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 
 export class MainTimeline {
   id: string;
@@ -11,29 +13,66 @@ export class MainTimeline {
   >;
   finished: boolean;
   running: boolean;
-  timeoutMap: { [key: string]: boolean };
-  scenes: { cb: () => void; duration?: number }[];
-  sceneRunning: boolean;
+  start: () => void;
+  loop: () => void;
+  resetStyles: () => void;
+  private timeoutMap: Map<number, boolean>;
+  private scenes: { cb: () => void; duration?: number }[];
+  private sceneRunning: boolean;
+  private timeoutRunning: boolean;
   constructor(id: string) {
     this.id = id;
     this.finished = false;
     this.running = false;
     this.animationMap = new Map();
-    this.timeoutMap = {};
+    this.timeoutMap = new Map();
     this.scenes = [];
     this.sceneRunning = false;
+    this.timeoutRunning = false;
+    this.start = () => {};
+    this.loop = () => {};
+    this.resetStyles = () => {};
+  }
+
+  play() {
+    this._start();
+    this._loop(true);
+  }
+
+  private _start() {
+    if (this.running) return;
+
+    this.running = true;
+    this._resetStyles();
+    this.start();
+  }
+
+  private _loop(firstIteration?: boolean) {
+    if (!firstIteration) {
+      this._resetStyles();
+    }
+
+    this.loop();
+  }
+
+  private _resetStyles() {
+    this.resetStyles();
   }
 
   setTimeout(cb: () => void, duration: number) {
     const timeoutId = window.setTimeout(() => {
       if (this.finished) return;
 
-      this.timeoutMap[timeoutId] = false;
+      this.timeoutMap.delete(timeoutId);
 
       cb();
+
+      if (!this.sceneRunning && !this.timeoutMap.size) {
+        this._loop();
+      }
     }, duration);
 
-    this.timeoutMap[timeoutId] = true;
+    this.timeoutMap.set(timeoutId, true);
 
     return timeoutId;
   }
@@ -41,6 +80,36 @@ export class MainTimeline {
   reqAnimation(cb: () => void) {
     if (this.finished) return;
     window.requestAnimationFrame(cb);
+  }
+
+  countAnimation({
+    el,
+    duration,
+    endNum,
+    startNum,
+    fixed = 0,
+  }: {
+    el: Element;
+    duration: number;
+    endNum: number;
+    startNum: number;
+    fixed?: number;
+  }) {
+    const increment = (Math.abs(startNum - endNum) / duration) * 16.6666;
+    let counter = startNum;
+
+    const run = () => {
+      if (counter >= endNum) {
+        el.textContent = endNum.toFixed(fixed);
+        return;
+      }
+
+      counter = counter + increment;
+      el.textContent = counter.toFixed(fixed);
+      this.reqAnimation(run);
+    };
+
+    run();
   }
 
   scene(cb: () => void, { duration }: { duration?: number } = {}) {
@@ -55,6 +124,10 @@ export class MainTimeline {
       this.setTimeout(() => {
         if (!this.scenes.length) {
           this.sceneRunning = false;
+
+          if (!this.timeoutMap.size) {
+            this._loop();
+          }
           return;
         }
 
@@ -68,8 +141,14 @@ export class MainTimeline {
     goNext(duration || 0);
   }
 
+  clearAnimation(els: Element[]) {
+    els.forEach((el) => {
+      el.getAnimations().forEach((animation) => animation.cancel());
+    });
+  }
+
   animate(
-    el: HTMLElement,
+    el: Element,
     keyframes: TKeyframe[],
     options: KeyframeAnimationOptions,
     reset?: boolean
@@ -82,14 +161,14 @@ export class MainTimeline {
       : undefined;
 
     // so previous animations that have been overriden will show their forward start when current animation is done
-    this.animationMap.set(el, {
+    this.animationMap.set(el as any, {
       animation,
       reset: resetKeyframe,
       duration: options.duration as number,
     });
   }
 
-  cancelAll() {
+  stop() {
     if (!this.running) return;
     this.running = false;
     this.sceneRunning = false;
@@ -100,12 +179,10 @@ export class MainTimeline {
 
     this.finished = true;
 
-    for (const timeoutId in this.timeoutMap) {
-      if (timeoutId) {
-        window.clearTimeout(Number(timeoutId));
-      }
+    for (const [timeoutId] of this.timeoutMap) {
+      window.clearTimeout(Number(timeoutId));
     }
-    this.timeoutMap = {};
+    this.timeoutMap.clear();
 
     window.setTimeout(() => {
       this.finished = false;
@@ -113,7 +190,9 @@ export class MainTimeline {
 
     for (const [el, options] of animationEntries) {
       const { animation, reset } = options;
-      if (!el.isConnected) return;
+      if (!el.isConnected) {
+        continue;
+      }
       // @ts-ignore
       animation.commitStyles();
 
@@ -127,6 +206,7 @@ export class MainTimeline {
         }
 
         reset.unshift(startKeyframe);
+        // console.log(el, reset);
         el.animate(reset, {
           duration,
           fill: "forwards",
@@ -140,9 +220,10 @@ export class MainTimeline {
         });
         el.style.opacity = "";
         el.style.transform = "";
+
+        if (FireFox) continue;
+
         const clone = el.cloneNode(true) as HTMLElement;
-        clone.style.transform = "";
-        clone.style.opacity = "";
         el.replaceWith(clone);
         // reflow();
         // console.log('el.style.opacity === "0"', el, el.getAnimations());
@@ -176,7 +257,7 @@ export class MainTimeline {
 
       /** NUCLEAR SOLUTION - clone, delete, replace element
        *
-       * I don't know why but Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
+       * I don't know why but in Chrome Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
        * */
       /**
        * turns out I prematurly cleared Map which caused the issue ... maybe
@@ -185,12 +266,12 @@ export class MainTimeline {
         el.getAnimations().forEach((animation) => {
           animation.cancel();
         });
-        // el.style.opacity = "";
-        // el.style.transform = "";
+        el.style.opacity = "";
+        el.style.transform = "";
+
+        if (FireFox) return;
         // console.log(el, el.getAnimations()); // log that proves that Animation is buggy, el has inline styles that conflicts with rendered state, and getAnimations returns empty array, which means that previous animations were removed
         const clone = el.cloneNode(true) as HTMLElement;
-        clone.style.opacity = "";
-        clone.style.transform = "";
         el.replaceWith(clone);
         // reflow();
         // console.log('el.style.opacity === "0"', el, el.getAnimations());
@@ -200,8 +281,6 @@ export class MainTimeline {
     this.animationMap.clear();
   }
 }
-
-const responsiveAnimation = () => {};
 
 const a11yTimeline = new MainTimeline("a11y");
 const performanceTimeline = new MainTimeline("performance");
@@ -221,7 +300,7 @@ export const startAnimateProjectPromise = (
           mTimeline: performanceTimeline,
         });
       case "responsive":
-        return responsiveAnimation();
+        return responsiveAnimation({ target, mTimeline: responsiveTimeline });
     }
   };
   runAnimation();
@@ -237,7 +316,7 @@ export const endAnimateProjectPromise = (
       case "performance":
         return performanceEnd({ mTimeline: performanceTimeline });
       case "responsive":
-        return;
+        return responsiveEnd({ mTimeline: responsiveTimeline });
     }
   };
   runAnimation();

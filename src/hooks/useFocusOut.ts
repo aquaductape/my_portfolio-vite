@@ -12,7 +12,7 @@ const useFocusOut = (
   const onToggle = props.onToggle;
   const debug = props.debug || false;
   const [toggle, setToggle] = createSignal(false);
-  let timeoutId = 0;
+  let timeoutId: number | null = 0;
   let init = false;
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -33,7 +33,7 @@ const useFocusOut = (
   });
 
   const onFOClick = () => {
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId!);
     timeoutId = null;
 
     const toggleVal = toggle();
@@ -54,7 +54,7 @@ const useFocusOut = (
   };
 
   const onFOFocus = () => {
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId!);
     timeoutId = null;
   };
 

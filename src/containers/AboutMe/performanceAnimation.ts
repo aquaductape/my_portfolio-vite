@@ -1,5 +1,40 @@
+import { batch, createEffect, createState, onMount } from "solid-js";
 import { TKeyframe } from "../../ts";
 import { MainTimeline } from "./animateProjectPromise";
+
+export const useInteractivity = () => {
+  const [os, setOS] = createState([
+    { os: "mac", active: true },
+    { os: "windows10", active: false },
+    { os: "windowsxp", active: false },
+  ]);
+  let osCurrentIdx = 0;
+
+  const onClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    if (!target.closest(".browser")) return;
+
+    osCurrentIdx = (osCurrentIdx + 1) % os.length;
+    batch(() => {
+      setOS({}, "active", false);
+      setOS(osCurrentIdx, "active", true);
+    });
+  };
+
+  createEffect(() => {
+    os.forEach(({ os, active }) => {
+      const el = document.querySelector(`.title-bar-${os}`) as HTMLElement;
+      if (active) {
+        el.style.opacity = "1";
+      } else {
+        el.style.opacity = "0";
+      }
+    });
+  });
+
+  return { onClick };
+};
 
 // 104.198.14.52
 export const performanceAnimation = ({
@@ -9,8 +44,6 @@ export const performanceAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  mTimeline.running = true;
-
   const airplaneEl = target.querySelector(".airplane") as HTMLElement;
   const browserEl = target.querySelector(".browser") as HTMLElement;
   const pageEl = target.querySelector(".page") as HTMLElement;
@@ -22,8 +55,35 @@ export const performanceAnimation = ({
   const fileJSEl = target.querySelector(".file-js") as HTMLElement;
   const fileCSSEl = target.querySelector(".file-css") as HTMLElement;
   const fileHTMLEl = target.querySelector(".file-html") as HTMLElement;
+  const percentEl = target.querySelector(".percent") as HTMLElement;
+  const percentProgressBarEl = target.querySelector(
+    ".percent-progress-bar"
+  ) as SVGElement;
+  const percentTextEl = target.querySelector(".percent-text") as HTMLElement;
+  const checkmarkEl = target.querySelector(".checkmark") as HTMLElement;
 
-  const resetStyles = () => {};
+  const els = [
+    airplaneEl,
+    browserEl,
+    pageEl,
+    urlBarEl,
+    filesEl,
+    fileImg0El,
+    fileImg1El,
+    fileImg2El,
+    fileJSEl,
+    fileCSSEl,
+    fileHTMLEl,
+    percentEl,
+  ];
+
+  const resetStyles = () => {
+    percentTextEl.textContent = "0";
+    els.forEach((el) => {
+      el.style.transform = "";
+      el.style.opacity = "";
+    });
+  };
 
   const start = () => {
     resetStyles();
@@ -67,8 +127,7 @@ export const performanceAnimation = ({
           {
             duration: 800,
             fill: "forwards",
-          },
-          true
+          }
         );
 
         mTimeline.animate(
@@ -92,7 +151,7 @@ export const performanceAnimation = ({
     );
   };
 
-  const runner = () => {
+  const loop = () => {
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -104,7 +163,7 @@ export const performanceAnimation = ({
           ],
           {
             fill: "forwards",
-            duration: 500,
+            duration: 800,
           }
         );
         mTimeline.animate(
@@ -122,11 +181,11 @@ export const performanceAnimation = ({
           ],
           {
             fill: "forwards",
-            duration: 500,
+            duration: 800,
           }
         );
       },
-      { duration: 800 }
+      { duration: 1100 }
     );
 
     mTimeline.scene(
@@ -258,7 +317,7 @@ export const performanceAnimation = ({
         mTimeline.animate(
           fileHTMLEl,
           keyframes({ translate: 0 }),
-          keyframeOptions()
+          keyframeOptions({ delay: 0 })
         );
         mTimeline.animate(
           fileCSSEl,
@@ -286,14 +345,195 @@ export const performanceAnimation = ({
           keyframeOptions({ delay: 5 })
         );
       },
+      { duration: 1800 }
+    );
+
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(filesEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 0,
+          fill: "forwards",
+        });
+        mTimeline.animate(
+          browserEl,
+          [
+            {
+              transform: "scale(0.5) translate(0px, 1px)",
+            },
+            {
+              transform: "scale(1) translate(-1px, -3px)",
+            },
+          ],
+          {
+            duration: 500,
+            fill: "forwards",
+          }
+        );
+        mTimeline.animate(
+          pageEl,
+          [
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+            },
+          ],
+          {
+            duration: 200,
+            fill: "forwards",
+          },
+          true
+        );
+      },
       { duration: 1000 }
+    );
+
+    mTimeline.scene(
+      () => {
+        const totalLength = Math.ceil(
+          // @ts-ignore
+          percentProgressBarEl.getTotalLength() + 0.5
+        );
+        percentProgressBarEl.style.strokeDasharray = `${totalLength}px`;
+        percentProgressBarEl.style.strokeDashoffset = `${totalLength}px`;
+
+        mTimeline.animate(
+          percentEl,
+          [
+            { opacity: 0, transform: "translate(-0.5px, -3px)", offset: 0 },
+            {
+              opacity: 0,
+              transform: "translate(-0.5px, -3px) scale(0)",
+              offset: 0.1,
+            },
+            {
+              opacity: 1,
+              transform: "translate(-0.5px, -3px) scale(0)",
+              offset: 0.2,
+            },
+            { opacity: 1, transform: "translate(-0.5px, -3px) scale(1)" },
+          ],
+          { duration: 500, fill: "forwards" }
+        );
+
+        mTimeline.setTimeout(() => {
+          mTimeline.countAnimation({
+            el: percentTextEl,
+            startNum: 0,
+            endNum: 100,
+            duration: 1000,
+          });
+        }, 500);
+
+        mTimeline.animate(
+          percentProgressBarEl,
+          [
+            {
+              strokeDashoffset: totalLength,
+            },
+            {
+              strokeDashoffset: 0,
+            },
+          ],
+          { duration: 1000, delay: 500, fill: "forwards" }
+        );
+      },
+      { duration: 1700 }
+    );
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          checkmarkEl,
+          [
+            { opacity: 0, transform: "translate(-0.5px, -3px)", offset: 0 },
+            {
+              opacity: 0,
+              transform: "translate(-0.5px, -3px) scale(0)",
+              offset: 0.1,
+            },
+            {
+              opacity: 1,
+              transform: "translate(-0.5px, -3px) scale(0)",
+              offset: 0.2,
+            },
+            { opacity: 1, transform: "translate(-0.5px, -3px) scale(1)" },
+          ],
+          { duration: 500, fill: "forwards" }
+        );
+      },
+      { duration: 1000 }
+    );
+
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(percentEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 0,
+          fill: "forwards",
+        });
+        mTimeline.animate(checkmarkEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 500,
+          fill: "forwards",
+        });
+        mTimeline.animate(pageEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 500,
+          fill: "forwards",
+        });
+        mTimeline.animate(
+          filesEl,
+          [{ opacity: 0, transform: "scale(1) translateY(0.5px) " }],
+          {
+            duration: 0,
+            fill: "forwards",
+          }
+        );
+      },
+      { duration: 500 }
+    );
+
+    mTimeline.scene(
+      () => {
+        mTimeline.clearAnimation([
+          percentEl,
+          percentProgressBarEl,
+          checkmarkEl,
+          pageEl,
+          fileHTMLEl,
+          fileCSSEl,
+          fileJSEl,
+          fileImg0El,
+          fileImg1El,
+          fileImg2El,
+          urlBarEl,
+        ]);
+
+        mTimeline.animate(
+          browserEl,
+          [
+            {
+              transform: "scale(1) translate(-1px, -3px)",
+            },
+            {
+              opacity: 1,
+              transform: "scale(1) translate(0px, -2px)",
+            },
+          ],
+          {
+            fill: "forwards",
+            duration: 500,
+          }
+        );
+      },
+      { duration: 500 }
     );
   };
 
-  start();
-  runner();
+  mTimeline.resetStyles = resetStyles;
+  mTimeline.start = start;
+  mTimeline.loop = loop;
+  mTimeline.play();
 };
 
 export const performanceEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
-  mTimeline.cancelAll();
+  mTimeline.stop();
 };

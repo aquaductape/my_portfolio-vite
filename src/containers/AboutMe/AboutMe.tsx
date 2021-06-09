@@ -103,7 +103,7 @@ const AboutMe = () => {
   const [projectPromiseAnimationActive, setProjectPromiseAnimationActive] =
     createSignal("");
 
-  let init = true;
+  const [init, setInit] = createSignal(true);
   let hasCalcBCR = false;
   let bcr!: DOMRect;
   let prevScrollY = 0;
@@ -162,6 +162,7 @@ const AboutMe = () => {
       .filter((pIdx) => idx !== pIdx);
 
     batch(() => {
+      setInit(false);
       setProjectPromises(filteredPP, "active", false);
       setProjectPromises(idx, "active", true);
       setProjectPromiseAnimationActive(projectPromises[idx].type);
@@ -189,6 +190,8 @@ const AboutMe = () => {
   });
 
   createEffect(() => {
+    if (init()) return;
+
     projectPromises.forEach((proj) => {
       const el = projectPromisesGroupEl.querySelector(
         `[data-project-promise-id="${proj.type}"]`

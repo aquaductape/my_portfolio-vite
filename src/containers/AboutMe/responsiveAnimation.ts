@@ -1,6 +1,6 @@
 import { MainTimeline } from "./animateProjectPromise";
 
-export const performanceAnimation = ({
+export const responsiveAnimation = ({
   target,
   mTimeline,
 }: {
@@ -17,6 +17,6 @@ export const performanceAnimation = ({
   // const page = target.querySelector(".page") as HTMLElement;
 };
 
-export const performanceEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
-  mTimeline.cancelAll();
+export const responsiveEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
+  mTimeline.stop();
 };

@@ -7,8 +7,6 @@ export const a11yAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  mTimeline.running = true;
-
   const contrastEndNum = 7;
   const contrastStartNum = 2;
   const cardTextEndColor = "#595959";
@@ -65,7 +63,6 @@ export const a11yAnimation = ({
   };
 
   const start = () => {
-    resetStyles();
     mTimeline.animate(
       cardEl,
       [
@@ -122,33 +119,7 @@ export const a11yAnimation = ({
     );
   };
 
-  const countAnimation = ({
-    duration,
-    endNum,
-    startNum,
-  }: {
-    duration: number;
-    endNum: number;
-    startNum: number;
-  }) => {
-    const increment = (Math.abs(startNum - endNum) / duration) * 16.6666;
-    let counter = startNum;
-
-    const run = () => {
-      if (counter >= endNum) {
-        contrastTextEl.textContent = endNum.toFixed(1);
-        return;
-      }
-
-      counter = counter + increment;
-      contrastTextEl.textContent = counter.toFixed(1);
-      mTimeline.reqAnimation(run);
-    };
-
-    run();
-  };
-
-  const runner = () => {
+  const loop = () => {
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -176,10 +147,13 @@ export const a11yAnimation = ({
       () => {
         cardTextEl.style.fill = cardTextEndColor;
         cardTextEl.style.transition = "fill 1500ms";
-        countAnimation({
+
+        mTimeline.countAnimation({
+          el: contrastTextEl,
           duration: 1500,
           startNum: contrastStartNum,
           endNum: contrastEndNum,
+          fixed: 1,
         });
 
         mTimeline.setTimeout(() => {
@@ -339,32 +313,32 @@ export const a11yAnimation = ({
       { duration: 1000 }
     );
 
-    mTimeline.scene(() => {
-      cardImg0.style.filter = "";
+    mTimeline.scene(
+      () => {
+        cardImg0.style.filter = "";
 
-      mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
-        duration: 400,
-        fill: "forwards",
-      });
+        mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 400,
+          fill: "forwards",
+        });
 
-      mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
-        fill: "forwards",
-      });
-      mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
-        fill: "forwards",
-      });
-
-      mTimeline.setTimeout(() => {
-        resetStyles();
-        runner();
-      }, 800);
-    });
+        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
+          fill: "forwards",
+        });
+        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
+          fill: "forwards",
+        });
+      },
+      { duration: 800 }
+    );
   };
 
-  start();
-  runner();
+  mTimeline.resetStyles = resetStyles;
+  mTimeline.start = start;
+  mTimeline.loop = loop;
+  mTimeline.play();
 };
 
 export const a11yEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
-  mTimeline.cancelAll();
+  mTimeline.stop();
 };
