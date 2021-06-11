@@ -1,3 +1,4 @@
+import { items } from "fusioncharts";
 import { FireFox } from "../../lib/browserInfo";
 import { TKeyframe } from "../../ts";
 import reflow from "../../utils/reflow";
@@ -80,6 +81,54 @@ export class MainTimeline {
   reqAnimation(cb: () => void) {
     if (this.finished) return;
     window.requestAnimationFrame(cb);
+  }
+
+  animateAttribute(
+    el: Element,
+    {
+      duration,
+      from,
+      to,
+      attr,
+    }: {
+      from: number;
+      to: number;
+      attr: string;
+      duration: number;
+    }
+  ) {
+    const startx = from;
+    const destx = to as number;
+    let start: number | null = null;
+    let end = null;
+    let x = null as unknown as number;
+
+    const linear = (t: number) => t;
+
+    const draw = (now: number) => {
+      if (this.finished) return;
+
+      if (now - start! > duration) {
+        el.setAttribute(attr, to.toString());
+        return;
+      }
+
+      const p = (now - start!) / duration;
+      const val = linear(p);
+      x = startx! + (destx - startx!) * val;
+
+      el.setAttribute(attr, x.toString());
+
+      requestAnimationFrame(draw);
+    };
+
+    const animate = (timeStamp: number) => {
+      start = timeStamp;
+      end = start + duration;
+      draw(timeStamp);
+    };
+
+    requestAnimationFrame(animate);
   }
 
   countAnimation({
@@ -222,6 +271,10 @@ export class MainTimeline {
         el.style.transform = "";
 
         if (FireFox) continue;
+        /** NUCLEAR SOLUTION - clone, delete, replace element
+         *
+         * In Chrome, Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
+         * */
 
         const clone = el.cloneNode(true) as HTMLElement;
         el.replaceWith(clone);
@@ -255,13 +308,6 @@ export class MainTimeline {
         }
       );
 
-      /** NUCLEAR SOLUTION - clone, delete, replace element
-       *
-       * I don't know why but in Chrome Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
-       * */
-      /**
-       * turns out I prematurly cleared Map which caused the issue ... maybe
-       */
       endAnimation.onfinish = () => {
         el.getAnimations().forEach((animation) => {
           animation.cancel();
@@ -270,7 +316,10 @@ export class MainTimeline {
         el.style.transform = "";
 
         if (FireFox) return;
-        // console.log(el, el.getAnimations()); // log that proves that Animation is buggy, el has inline styles that conflicts with rendered state, and getAnimations returns empty array, which means that previous animations were removed
+        /** NUCLEAR SOLUTION - clone, delete, replace element
+         *
+         * In Chrome, Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
+         * */
         const clone = el.cloneNode(true) as HTMLElement;
         el.replaceWith(clone);
         // reflow();

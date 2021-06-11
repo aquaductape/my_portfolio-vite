@@ -4,7 +4,7 @@ import MonochromeCircleLogo from "../../components/svg/logos/MonochromeCircleLog
 import { GlobalContext } from "../../context/context";
 import smoothScrollTo from "../../utils/smoothScrollTo";
 
-import Links from "./Links";
+import Links, { setUrlHash } from "./Links";
 
 const NavigationBar = () => {
   const [context, { setSmoothScroll, setHeader, setBlog }] =
@@ -129,6 +129,7 @@ const NavigationBar = () => {
   const onClickLogo = (e: MouseEvent) => {
     e.preventDefault();
     setHeader({ activeLink: null });
+    setUrlHash({ id: null });
 
     if (context.blog.active) {
       setBlog({ active: false });

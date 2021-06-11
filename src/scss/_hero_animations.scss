@@ -1,3 +1,7 @@
+.browser {
+  cursor: pointer;
+}
+
 .title-bar-mac {
   .hover {
     opacity: 0;
@@ -13,24 +17,33 @@
 }
 
 .title-bar-windows10 {
-  .hover {
-    &:hover {
+  .title-bar-collapse,
+  .title-bar-expand {
+    &:hover .hover {
       fill: #e6e6e6;
     }
   }
+
   .title-bar-close {
-    .hover {
-      &:hover {
+    &:hover {
+      .hover {
         fill: #f00;
+      }
+
+      .hover-icon {
+        stroke: #fff;
+        stroke-width: 0.08;
       }
     }
   }
 }
 
 .title-bar-windowsxp {
-  .hover {
-    &:hover {
-      filter: brightness(1.2);
+  .title-bar-close,
+  .title-bar-collapse,
+  .title-bar-expand {
+    &:hover .hover {
+      filter: brightness(1.4);
     }
   }
 }

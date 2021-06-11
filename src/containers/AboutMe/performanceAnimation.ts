@@ -9,8 +9,10 @@ export const useInteractivity = () => {
     { os: "windowsxp", active: false },
   ]);
   let osCurrentIdx = 0;
+  let currentTarget: HTMLElement;
 
   const onClick = (e: MouseEvent) => {
+    currentTarget = e.currentTarget as HTMLElement;
     const target = e.target as HTMLElement;
 
     if (!target.closest(".browser")) return;
@@ -24,11 +26,25 @@ export const useInteractivity = () => {
 
   createEffect(() => {
     os.forEach(({ os, active }) => {
-      const el = document.querySelector(`.title-bar-${os}`) as HTMLElement;
+      if (!currentTarget) return;
+
+      const el = currentTarget.querySelector(`.title-bar-${os}`) as HTMLElement;
+      const browserBodyEl = currentTarget.querySelector(
+        ".browser-body"
+      ) as HTMLElement;
+
       if (active) {
-        el.style.opacity = "1";
+        el.style.visibility = "visible";
+
+        if (os === "windows10") {
+          browserBodyEl.setAttribute("ry", "0");
+        }
+
+        if (os === "mac") {
+          browserBodyEl.setAttribute("ry", "0.237");
+        }
       } else {
-        el.style.opacity = "0";
+        el.style.visibility = "hidden";
       }
     });
   });

@@ -17,6 +17,7 @@ export const Safari =
 export const ChromeForAndroid = userAgent(/chrome/i) && userAgent(/android/i);
 export const Android = userAgent(/android/i);
 export const IOS = userAgent(/iP(ad|od|hone)/i);
+export const MotoG4 = userAgent(/Moto G \(4\)/i);
 export const IOS13 =
   typeof window !== "undefined"
     ? IOS && "download" in document.createElement("a")
