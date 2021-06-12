@@ -1,6 +1,6 @@
 import { ChromeForAndroid, FireFox } from "../../lib/browserInfo";
 import { TKeyframe } from "../../ts";
-import { MainTimeline } from "./animateProjectPromise";
+import { MainTimeline, TKeyframeStyle } from "./animateProjectPromise";
 
 export const responsiveAnimation = ({
   target,
@@ -68,85 +68,74 @@ export const responsiveAnimation = ({
           mobileEl,
           [
             {
-              transform: "translate(0px, 0px)",
+              y: 0,
             },
             {
-              transform: "translate(0px, 3.5px)",
+              y: 3.5,
             },
           ],
           {
-            duration: 400,
-            fill: "forwards",
-            easing: "ease-in",
+            duration: 600,
           }
         );
       },
-      { duration: 400 }
+      { duration: 600 }
     );
 
     mTimeline.scene(
       () => {
-        // mTimeline.animate(
-        //   mobileContainerEl,
-        //   [
-        //     {
-        //       transform: "translateX(0px)",
-        //     },
-        //     {
-        //       transform: "translateX(2px)",
-        //     },
-        //   ],
-        //   {
-        //     duration: 0,
-        //     fill: "forwards",
-        //   }
-        // );
         mTimeline.animate(
           target,
           [
             {
-              transform: "scale(1) translateX(0)",
+              scale: 1,
+              x: 0,
             },
             {
-              transform: "scale(1.5) translateX(-2px)",
+              scale: 1.5,
+              x: -2,
             },
           ],
           {
-            duration: 500,
-            fill: "forwards",
-          },
-          true
+            duration: 800,
+          }
         );
+
         mTimeline.animate(
           mainContainerEl,
           [
             {
-              transform: "scale(1) translate(0px, 0px)",
+              scale: 1,
+              x: 0,
             },
             {
-              transform: `scale(1.6) translate(${mainTranslateX}px, 0px)`,
+              scale: 1.6,
+              x: mainTranslateX,
             },
           ],
           {
-            duration: 500,
-            fill: "forwards",
+            duration: 800,
           }
         );
+
         mTimeline.animate(
           pageEl,
           [
             {
-              opacity: "0",
-              transform: "scale(1) translate(0px, 0px)",
+              opacity: 0,
+              scale: 1,
+              x: 0,
+              y: 0,
             },
             {
-              opacity: "1",
-              transform: "scale(0.56) translate(0.5px, -0.2px)",
+              opacity: 1,
+              scale: 0.56,
+              x: 0.5,
+              y: -0.2,
             },
           ],
           {
-            duration: 500,
-            fill: "forwards",
+            duration: 800,
           }
         );
       },
@@ -157,51 +146,49 @@ export const responsiveAnimation = ({
   const loop = () => {
     mTimeline.scene(
       () => {
-        const translate: TKeyframe[] = [
+        const translate: TKeyframeStyle[] = [
           {
-            transform: `scale(1.6) translate(${mainTranslateX}px, 0px)`,
+            y: 0,
             offset: 0,
           },
           {
-            transform: `scale(1.6) translate(${mainTranslateX}px, -0.2px)`,
+            y: -0.2,
             offset: 0.3,
           },
           {
-            transform: `scale(1.6) translate(${mainTranslateX}px, 1.1px)`,
+            y: 1.1,
             offset: 1,
           },
         ];
 
         mTimeline.animate(mainContainerEl, translate, {
           duration: 800,
-          fill: "forwards",
           easing: "ease-in",
         });
-        //
+
         mTimeline.animate(
           desktopStandEl,
           [
             {
-              transform: `translateY(0px)`,
+              y: 0,
               offset: 0,
             },
             {
-              transform: `translateY(0.2px)`,
+              y: 0.2,
               offset: 0.3,
             },
             {
-              transform: `translateY(-1.1px)`,
+              y: -1.1,
               offset: 1,
             },
           ],
           {
             duration: 800,
-            fill: "forwards",
             easing: "ease-in",
           }
         );
       },
-      { duration: 800 }
+      { duration: 900 }
     );
 
     mTimeline.scene(
@@ -209,16 +196,15 @@ export const responsiveAnimation = ({
         mTimeline.animate(
           laptopBottomEl,
           [
-            { opacity: 1, transform: "scaleX(0)" },
+            { opacity: 1, scaleX: 0 },
             {
               opacity: 1,
-              transform: "scaleX(1)",
+              scaleX: 1,
             },
           ],
           {
-            duration: 600,
-            fill: "forwards",
-            easing: "ease-out",
+            duration: 800,
+            easing: "ease-in-out",
           }
         );
 
@@ -226,56 +212,43 @@ export const responsiveAnimation = ({
           mainContainerEl,
           [
             {
-              transform: `scale(1.6) translate(${mainTranslateX}px, 1.1px)`,
-            },
-            {
-              transform: `scale(1.4) translate(${mainTranslateX}px, 1px)`,
+              y: 1.35,
+              scale: 1.4,
             },
           ],
           {
-            duration: 500,
-            fill: "forwards",
+            duration: 700,
             easing: "ease-in",
-          },
-          true
+          }
         );
 
-        mTimeline.animateRAF(monitorBorderEl, {
-          attr: "stroke-width",
-          from: 0.253,
-          to: 0.15,
-          duration: 500,
-        });
+        mTimeline.animate(
+          monitorBorderEl,
+          [
+            {
+              strokeWidth: 0.253,
+              ry: 0.483,
+            },
+            {
+              strokeWidth: 0.15,
+              ry: 0.2,
+            },
+          ],
+          { duration: 700 }
+        );
 
-        mTimeline.animateRAF(monitorBorderEl, {
-          attr: "ry",
-          from: 0.483,
-          to: 0.2,
-          duration: 500,
-        });
-
-        mTimeline.animateRAF(monitorMaskEl, {
-          attr: "ry",
-          from: 0.483,
-          to: 0.2,
-          duration: 500,
-        });
-        // ry property can be changed via css in SVG 2.0, which Chrome supports but Firefox currently only supports SVG 1.1 which is an attribute
-        // mTimeline.animate(
-        //   monitorMaskEl,
-        //   [
-        //     {
-        //       ry: "0.483",
-        //     },
-        //     {
-        //       ry: "0.2",
-        //     },
-        //   ],
-        //   {
-        //     duration: 500,
-        //     fill: "forwards",
-        //   }
-        // );
+        mTimeline.animate(
+          monitorMaskEl,
+          [
+            {
+              ry: 0.483,
+            },
+            {
+              ry: 0.2,
+            },
+          ],
+          { duration: 700 }
+        );
       },
       { duration: 1300 }
     );
@@ -287,16 +260,15 @@ export const responsiveAnimation = ({
             el,
             [
               {
-                transform: "translateX(0px)",
+                x: 0,
               },
               {
-                transform: "translateX(1px)",
+                x: 0.5,
               },
             ],
             {
               duration: 500,
               delay: 500,
-              fill: "forwards",
             }
           );
         };
@@ -307,18 +279,19 @@ export const responsiveAnimation = ({
             el,
             [
               {
-                transform: "scaleY(1) translate(0px, 0px)",
+                scale: 1,
+                x: 0,
+                y: 0,
               },
               {
-                transform: `scaleY(0.7) translate(${
-                  translate * multiply
-                }px, ${-((translate / 3.5) * multiply)}px)`,
+                scale: 0.7,
+                x: translate * multiply,
+                y: -(translate / 5) * multiply,
               },
             ],
             {
               duration: 500,
               delay: 500,
-              fill: "forwards",
             }
           );
         };
@@ -327,30 +300,34 @@ export const responsiveAnimation = ({
           tabletBarBottomEl,
           [
             {
-              transform: "scaleX(0)",
+              scaleX: 0,
             },
-            { transform: "scaleX(1)" },
+            {
+              scaleX: 1,
+            },
           ],
           {
             duration: 700,
-            fill: "forwards",
             easing: "ease-in",
           }
         );
+
         mTimeline.animate(
           tabletBarTopEl,
           [
             {
-              transform: "scaleX(0)",
+              scaleX: 0,
             },
-            { transform: "scaleX(1)" },
+            {
+              scaleX: 1,
+            },
           ],
           {
             duration: 700,
-            fill: "forwards",
             easing: "ease-in",
           }
         );
+
         mTimeline.animate(
           tabletBarsEl,
           [
@@ -363,20 +340,17 @@ export const responsiveAnimation = ({
           ],
           {
             duration: 0,
-            fill: "forwards",
           }
         );
         mTimeline.animate(
           laptopBottomEl,
           [
             {
-              transform: "scaleX(1)",
+              scaleX: 0,
             },
-            { transform: "scaleX(0)" },
           ],
           {
-            duration: 400,
-            fill: "forwards",
+            duration: 600,
             easing: "ease-in",
           }
         );
@@ -384,16 +358,15 @@ export const responsiveAnimation = ({
           pageChatEl,
           [
             {
-              opacity: "1",
+              opacity: 1,
             },
             {
-              opacity: "0",
+              opacity: 0,
             },
           ],
           {
             duration: 500,
             delay: 500,
-            fill: "forwards",
           }
         );
 
@@ -408,20 +381,21 @@ export const responsiveAnimation = ({
           navLinksEl,
           [
             {
-              transform: "translate(0px, 0px)",
+              y: 0,
+              x: 0,
             },
             {
-              transform: "translate(0px, 0.2px)",
+              y: 0.2,
+              x: -0.1,
             },
           ],
           {
             duration: 500,
             delay: 500,
-            fill: "forwards",
           }
         );
       },
-      { duration: 1500 }
+      { duration: 1200 }
     );
 
     mTimeline.scene(
@@ -430,43 +404,28 @@ export const responsiveAnimation = ({
           mainInnerEl,
           [
             {
-              transform: "translate(0px, 0px)",
+              x: 0,
+              y: 0,
             },
             {
-              transform: "translate(-1px, -1.8px)",
+              x: -1.1,
+              y: -1.6,
             },
           ],
           {
             duration: 300,
-            fill: "forwards",
+            easing: "linear",
           }
         );
 
-        // mTimeline.animate(
-        //   tabletBarsEl,
-        //   [
-        //     {
-        //       transform: "rotate(0deg)",
-        //     },
-        //     {
-        //       transform: "rotate(90deg)",
-        //     },
-        //   ],
-        //   { fill: "forwards", duration: 300 }
-        // );
-        // rotate transition glitch/jump in Chrome, Firefox (but not in Edge Chrome, it's smooth)
-        // therefore animating without transition, but Firefox still has jump
-        mTimeline.animateRAF(mainInnerRotateEl, {
-          prop: "rotate",
-          from: 0,
-          to: 90,
+        mTimeline.animate(mainInnerRotateEl, [{ rotate: 0 }, { rotate: 90 }], {
           duration: 300,
+          easing: "linear",
         });
-        mTimeline.animateRAF(tabletBarsEl, {
-          prop: "rotate",
-          from: 0,
-          to: 90,
-          duration: 300,
+
+        mTimeline.animate(tabletBarsEl, [{ rotate: 0 }, { rotate: 90 }], {
+          duration: 100,
+          easing: "linear",
         });
       },
       { duration: 800 }
@@ -478,13 +437,10 @@ export const responsiveAnimation = ({
           navLinksEl,
           [
             {
-              transform: "translate(0px, 0.2px)",
-            },
-            {
-              transform: "translate(-0.2px, 0.2px)",
+              x: -0.2,
             },
           ],
-          { duration: 100, fill: "forwards" }
+          { duration: 100 }
         );
 
         if (FireFox) {
@@ -492,51 +448,62 @@ export const responsiveAnimation = ({
             tabletBarsInnerEl,
             [
               {
-                transform: "translate(0px, 0px)",
+                x: 0,
+                y: 0,
               },
               {
-                transform: "translate(0.1px, .7px)",
+                x: 0.2,
+                y: 0.7,
               },
             ],
-            { fill: "forwards", duration: 100 }
+            { duration: 100 }
+          );
+        } else {
+          mTimeline.animate(
+            tabletBarsInnerEl,
+            [
+              {
+                x: 0,
+                y: 0,
+              },
+              {
+                x: 0.25,
+                y: 0.1,
+              },
+            ],
+            { duration: 100 }
           );
         }
 
-        mTimeline.animateRAF(pageInnerEl, {
-          prop: "rotate",
-          from: 0,
-          to: -90,
-          duration: 100,
-        });
-        // mTimeline.animate(
-        //   pageInnerEl,
-        //   [
-        //     {
-        //       transform: "rotate(0deg)",
-        //     },
-        //     {
-        //       transform: "rotate(-90deg)",
-        //     },
-        //   ],
-        //   {
-        //     duration: 100,
-        //     fill: "forwards",
-        //   }
-        // );
+        mTimeline.animate(
+          pageInnerEl,
+          [
+            {
+              rotate: 0,
+            },
+            {
+              rotate: -90,
+            },
+          ],
+          {
+            duration: 100,
+          }
+        );
 
         mTimeline.animate(
           pageContentColumn0El,
           [
             {
-              transform: "translate(1px, 0px) scale(1)",
+              x: 1,
+              scale: 1,
             },
             {
-              transform: "translate(3px, 0px) scale(1.4)",
+              x: 3,
+              scale: 1.4,
             },
           ],
           {
             duration: 100,
-            fill: "forwards",
           }
         );
 
@@ -552,7 +519,6 @@ export const responsiveAnimation = ({
           ],
           {
             duration: 100,
-            fill: "forwards",
           }
         );
 
@@ -568,7 +534,6 @@ export const responsiveAnimation = ({
           ],
           {
             duration: 100,
-            fill: "forwards",
           }
         );
 
@@ -576,22 +541,19 @@ export const responsiveAnimation = ({
           logoEl,
           [
             {
-              transform: "translate(0px, 0px)",
+              x: 1,
             },
             {
-              transform: "translate(2.5px, 0px)",
+              x: 2.5,
             },
           ],
           {
             duration: 100,
-            fill: "forwards",
           }
         );
       },
       { duration: 500 }
     );
-
-    return;
 
     mTimeline.scene(
       () => {
@@ -599,15 +561,33 @@ export const responsiveAnimation = ({
           pageContentColumn0El,
           [
             {
-              transform: "translate(3px, 0px) scale(1.4)",
+              x: 3,
+              y: 0,
+              scale: 1.4,
             },
             {
-              transform: "translate(2.2px, -0.2px) scale(1.8)",
+              x: 2.2,
+              y: -0.2,
+              scale: 1.8,
             },
           ],
           {
             duration: 300,
-            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          pageInnerEl,
+          [
+            {
+              x: 0,
+            },
+            {
+              x: -0.15,
+            },
+          ],
+          {
+            duration: 100,
           }
         );
 
@@ -615,15 +595,14 @@ export const responsiveAnimation = ({
           logoEl,
           [
             {
-              transform: "translate(2.5px, 0px)",
+              y: 0,
             },
             {
-              transform: "translate(2.5px, -0.3px)",
+              y: -0.3,
             },
           ],
           {
             duration: 300,
-            fill: "forwards",
           }
         );
 
@@ -631,39 +610,32 @@ export const responsiveAnimation = ({
           navLinksEl,
           [
             {
-              transform: "translate(-0.2px, 0.2px)",
-            },
-            {
-              transform: "translate(-0.2px, 0px)",
+              y: 0,
             },
           ],
-          { duration: 300, fill: "forwards" }
+          { duration: 300 }
         );
 
         mTimeline.animate(
           tabletBarBottomEl,
           [
             {
-              transform: "scaleX(1)",
+              scaleX: 0,
             },
-            { transform: "scaleX(0)" },
           ],
           {
             duration: 300,
-            fill: "forwards",
           }
         );
         mTimeline.animate(
           tabletBarTopEl,
           [
             {
-              transform: "scaleX(1)",
+              scaleX: 0,
             },
-            { transform: "scaleX(0)" },
           ],
           {
             duration: 300,
-            fill: "forwards",
           }
         );
 
@@ -671,37 +643,35 @@ export const responsiveAnimation = ({
           mainContainerEl,
           [
             {
-              transform: `scale(1) translateX(${mainTranslateX}px)`,
+              scale: 1,
             },
           ],
           {
             duration: 300,
-            fill: "forwards",
             easing: "ease-in",
-          },
-          true
+          }
         );
 
-        mTimeline.animateRAF(monitorBorderEl, {
-          attr: "stroke-width",
-          from: 0.15,
-          to: 0.253,
-          duration: 300,
-        });
+        mTimeline.animate(
+          monitorBorderEl,
+          [
+            {
+              strokeWidth: 0.253,
+              ry: 0.483,
+            },
+          ],
+          { duration: 300 }
+        );
 
-        mTimeline.animateRAF(monitorBorderEl, {
-          attr: "ry",
-          from: 0.2,
-          to: 0.483,
-          duration: 300,
-        });
-
-        mTimeline.animateRAF(monitorMaskEl, {
-          attr: "ry",
-          from: 0.2,
-          to: 0.483,
-          duration: 300,
-        });
+        mTimeline.animate(
+          monitorMaskEl,
+          [
+            {
+              ry: 0.483,
+            },
+          ],
+          { duration: 300 }
+        );
       },
       { duration: 1300 }
     );
@@ -711,15 +681,13 @@ export const responsiveAnimation = ({
         pageContentColumn0El,
         [
           {
-            transform: "translate(3px, 0px) scale(1)",
-          },
-          {
-            transform: "translate(0px, 0px) scale(1)",
+            x: 0,
+            y: 0,
+            scale: 1,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -727,17 +695,12 @@ export const responsiveAnimation = ({
         pageContentColumn1El,
         [
           {
-            opacity: 0,
-            transform: "translate(0px, 0px)",
-          },
-          {
+            x: 0,
             opacity: 1,
-            transform: "translate(0px, 0px)",
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -745,17 +708,12 @@ export const responsiveAnimation = ({
         pageContentColumn2El,
         [
           {
-            opacity: 0,
-            transform: "translate(0px, 0px)",
-          },
-          {
+            x: 0,
             opacity: 1,
-            transform: "translate(0px, 0px)",
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -763,15 +721,12 @@ export const responsiveAnimation = ({
         logoEl,
         [
           {
-            transform: "translate(2.5px, -0.3px)",
-          },
-          {
-            transform: "translate(0px, 0px)",
+            x: 0,
+            y: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -779,25 +734,24 @@ export const responsiveAnimation = ({
         navLinksEl,
         [
           {
-            transform: "translate(-0.2px, 0px)",
-          },
-          {
-            transform: "translate(0px, 0px)",
+            x: 0,
+            y: 0,
           },
         ],
-        { duration: 400, fill: "forwards" }
+        { duration: 400 }
       );
 
       mTimeline.animate(
         navLink0El,
         [
           {
-            transform: "scaleY(1) translate(0px, 0px)",
+            scale: 1,
+            x: 0,
+            y: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -805,12 +759,13 @@ export const responsiveAnimation = ({
         navLink1El,
         [
           {
-            transform: "scaleY(1) translate(0px, 0px)",
+            scale: 1,
+            x: 0,
+            y: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -818,12 +773,27 @@ export const responsiveAnimation = ({
         navLink2El,
         [
           {
-            transform: "scaleY(1) translate(0px, 0px)",
+            scale: 1,
+            x: 0,
+            y: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        mainInnerEl,
+        [
+          {
+            x: 0,
+            y: 0,
+          },
+        ],
+        {
+          duration: 400,
+          easing: "linear",
         }
       );
 
@@ -831,15 +801,37 @@ export const responsiveAnimation = ({
         mainInnerRotateEl,
         [
           {
-            transform: "rotate(90deg)",
-          },
-          {
-            transform: "rotate(0deg)",
+            rotate: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        mainContainerEl,
+        [
+          {
+            scale: 1.6,
+          },
+        ],
+        {
+          duration: 400,
+          easing: "ease-in",
+        }
+      );
+
+      mTimeline.animate(
+        desktopStandEl,
+        [
+          {
+            y: 0,
+          },
+        ],
+        {
+          duration: 400,
+          easing: "ease-in",
         }
       );
 
@@ -847,15 +839,11 @@ export const responsiveAnimation = ({
         pageInnerEl,
         [
           {
-            transform: "rotate(-90deg)",
-          },
-          {
-            transform: "rotate(0deg)",
+            rotate: 0,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
 
@@ -863,15 +851,11 @@ export const responsiveAnimation = ({
         pageChatEl,
         [
           {
-            opacity: "0",
-          },
-          {
-            opacity: "1",
+            opacity: 1,
           },
         ],
         {
           duration: 400,
-          fill: "forwards",
         }
       );
     });
@@ -882,5 +866,5 @@ export const responsiveAnimation = ({
 };
 
 export const responsiveEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
-  mTimeline.stop();
+  // mTimeline.stop();
 };

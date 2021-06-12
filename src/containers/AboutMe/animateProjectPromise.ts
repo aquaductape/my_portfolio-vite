@@ -12,6 +12,26 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 //    - not installing code for IE, GSAP 3 still has code for IE, but it's unnecessary for this website
 // 3. GSAP is hands down the best animation lib, but it brings down Performance score by 1%. Even though I can use their CDN and save load time, it's useless for Lighthouse because they clear cache when auditing
 
+let timeLogger = 0;
+type TAnimateStyle = {
+  x?: number;
+  y?: number;
+  scale?: number;
+  scaleX?: number;
+  scaleY?: number;
+  rotate?: number;
+  ry?: number;
+  strokeWidth?: number;
+  opacity?: number;
+};
+
+export type TKeyframeStyle = TAnimateStyle & { offset?: number };
+
+type TElStyles = {
+  current: TAnimateStyle;
+  start?: TAnimateStyle;
+};
+
 /**
  * Lessons learned from trying to animate on my own
  * 
@@ -25,10 +45,7 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
  */
 export class MainTimeline {
   id: string;
-  animationMap: Map<
-    HTMLElement,
-    { animation: Animation; reset?: Keyframe[]; duration: number }
-  >;
+  animationMap: Map<HTMLElement, TElStyles>;
   finished: boolean;
   running: boolean;
   start: () => void;
@@ -100,53 +117,186 @@ export class MainTimeline {
     window.requestAnimationFrame(cb);
   }
 
-  animateRAF(
+  // for keyframes more than 2, split the animations
+  private _updateElVals({
+    keyframes,
+    idx,
+    current,
+    val,
+  }: {
+    keyframes: TAnimateStyle[];
+    idx: number;
+    val?: number;
+    current: TAnimateStyle;
+  }) {
+    const fromKeyframe = keyframes[idx];
+    const toKeyframe = keyframes[idx + 1];
+    const mainKeyframe = toKeyframe || fromKeyframe;
+
+    for (const _key in mainKeyframe) {
+      const key = _key as keyof TAnimateStyle;
+
+      if (val == null || !toKeyframe) {
+        current[key] = fromKeyframe[key];
+        continue;
+      }
+
+      const from = fromKeyframe[key] || 0;
+      const to = toKeyframe[key] || 0;
+      const startx = from;
+      const destx = to;
+
+      const result = startx + (destx - startx!) * val;
+
+      current[key] = result;
+    }
+  }
+
+  private _setElVals({
+    el,
+    current,
+  }: {
+    el: HTMLElement;
+    current: TAnimateStyle;
+  }) {
+    const getScale = () => {
+      if ("scale" in current) return `${current.scale}, ${current.scale}`;
+
+      const result = `${"scaleX" in current ? current.scaleX : 1}, ${
+        "scaleY" in current ? current.scaleY : 1
+      }`;
+      return result;
+    };
+
+    if (
+      "x" in current ||
+      "y" in current ||
+      "scale" in current ||
+      "scaleX" in current ||
+      "scaleY" in current ||
+      "rotate" in current
+    ) {
+      el.style.transform = `translate(${current.x || 0}px, ${
+        current.y || 0
+      }px) rotate(${current.rotate || 0}deg) scale(${getScale()})`;
+    }
+
+    if ("ry" in current) {
+      el.setAttribute("ry", current.ry!.toString());
+    }
+
+    if ("strokeWidth" in current) {
+      el.setAttribute("stroke-width", current.strokeWidth!.toString());
+    }
+
+    if ("opacity" in current) {
+      el.style.opacity = current.opacity!.toString();
+    }
+  }
+
+  animate(
     _el: Element,
+    keyframes: TKeyframeStyle[],
     {
-      duration,
-      from,
-      to,
-      attr,
-      prop,
+      duration: _duration,
+      easing = "ease-in-out",
+      delay,
     }: {
-      from: number;
-      to: number;
-      attr?: string;
-      prop?: "rotate";
       duration: number;
+      easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
+      delay?: number;
     }
   ) {
-    const el = _el as HTMLElement;
-    const startx = from;
-    const destx = to as number;
+    const durations: number[] = [];
+    let currentStyle: TElStyles = this.animationMap.get(_el as HTMLElement)!;
+    if (!currentStyle) {
+      currentStyle = { current: keyframes[0] };
+      this.animationMap.set(_el as HTMLElement, currentStyle);
+    }
+
+    if ("offset" in keyframes[0]) {
+      keyframes.forEach((item, idx, self) => {
+        const nextItem = self[idx + 1];
+
+        if (nextItem == null) return 0;
+
+        const result = _duration * (nextItem.offset! - item.offset!);
+
+        durations.push(result);
+      });
+    } else {
+      if (keyframes.length > 2) {
+        keyframes.forEach((_, idx) => {
+          if (!idx) return;
+          const result = _duration * (1 / (keyframes.length - 1));
+          durations.push(result);
+        });
+      } else {
+        if (keyframes.length === 1) {
+          keyframes.unshift({ ...currentStyle.current });
+        }
+        durations.push(_duration);
+      }
+    }
+
+    console.log(durations);
+    let durationIdx = 0;
+    let duration = durations[durationIdx];
     let start: number | null = null;
     let end = null;
-    let x = null as unknown as number;
+    const timingFunction = easingFunctions[easing];
 
-    const linear = (t: number) => t;
-
-    const setResult = (x: number) => {
-      if (attr) {
-        el.setAttribute(attr, x.toString());
-      }
-      if (prop) {
-        el.style.transform = `${prop}(${x}deg)`;
-      }
-    };
+    //     if(!_duration) {
+    //           this._setElVals({
+    //             el: _el as HTMLElement,
+    //             current: keyframes[keyframes.length - 1],
+    //           });
+    //
+    //       return
+    //     }
 
     const draw = (now: number) => {
       if (this.finished) return;
 
       if (now - start! > duration) {
-        setResult(to);
-        return;
+        durationIdx++;
+        start = now;
+        duration = durations[durationIdx];
+
+        if (durationIdx > durations.length - 1) {
+          this._updateElVals({
+            current: currentStyle.current,
+            keyframes,
+            idx: durationIdx,
+          });
+
+          this._setElVals({
+            el: _el as HTMLElement,
+            current: currentStyle.current,
+          });
+          // console.log("done!");
+          // @ts-ignore
+          // console.timeEnd(`hi ${_el.className.baseVal}`);
+          return;
+        }
       }
 
-      const p = (now - start!) / duration;
-      const val = linear(p);
-      x = startx! + (destx - startx!) * val;
+      // console.log("fire");
 
-      setResult(x);
+      const p = (now - start!) / duration;
+      const val = timingFunction(p);
+
+      this._updateElVals({
+        current: currentStyle.current,
+        keyframes,
+        idx: durationIdx,
+        val,
+      });
+
+      this._setElVals({
+        el: _el as HTMLElement,
+        current: currentStyle.current,
+      });
 
       requestAnimationFrame(draw);
     };
@@ -157,6 +307,18 @@ export class MainTimeline {
       draw(timeStamp);
     };
 
+    if (delay) {
+      this.setTimeout(() => {
+        // @ts-ignore
+        // console.time(`hi ${_el.className.baseVal}`);
+        requestAnimationFrame(animate);
+      }, delay);
+
+      return;
+    }
+
+    // @ts-ignore
+    // console.time(`hi ${_el.className.baseVal}`);
     requestAnimationFrame(animate);
   }
 
@@ -225,27 +387,6 @@ export class MainTimeline {
     });
   }
 
-  animate(
-    el: Element,
-    keyframes: TKeyframe[],
-    options: KeyframeAnimationOptions,
-    reset?: boolean
-  ) {
-    if (this.finished) return;
-
-    const animation = el.animate(keyframes, options);
-    const resetKeyframe = reset
-      ? keyframes.slice(0, keyframes.length).reverse()
-      : undefined;
-
-    // so previous animations that have been overriden will show their forward start when current animation is done
-    this.animationMap.set(el as any, {
-      animation,
-      reset: resetKeyframe,
-      duration: options.duration as number,
-    });
-  }
-
   stop() {
     if (!this.running) return;
     this.running = false;
@@ -267,96 +408,11 @@ export class MainTimeline {
     }, 500);
 
     for (const [el, options] of animationEntries) {
-      const { animation, reset } = options;
-      if (!el.isConnected) {
-        continue;
-      }
-      // @ts-ignore
-      animation.commitStyles();
-
-      if (reset) {
-        const startKeyframe: TKeyframe = {};
-        if (el.style.transform) {
-          startKeyframe.transform = el.style.transform;
-        }
-        if (el.style.opacity) {
-          startKeyframe.opacity = el.style.opacity;
-        }
-
-        reset.unshift(startKeyframe);
-        // console.log(el, reset);
-        el.animate(reset, {
-          duration,
-          fill: "forwards",
-        });
-        continue;
-      }
-
-      if (el.style.opacity === "0") {
-        el.getAnimations().forEach((animation) => {
-          animation.cancel();
-        });
-        el.style.opacity = "";
-        el.style.transform = "";
-
-        if (FireFox) continue;
-        /** NUCLEAR SOLUTION - clone, delete, replace element
-         *
-         * In Chrome, Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
-         * */
-
-        const clone = el.cloneNode(true) as HTMLElement;
-        el.replaceWith(clone);
-        // reflow();
-        // console.log('el.style.opacity === "0"', el, el.getAnimations());
-        continue;
-      }
-
-      const startTransform = el.style.transform || "scale(1)";
-      const endTransform = startTransform.match("scale")
-        ? startTransform.replace(/scale\(.+\)/, "scale(0)")
-        : startTransform.replace(/\(.+\)/g, (match) => {
-            if (match.match(/,/)) {
-              return "(0px, 0px)";
-            }
-            return "(0px)";
-          }) + " scale(0)";
-
-      const endAnimation = el.animate(
-        [
-          {
-            transform: startTransform,
-          },
-          {
-            transform: endTransform,
-          },
-        ],
-        {
-          duration,
-          fill: "forwards",
-        }
-      );
-
-      endAnimation.onfinish = () => {
-        el.getAnimations().forEach((animation) => {
-          animation.cancel();
-        });
-        el.style.opacity = "";
-        el.style.transform = "";
-
-        if (FireFox) return;
-        /** NUCLEAR SOLUTION - clone, delete, replace element
-         *
-         * In Chrome, Animation fill state randomly still persists, even though the element's animations are removed (checking `getAnimations` property, which removed is an empty array), also made sure styling was reset to default.
-         * */
-        const clone = el.cloneNode(true) as HTMLElement;
-        el.replaceWith(clone);
-        // reflow();
-        // console.log('el.style.opacity === "0"', el, el.getAnimations());
-      };
+      // const { animation, reset } = options;
+      // if (!el.isConnected) {
+      //   continue;
+      // }
     }
-
-    this.animationMap.clear();
   }
 }
 
@@ -398,4 +454,15 @@ export const endAnimateProjectPromise = (
     }
   };
   runAnimation();
+};
+
+const easingFunctions = {
+  // no easing, no acceleration
+  linear: (t: number) => t,
+  // accelerating from zero velocity
+  "ease-in": (t: number) => t * t,
+  // decelerating to zero velocity
+  "ease-out": (t: number) => t * (2 - t),
+  // acceleration until halfway, then deceleration
+  "ease-in-out": (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
 };
