@@ -434,13 +434,23 @@ section {
     }
 
     .about-me-icon {
-      transition: transform 100, opacity 100;
+      transition: transform 100ms, opacity 100ms;
     }
   }
 
   &.active-performance {
     .about-me-icon-container {
       transform: translateX(14px);
+    }
+
+    .about-me-promise-description {
+      transform: none;
+    }
+  }
+
+  &.active-responsive {
+    .about-me-icon-container {
+      transform: translateY(2px);
     }
 
     .about-me-promise-description {

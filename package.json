@@ -21,6 +21,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "focus-visible": "^5.2.0",
     "fusioncharts": "aquaductape/fusioncharts-dist",
+    "gsap": "^3.6.1",
     "jquery": "^3.5.1",
     "jquery-fusioncharts": "^1.2.1",
     "lodash-es": "^4.17.20",

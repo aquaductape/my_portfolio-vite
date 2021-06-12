@@ -1,5 +1,6 @@
 import { MainTimeline } from "./animateProjectPromise";
-
+// #ff9b9b
+// #a52c2c
 export const a11yAnimation = ({
   target,
   mTimeline,
@@ -9,8 +10,8 @@ export const a11yAnimation = ({
 }) => {
   const contrastEndNum = 7;
   const contrastStartNum = 2;
-  const cardTextEndColor = "#595959";
-  const cardTextStartColor = "#b7b7b7";
+  const cardTextEndColor = "#a52c2c";
+  const cardTextStartColor = "#ff9b9b";
 
   const cardEl = target.querySelector(".card") as HTMLElement;
   const cardImg0 = target.querySelector(".card-img-0") as HTMLElement;

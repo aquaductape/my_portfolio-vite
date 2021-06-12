@@ -1,3 +1,4 @@
+import { ChromeForAndroid, FireFox } from "../../lib/browserInfo";
 import { TKeyframe } from "../../ts";
 import { MainTimeline } from "./animateProjectPromise";
 
@@ -11,18 +12,23 @@ export const responsiveAnimation = ({
   const pageContainerEl = target.querySelector(
     ".page-container"
   ) as HTMLElement;
+  const pageInnerEl = target.querySelector(".page-inner") as HTMLElement;
   const pageEl = target.querySelector(".page") as HTMLElement;
   const mobileEl = target.querySelector(".mobile") as HTMLElement;
   const monitorBorderEl = target.querySelector(
     ".monitor-border"
   ) as HTMLElement;
   const monitorMaskEl = target.querySelector(".monitor-mask") as HTMLElement;
+  const logoEl = target.querySelector(".logo") as HTMLElement;
   const mobileContainerEl = target.querySelector(
     ".mobile-container"
   ) as HTMLElement;
   const desktopStandEl = target.querySelector(".desktop-stand") as HTMLElement;
   const laptopBottomEl = target.querySelector(".laptop-bottom") as HTMLElement;
   const tabletBarsEl = target.querySelector(".tablet-bars") as HTMLElement;
+  const tabletBarsInnerEl = target.querySelector(
+    ".tablet-bars-inner"
+  ) as HTMLElement;
   const tabletBarBottomEl = target.querySelector(
     ".tablet-bar-bottom"
   ) as HTMLElement;
@@ -49,16 +55,10 @@ export const responsiveAnimation = ({
   const navLink1El = target.querySelector(".nav-link-1") as HTMLElement;
   const navLink2El = target.querySelector(".nav-link-2") as HTMLElement;
 
-  // screenMonitorEl.style.transition = "fill 500ms";
-
   // img: deno, "one punch man ok", "doge icon", "starcrafts zergling", "need for madness 1 radical one",
   // colors: light yellow, light blue, white, light magenta
   // window those 3 everytime you click (the reason is that there's three images on desktop and one on mobile )
 
-  // const pageEl = target.querySelector(".page") as HTMLElement;
-  // const page = target.querySelector(".page") as HTMLElement;
-  // const page = target.querySelector(".page") as HTMLElement;
-  // const page = target.querySelector(".page") as HTMLElement;
   const mainTranslateX = -0.23;
   const start = () => {
     // resetStyles();
@@ -108,7 +108,7 @@ export const responsiveAnimation = ({
               transform: "scale(1) translateX(0)",
             },
             {
-              transform: "scale(1.5) translateX(-8px)",
+              transform: "scale(1.5) translateX(-2px)",
             },
           ],
           {
@@ -121,10 +121,10 @@ export const responsiveAnimation = ({
           mainContainerEl,
           [
             {
-              transform: "scale(1) translateX(0px)",
+              transform: "scale(1) translate(0px, 0px)",
             },
             {
-              transform: `scale(1.6) translateX(${mainTranslateX}px)`,
+              transform: `scale(1.6) translate(${mainTranslateX}px, 0px)`,
             },
           ],
           {
@@ -159,30 +159,47 @@ export const responsiveAnimation = ({
       () => {
         const translate: TKeyframe[] = [
           {
-            transform: "translateY(0px)",
+            transform: `scale(1.6) translate(${mainTranslateX}px, 0px)`,
             offset: 0,
           },
           {
-            transform: "translateY(-0.2px)",
+            transform: `scale(1.6) translate(${mainTranslateX}px, -0.2px)`,
             offset: 0.3,
           },
           {
-            transform: "translateY(1.1px)",
+            transform: `scale(1.6) translate(${mainTranslateX}px, 1.1px)`,
             offset: 1,
           },
         ];
 
-        mTimeline.animate(monitorBorderEl, translate, {
+        mTimeline.animate(mainContainerEl, translate, {
           duration: 800,
           fill: "forwards",
           easing: "ease-in",
         });
-
-        mTimeline.animate(pageContainerEl, translate, {
-          duration: 800,
-          fill: "forwards",
-          easing: "ease-in",
-        });
+        //
+        mTimeline.animate(
+          desktopStandEl,
+          [
+            {
+              transform: `translateY(0px)`,
+              offset: 0,
+            },
+            {
+              transform: `translateY(0.2px)`,
+              offset: 0.3,
+            },
+            {
+              transform: `translateY(-1.1px)`,
+              offset: 1,
+            },
+          ],
+          {
+            duration: 800,
+            fill: "forwards",
+            easing: "ease-in",
+          }
+        );
       },
       { duration: 800 }
     );
@@ -204,14 +221,15 @@ export const responsiveAnimation = ({
             easing: "ease-out",
           }
         );
+
         mTimeline.animate(
           mainContainerEl,
           [
             {
-              transform: `scale(1.6) translateX(${mainTranslateX}px)`,
+              transform: `scale(1.6) translate(${mainTranslateX}px, 1.1px)`,
             },
             {
-              transform: `scale(1.4) translateX(${mainTranslateX}px)`,
+              transform: `scale(1.4) translate(${mainTranslateX}px, 1px)`,
             },
           ],
           {
@@ -221,19 +239,22 @@ export const responsiveAnimation = ({
           },
           true
         );
-        mTimeline.animateAttribute(monitorBorderEl, {
+
+        mTimeline.animateRAF(monitorBorderEl, {
           attr: "stroke-width",
           from: 0.253,
           to: 0.15,
           duration: 500,
         });
-        mTimeline.animateAttribute(monitorBorderEl, {
+
+        mTimeline.animateRAF(monitorBorderEl, {
           attr: "ry",
           from: 0.483,
           to: 0.2,
           duration: 500,
         });
-        mTimeline.animateAttribute(monitorMaskEl, {
+
+        mTimeline.animateRAF(monitorMaskEl, {
           attr: "ry",
           from: 0.483,
           to: 0.2,
@@ -403,49 +424,453 @@ export const responsiveAnimation = ({
       { duration: 1500 }
     );
 
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          mainInnerEl,
+          [
+            {
+              transform: "translate(0px, 0px)",
+            },
+            {
+              transform: "translate(-1px, -1.8px)",
+            },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+          }
+        );
+
+        // mTimeline.animate(
+        //   tabletBarsEl,
+        //   [
+        //     {
+        //       transform: "rotate(0deg)",
+        //     },
+        //     {
+        //       transform: "rotate(90deg)",
+        //     },
+        //   ],
+        //   { fill: "forwards", duration: 300 }
+        // );
+        // rotate transition glitch/jump in Chrome, Firefox (but not in Edge Chrome, it's smooth)
+        // therefore animating without transition, but Firefox still has jump
+        mTimeline.animateRAF(mainInnerRotateEl, {
+          prop: "rotate",
+          from: 0,
+          to: 90,
+          duration: 300,
+        });
+        mTimeline.animateRAF(tabletBarsEl, {
+          prop: "rotate",
+          from: 0,
+          to: 90,
+          duration: 300,
+        });
+      },
+      { duration: 800 }
+    );
+
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          navLinksEl,
+          [
+            {
+              transform: "translate(0px, 0.2px)",
+            },
+            {
+              transform: "translate(-0.2px, 0.2px)",
+            },
+          ],
+          { duration: 100, fill: "forwards" }
+        );
+
+        if (FireFox) {
+          mTimeline.animate(
+            tabletBarsInnerEl,
+            [
+              {
+                transform: "translate(0px, 0px)",
+              },
+              {
+                transform: "translate(0.1px, .7px)",
+              },
+            ],
+            { fill: "forwards", duration: 100 }
+          );
+        }
+
+        mTimeline.animateRAF(pageInnerEl, {
+          prop: "rotate",
+          from: 0,
+          to: -90,
+          duration: 100,
+        });
+        // mTimeline.animate(
+        //   pageInnerEl,
+        //   [
+        //     {
+        //       transform: "rotate(0deg)",
+        //     },
+        //     {
+        //       transform: "rotate(-90deg)",
+        //     },
+        //   ],
+        //   {
+        //     duration: 100,
+        //     fill: "forwards",
+        //   }
+        // );
+
+        mTimeline.animate(
+          pageContentColumn0El,
+          [
+            {
+              transform: "translate(1px, 0px) scale(1)",
+            },
+            {
+              transform: "translate(3px, 0px) scale(1.4)",
+            },
+          ],
+          {
+            duration: 100,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          pageContentColumn1El,
+          [
+            {
+              opacity: 1,
+            },
+            {
+              opacity: 0,
+            },
+          ],
+          {
+            duration: 100,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          pageContentColumn2El,
+          [
+            {
+              opacity: 1,
+            },
+            {
+              opacity: 0,
+            },
+          ],
+          {
+            duration: 100,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          logoEl,
+          [
+            {
+              transform: "translate(0px, 0px)",
+            },
+            {
+              transform: "translate(2.5px, 0px)",
+            },
+          ],
+          {
+            duration: 100,
+            fill: "forwards",
+          }
+        );
+      },
+      { duration: 500 }
+    );
+
+    return;
+
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          pageContentColumn0El,
+          [
+            {
+              transform: "translate(3px, 0px) scale(1.4)",
+            },
+            {
+              transform: "translate(2.2px, -0.2px) scale(1.8)",
+            },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          logoEl,
+          [
+            {
+              transform: "translate(2.5px, 0px)",
+            },
+            {
+              transform: "translate(2.5px, -0.3px)",
+            },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          navLinksEl,
+          [
+            {
+              transform: "translate(-0.2px, 0.2px)",
+            },
+            {
+              transform: "translate(-0.2px, 0px)",
+            },
+          ],
+          { duration: 300, fill: "forwards" }
+        );
+
+        mTimeline.animate(
+          tabletBarBottomEl,
+          [
+            {
+              transform: "scaleX(1)",
+            },
+            { transform: "scaleX(0)" },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+          }
+        );
+        mTimeline.animate(
+          tabletBarTopEl,
+          [
+            {
+              transform: "scaleX(1)",
+            },
+            { transform: "scaleX(0)" },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+          }
+        );
+
+        mTimeline.animate(
+          mainContainerEl,
+          [
+            {
+              transform: `scale(1) translateX(${mainTranslateX}px)`,
+            },
+          ],
+          {
+            duration: 300,
+            fill: "forwards",
+            easing: "ease-in",
+          },
+          true
+        );
+
+        mTimeline.animateRAF(monitorBorderEl, {
+          attr: "stroke-width",
+          from: 0.15,
+          to: 0.253,
+          duration: 300,
+        });
+
+        mTimeline.animateRAF(monitorBorderEl, {
+          attr: "ry",
+          from: 0.2,
+          to: 0.483,
+          duration: 300,
+        });
+
+        mTimeline.animateRAF(monitorMaskEl, {
+          attr: "ry",
+          from: 0.2,
+          to: 0.483,
+          duration: 300,
+        });
+      },
+      { duration: 1300 }
+    );
+
     mTimeline.scene(() => {
       mTimeline.animate(
-        tabletBarsEl,
+        pageContentColumn0El,
         [
           {
-            transform: "rotate(0deg)",
+            transform: "translate(3px, 0px) scale(1)",
           },
           {
-            transform: "rotate(90deg)",
-          },
-        ],
-        { fill: "forwards", duration: 300 }
-      );
-
-      mTimeline.animate(
-        mainInnerEl,
-        [
-          {
-            transform: "translate(0px, 0px)",
-          },
-          {
-            transform: "translate(0.2px, -0.3px)",
+            transform: "translate(0px, 0px) scale(1)",
           },
         ],
         {
-          duration: 300,
+          duration: 400,
           fill: "forwards",
         }
       );
 
-      // animation glitch/jump in Firefox
+      mTimeline.animate(
+        pageContentColumn1El,
+        [
+          {
+            opacity: 0,
+            transform: "translate(0px, 0px)",
+          },
+          {
+            opacity: 1,
+            transform: "translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        pageContentColumn2El,
+        [
+          {
+            opacity: 0,
+            transform: "translate(0px, 0px)",
+          },
+          {
+            opacity: 1,
+            transform: "translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        logoEl,
+        [
+          {
+            transform: "translate(2.5px, -0.3px)",
+          },
+          {
+            transform: "translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        navLinksEl,
+        [
+          {
+            transform: "translate(-0.2px, 0px)",
+          },
+          {
+            transform: "translate(0px, 0px)",
+          },
+        ],
+        { duration: 400, fill: "forwards" }
+      );
+
+      mTimeline.animate(
+        navLink0El,
+        [
+          {
+            transform: "scaleY(1) translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        navLink1El,
+        [
+          {
+            transform: "scaleY(1) translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        navLink2El,
+        [
+          {
+            transform: "scaleY(1) translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
       mTimeline.animate(
         mainInnerRotateEl,
         [
           {
-            transform: "rotate(0deg)",
+            transform: "rotate(90deg)",
           },
           {
-            transform: "rotate(90deg)",
+            transform: "rotate(0deg)",
           },
         ],
         {
-          duration: 300,
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        pageInnerEl,
+        [
+          {
+            transform: "rotate(-90deg)",
+          },
+          {
+            transform: "rotate(0deg)",
+          },
+        ],
+        {
+          duration: 400,
+          fill: "forwards",
+        }
+      );
+
+      mTimeline.animate(
+        pageChatEl,
+        [
+          {
+            opacity: "0",
+          },
+          {
+            opacity: "1",
+          },
+        ],
+        {
+          duration: 400,
           fill: "forwards",
         }
       );

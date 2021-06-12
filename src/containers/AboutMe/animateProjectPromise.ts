@@ -6,6 +6,23 @@ import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 
+// Why am I creating animations from scratch?
+// 1. To have Lighthouse Performance score of 100%
+//    - by saving file size
+//    - not installing code for IE, GSAP 3 still has code for IE, but it's unnecessary for this website
+// 3. GSAP is hands down the best animation lib, but it brings down Performance score by 1%. Even though I can use their CDN and save load time, it's useless for Lighthouse because they clear cache when auditing
+
+/**
+ * Lessons learned from trying to animate on my own
+ * 
+1. animate with Web Animation API in Chrome sometimes doesn't release forward animation, even after canceling it, solution was replacing animated element.
+
+2. When transition is involved either through CSS `transition` property or WAAPI, animated elements are prone to blur in Chrome, and jumpy keyframes (rare, but happens more often when animating `rotate` property).
+
+3. Firefox doesn't use SVG 2.0, this means that certain attributes such as `ry` can't be animated as CSS property 
+
+4. transform-origin is a pain, and I wasn't able to get it right
+ */
 export class MainTimeline {
   id: string;
   animationMap: Map<
@@ -83,20 +100,23 @@ export class MainTimeline {
     window.requestAnimationFrame(cb);
   }
 
-  animateAttribute(
-    el: Element,
+  animateRAF(
+    _el: Element,
     {
       duration,
       from,
       to,
       attr,
+      prop,
     }: {
       from: number;
       to: number;
-      attr: string;
+      attr?: string;
+      prop?: "rotate";
       duration: number;
     }
   ) {
+    const el = _el as HTMLElement;
     const startx = from;
     const destx = to as number;
     let start: number | null = null;
@@ -105,11 +125,20 @@ export class MainTimeline {
 
     const linear = (t: number) => t;
 
+    const setResult = (x: number) => {
+      if (attr) {
+        el.setAttribute(attr, x.toString());
+      }
+      if (prop) {
+        el.style.transform = `${prop}(${x}deg)`;
+      }
+    };
+
     const draw = (now: number) => {
       if (this.finished) return;
 
       if (now - start! > duration) {
-        el.setAttribute(attr, to.toString());
+        setResult(to);
         return;
       }
 
@@ -117,7 +146,7 @@ export class MainTimeline {
       const val = linear(p);
       x = startx! + (destx - startx!) * val;
 
-      el.setAttribute(attr, x.toString());
+      setResult(x);
 
       requestAnimationFrame(draw);
     };

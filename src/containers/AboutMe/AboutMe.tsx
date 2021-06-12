@@ -1,3 +1,4 @@
+import { gsap } from "gsap";
 import {
   iconDownload,
   iconGithub,
@@ -146,6 +147,7 @@ const AboutMe = () => {
   const onTouchmove = (e: TouchEvent) => {
     if (!animationReady) return;
 
+    gsap.to(".foo", { duration: 100, x: 1 });
     const touch = e.touches[0] || e.changedTouches[0];
     const bcr = getBCR();
     const midX = bcr.width / 2;
@@ -198,11 +200,11 @@ const AboutMe = () => {
       ) as HTMLElement;
       const svgEl = el.querySelector("svg") as unknown as HTMLElement;
 
-      if (proj.active) {
-        startAnimateProjectPromise(svgEl, proj.type as "a11y");
-      } else {
-        endAnimateProjectPromise(proj.type as "a11y");
-      }
+      // if (proj.active) {
+      //   startAnimateProjectPromise(svgEl, proj.type as "a11y");
+      // } else {
+      //   endAnimateProjectPromise(proj.type as "a11y");
+      // }
     });
   });
 
@@ -211,7 +213,7 @@ const AboutMe = () => {
       id="about-me"
       class="about-me"
       // onMouseMove={onMousemove}
-      // onTouchMove={onTouchmove}
+      onTouchMove={onTouchmove}
     >
       <div class="about-me-inner">
         <div class="about-me-content">
@@ -246,12 +248,22 @@ const AboutMe = () => {
                         props.active && props.type === "performance"
                           ? "active-performance"
                           : ""
-                      } ${
+                      }
+
+                      ${
+                        props.active && props.type === "responsive"
+                          ? "active-responsive"
+                          : ""
+                      }
+
+                      ${
                         !props.active &&
                         projectPromiseAnimationActive() === "performance"
                           ? "deactivate"
                           : ""
-                      }`}
+                      }
+
+                      `}
                       onMouseEnter={() => mouseEnterProjectPromise(idx())}
                     >
                       <span class="about-me-icon-container">
