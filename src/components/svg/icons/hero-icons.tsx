@@ -1098,7 +1098,7 @@ export const ResponsiveIcon = () => (
         <g style="transform: translateY(0.2px);">
           <g
             class="tablet-bar-bottom"
-            style="transform-origin: right; transform-box: fill-box;"
+            style="transform-origin: right bottom; transform-box: fill-box;"
             paint-order="markers fill stroke"
           >
             <path d="M7.751 1.715l.51.037v4.18l-.51.099z" fill="#888f9b" />
@@ -1106,7 +1106,7 @@ export const ResponsiveIcon = () => (
           </g>
           <g
             class="tablet-bar-top"
-            style="transform-origin: left; transform-box: fill-box;"
+            style="transform-origin: left bottom; transform-box: fill-box;"
           >
             <path
               d="M1.636 1.715l-.51.037v4.18l.51.099z"

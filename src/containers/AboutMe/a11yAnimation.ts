@@ -69,18 +69,16 @@ export const a11yAnimation = ({
       [
         {
           opacity: 0,
-          transform: "translateX(0)",
+          x: 0,
         },
         {
           opacity: 1,
-          transform: "translateX(1px)",
+          x: 1,
         },
       ],
       {
         duration: 500,
-        fill: "forwards",
-      },
-      true
+      }
     );
 
     mTimeline.animate(
@@ -88,35 +86,33 @@ export const a11yAnimation = ({
       [
         {
           opacity: 1,
-          transform: "scale(1)",
+          scale: 1,
         },
         {
           opacity: 0,
-          transform: "scale(0)",
+          scale: 0,
         },
       ],
       {
         duration: 500,
-        fill: "forwards",
-      },
-      true
+      }
     );
 
     mTimeline.animate(
       target,
       [
         {
-          transform: "scale(1) translateX(0)",
+          scale: 1,
+          x: 0,
         },
         {
-          transform: "scale(2.5) translateX(-20px)",
+          scale: 2.5,
+          x: -20,
         },
       ],
       {
         duration: 500,
-        fill: "forwards",
-      },
-      true
+      }
     );
   };
 
@@ -128,16 +124,15 @@ export const a11yAnimation = ({
           [
             {
               opacity: 0,
-              transform: "translateX(0)",
+              x: 0,
             },
             {
               opacity: 1,
-              transform: "translateX(-1.35px)",
+              x: -1.35,
             },
           ],
           {
             duration: 500,
-            fill: "forwards",
           }
         );
       },

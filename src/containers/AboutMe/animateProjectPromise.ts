@@ -1,7 +1,3 @@
-import { items } from "fusioncharts";
-import { FireFox } from "../../lib/browserInfo";
-import { TKeyframe } from "../../ts";
-import reflow from "../../utils/reflow";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
@@ -12,7 +8,6 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 //    - not installing code for IE, GSAP 3 still has code for IE, but it's unnecessary for this website
 // 3. GSAP is hands down the best animation lib, but it brings down Performance score by 1%. Even though I can use their CDN and save load time, it's useless for Lighthouse because they clear cache when auditing
 
-let timeLogger = 0;
 type TAnimateStyle = {
   x?: number;
   y?: number;
@@ -32,6 +27,12 @@ type TElStyles = {
   start?: TAnimateStyle;
 };
 
+type TElAnimation = {
+  animationId: number | null;
+  finished: boolean;
+  styles: TElStyles;
+};
+
 /**
  * Lessons learned from trying to animate on my own
  * 
@@ -45,7 +46,7 @@ type TElStyles = {
  */
 export class MainTimeline {
   id: string;
-  animationMap: Map<HTMLElement, TElStyles>;
+  animationMap: Map<HTMLElement, TElAnimation>;
   finished: boolean;
   running: boolean;
   start: () => void;
@@ -55,6 +56,11 @@ export class MainTimeline {
   private scenes: { cb: () => void; duration?: number }[];
   private sceneRunning: boolean;
   private timeoutRunning: boolean;
+  private closingScene: {
+    duration: number;
+    timestamp: number;
+    timeoutId: number | null;
+  } | null;
   constructor(id: string) {
     this.id = id;
     this.finished = false;
@@ -62,6 +68,7 @@ export class MainTimeline {
     this.animationMap = new Map();
     this.timeoutMap = new Map();
     this.scenes = [];
+    this.closingScene = null;
     this.sceneRunning = false;
     this.timeoutRunning = false;
     this.start = () => {};
@@ -70,13 +77,37 @@ export class MainTimeline {
   }
 
   play() {
-    this._start();
-    this._loop(true);
+    for (const [timeoutId] of this.timeoutMap) {
+      window.clearTimeout(timeoutId);
+    }
+
+    const run = () => {
+      this._start();
+      this._loop(true);
+    };
+
+    if (this.closingScene) {
+      const { duration, timeoutId, timestamp } = this.closingScene;
+      const newDuration = duration - (Date.now() - timestamp);
+
+      window.clearTimeout(timeoutId!);
+      this.finished = false;
+      // this.running = false
+
+      console.log("firefffff", newDuration);
+      this.setTimeout(() => {
+        this.closingScene = null;
+        console.log("firefff");
+        run();
+      }, newDuration + 100);
+
+      return;
+    }
+
+    run();
   }
 
   private _start() {
-    if (this.running) return;
-
     this.running = true;
     this._resetStyles();
     this.start();
@@ -121,23 +152,36 @@ export class MainTimeline {
   private _updateElVals({
     keyframes,
     idx,
-    current,
+    elAnimation,
     val,
   }: {
     keyframes: TAnimateStyle[];
     idx: number;
     val?: number;
-    current: TAnimateStyle;
+    elAnimation: TElAnimation;
   }) {
     const fromKeyframe = keyframes[idx];
     const toKeyframe = keyframes[idx + 1];
     const mainKeyframe = toKeyframe || fromKeyframe;
+    const { current, start } = elAnimation.styles;
+
+    const updateStartKeyframe = (fromVal: number, key: keyof TAnimateStyle) => {
+      const startVal = start![key];
+      if (startVal != null) return;
+
+      start![key] = fromVal;
+    };
 
     for (const _key in mainKeyframe) {
       const key = _key as keyof TAnimateStyle;
 
+      // @ts-ignore
+      if (key === "offset") continue;
       if (val == null || !toKeyframe) {
-        current[key] = fromKeyframe[key];
+        const from = fromKeyframe[key]!;
+        current[key] = from;
+        updateStartKeyframe(from, key);
+
         continue;
       }
 
@@ -147,7 +191,9 @@ export class MainTimeline {
       const destx = to;
 
       const result = startx + (destx - startx!) * val;
+      // console.log({ result, destx, startx, val });
 
+      updateStartKeyframe(from, key);
       current[key] = result;
     }
   }
@@ -196,7 +242,7 @@ export class MainTimeline {
 
   animate(
     _el: Element,
-    keyframes: TKeyframeStyle[],
+    _keyframes: TKeyframeStyle[] | null,
     {
       duration: _duration,
       easing = "ease-in-out",
@@ -208,13 +254,38 @@ export class MainTimeline {
     }
   ) {
     const durations: number[] = [];
-    let currentStyle: TElStyles = this.animationMap.get(_el as HTMLElement)!;
-    if (!currentStyle) {
-      currentStyle = { current: keyframes[0] };
-      this.animationMap.set(_el as HTMLElement, currentStyle);
+    const isClosing = !_keyframes;
+    let currentElAnimation: TElAnimation = this.animationMap.get(
+      _el as HTMLElement
+    )!;
+    if (!_keyframes) {
+      _keyframes = [
+        { ...currentElAnimation.styles.current },
+        { ...currentElAnimation.styles.start }!,
+      ];
+    }
+    const keyframes = _keyframes!;
+
+    if (!currentElAnimation) {
+      currentElAnimation = {
+        animationId: null,
+        finished: false,
+        styles: { current: { ...keyframes[0] }, start: { ...keyframes[0] } },
+      };
+      this.animationMap.set(_el as HTMLElement, currentElAnimation);
     }
 
-    if ("offset" in keyframes[0]) {
+    if (
+      currentElAnimation.animationId != null &&
+      !currentElAnimation.finished
+    ) {
+      console.log("cancel");
+      window.cancelAnimationFrame(currentElAnimation.animationId);
+    }
+
+    currentElAnimation.finished = false;
+
+    if ("offset" in keyframes[0] && !isClosing) {
       keyframes.forEach((item, idx, self) => {
         const nextItem = self[idx + 1];
 
@@ -233,47 +304,39 @@ export class MainTimeline {
         });
       } else {
         if (keyframes.length === 1) {
-          keyframes.unshift({ ...currentStyle.current });
+          keyframes.unshift({ ...currentElAnimation.styles.current });
         }
         durations.push(_duration);
       }
     }
 
-    console.log(durations);
+    // console.log(durations);
     let durationIdx = 0;
     let duration = durations[durationIdx];
     let start: number | null = null;
     let end = null;
     const timingFunction = easingFunctions[easing];
 
-    //     if(!_duration) {
-    //           this._setElVals({
-    //             el: _el as HTMLElement,
-    //             current: keyframes[keyframes.length - 1],
-    //           });
-    //
-    //       return
-    //     }
-
     const draw = (now: number) => {
-      if (this.finished) return;
-
       if (now - start! > duration) {
         durationIdx++;
+        // start! += duration;
         start = now;
         duration = durations[durationIdx];
 
         if (durationIdx > durations.length - 1) {
           this._updateElVals({
-            current: currentStyle.current,
+            elAnimation: currentElAnimation,
             keyframes,
             idx: durationIdx,
           });
 
           this._setElVals({
             el: _el as HTMLElement,
-            current: currentStyle.current,
+            current: currentElAnimation.styles.current,
           });
+
+          currentElAnimation.finished = true;
           // console.log("done!");
           // @ts-ignore
           // console.timeEnd(`hi ${_el.className.baseVal}`);
@@ -287,7 +350,7 @@ export class MainTimeline {
       const val = timingFunction(p);
 
       this._updateElVals({
-        current: currentStyle.current,
+        elAnimation: currentElAnimation,
         keyframes,
         idx: durationIdx,
         val,
@@ -295,10 +358,10 @@ export class MainTimeline {
 
       this._setElVals({
         el: _el as HTMLElement,
-        current: currentStyle.current,
+        current: currentElAnimation.styles.current,
       });
 
-      requestAnimationFrame(draw);
+      currentElAnimation.animationId = requestAnimationFrame(draw);
     };
 
     const animate = (timeStamp: number) => {
@@ -311,7 +374,7 @@ export class MainTimeline {
       this.setTimeout(() => {
         // @ts-ignore
         // console.time(`hi ${_el.className.baseVal}`);
-        requestAnimationFrame(animate);
+        currentElAnimation.animationId = requestAnimationFrame(animate);
       }, delay);
 
       return;
@@ -319,7 +382,7 @@ export class MainTimeline {
 
     // @ts-ignore
     // console.time(`hi ${_el.className.baseVal}`);
-    requestAnimationFrame(animate);
+    currentElAnimation.animationId = requestAnimationFrame(animate);
   }
 
   countAnimation({
@@ -388,31 +451,66 @@ export class MainTimeline {
   }
 
   stop() {
+    // console.log(this.closingScene, this.running, this.timeoutMap);
+    if (this.closingScene) {
+      console.log("this.closingScene", this.finished);
+      const { duration, timestamp } = this.closingScene;
+      const newDuration = duration - (Date.now() - timestamp);
+      this.finished = true;
+      this.closingScene = null;
+      this.running = false;
+      this.sceneRunning = false;
+      this.scenes = [];
+
+      for (const [timeoutId] of this.timeoutMap) {
+        window.clearTimeout(timeoutId);
+      }
+
+      const finalTimeout = window.setTimeout(() => {
+        console.log("final!!!");
+        this.finished = false;
+        this.closingScene = null;
+        this.animationMap.clear();
+        this.timeoutMap.clear();
+      }, newDuration + 100);
+
+      this.timeoutMap.set(finalTimeout, true);
+      return;
+    }
+
     if (!this.running) return;
+    console.log("STOP");
+
     this.running = false;
     this.sceneRunning = false;
     this.scenes = [];
 
     const animationEntries = this.animationMap.entries();
-    const duration = 300;
+    const duration = 800;
 
     this.finished = true;
 
     for (const [timeoutId] of this.timeoutMap) {
-      window.clearTimeout(Number(timeoutId));
+      window.clearTimeout(timeoutId);
     }
     this.timeoutMap.clear();
 
-    window.setTimeout(() => {
-      this.finished = false;
-    }, 500);
-
-    for (const [el, options] of animationEntries) {
-      // const { animation, reset } = options;
-      // if (!el.isConnected) {
-      //   continue;
-      // }
+    for (const [el] of animationEntries) {
+      this.animate(el, null, { duration, easing: "ease-in-out" });
     }
+
+    this.closingScene = {
+      duration: duration + 100,
+      timestamp: Date.now(),
+      timeoutId: null,
+    };
+
+    this.closingScene.timeoutId = window.setTimeout(() => {
+      this.finished = false;
+      this.closingScene = null;
+      this.animationMap.clear();
+      console.log("DONE!!!");
+    }, duration + 100);
   }
 }
 
@@ -446,9 +544,11 @@ export const endAnimateProjectPromise = (
   const runAnimation = () => {
     switch (type) {
       case "a11y":
-        return a11yEnd({ mTimeline: a11yTimeline });
+        return;
+      // return a11yEnd({ mTimeline: a11yTimeline });
       case "performance":
-        return performanceEnd({ mTimeline: performanceTimeline });
+        return;
+      // return performanceEnd({ mTimeline: performanceTimeline });
       case "responsive":
         return responsiveEnd({ mTimeline: responsiveTimeline });
     }
