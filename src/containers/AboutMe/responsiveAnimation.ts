@@ -2,6 +2,57 @@ import { ChromeForAndroid, FireFox } from "../../lib/browserInfo";
 import { TKeyframe } from "../../ts";
 import { MainTimeline, TKeyframeStyle } from "./animateProjectPromise";
 
+export const useInteractivityResponsive = () => {
+  let currentTarget: HTMLElement;
+  let theme = "dark" as "light" | "dark";
+
+  const onClick = (e: MouseEvent) => {
+    currentTarget = e.currentTarget as HTMLElement;
+    // const target = e.target as HTMLElement;
+
+    if (!currentTarget.classList.contains("active")) return;
+
+    changeTheme(theme);
+
+    if (theme === "dark") {
+      theme = "light";
+    } else {
+      theme = "dark";
+    }
+  };
+
+  const changeTheme = (theme: "light" | "dark") => {
+    const pageTextEls = currentTarget.querySelectorAll(
+      ".page-text"
+    ) as NodeListOf<HTMLElement>;
+    const pageChatEl = currentTarget.querySelector(
+      ".page-chat-input"
+    ) as HTMLElement;
+    const pageBodyEl = currentTarget.querySelector(".page-body") as HTMLElement;
+    const navBarBgEl = currentTarget.querySelector(".navbar-bg") as HTMLElement;
+
+    const textColor = theme === "light" ? "#9597a5" : "#fff";
+    const pageColor = theme === "light" ? "#fff" : "#333";
+    const navColor = theme === "light" ? "#5d8aff" : "#88a3e9";
+    const transition = "fill 500ms";
+
+    pageTextEls.forEach((pageTextEl) => {
+      pageTextEl.style.fill = textColor;
+      pageTextEl.style.transition = transition;
+    });
+
+    pageBodyEl.style.fill = pageColor;
+    pageChatEl.style.fill = pageColor;
+    navBarBgEl.style.fill = navColor;
+
+    pageBodyEl.style.transition = transition;
+    pageChatEl.style.transition = transition;
+    navBarBgEl.style.transition = transition;
+  };
+
+  return { onClick };
+};
+
 export const responsiveAnimation = ({
   target,
   mTimeline,
@@ -302,10 +353,14 @@ export const responsiveAnimation = ({
             {
               scaleX: 0,
               scaleY: 1,
+              y: 0,
+              x: 0,
             },
             {
               scaleX: 1,
               scaleY: 1,
+              y: 0,
+              x: 0,
             },
           ],
           {
@@ -320,10 +375,14 @@ export const responsiveAnimation = ({
             {
               scaleX: 0,
               scaleY: 1,
+              x: 0,
+              y: 0,
             },
             {
               scaleX: 1,
               scaleY: 1,
+              x: 0,
+              y: 0,
             },
           ],
           {
@@ -569,7 +628,8 @@ export const responsiveAnimation = ({
             {
               scaleX: 0,
               scaleY: 0.7,
-              x: -0.5,
+              x: -0.8,
+              y: -0.5,
             },
           ],
           {
@@ -584,28 +644,13 @@ export const responsiveAnimation = ({
               scaleX: 0,
               scaleY: 0.7,
               x: 0.5,
+              y: -0.5,
             },
           ],
           {
             duration: 300,
           }
         );
-
-        // translate(0.1px, 0.9px) rotate(0deg) scale(0.72, 0.72)
-
-        // mTimeline.animate(
-        //   tabletBarsInnerEl,
-        //   [
-        //     {
-        //       scale: 0.72,
-        //       x: 0.1,
-        //       y: 0.9,
-        //     },
-        //   ],
-        //   {
-        //     duration: 1800,
-        //   }
-        // );
 
         mTimeline.animate(
           pageContentColumn0El,
@@ -656,6 +701,7 @@ export const responsiveAnimation = ({
           [
             {
               scale: 1,
+              x: 0.5,
             },
           ],
           {
@@ -842,6 +888,7 @@ export const responsiveAnimation = ({
           [
             {
               y: 0,
+              x: mainTranslateX,
               scale: 1.6,
             },
           ],
@@ -892,6 +939,7 @@ export const responsiveAnimation = ({
     );
   };
 
+  mTimeline.svg = target;
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();

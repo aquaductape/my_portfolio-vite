@@ -52,6 +52,7 @@ export class MainTimeline {
   start: () => void;
   loop: () => void;
   resetStyles: () => void;
+  svg: Element | null;
   private timeoutMap: Map<number, boolean>;
   private scenes: { cb: () => void; duration?: number }[];
   private sceneRunning: boolean;
@@ -63,6 +64,7 @@ export class MainTimeline {
   } | null;
   constructor(id: string) {
     this.id = id;
+    this.svg = null;
     this.finished = false;
     this.running = false;
     this.animationMap = new Map();
@@ -82,6 +84,7 @@ export class MainTimeline {
     }
 
     const run = () => {
+      setTimeout(() => this.svg!.classList.add("active"));
       this._start();
       this._loop(true);
     };
@@ -452,6 +455,10 @@ export class MainTimeline {
 
   stop() {
     // console.log(this.closingScene, this.running, this.timeoutMap);
+    if (this.svg) {
+      this.svg.classList.remove("active");
+    }
+
     if (this.closingScene) {
       console.log("this.closingScene", this.finished);
       const { duration, timestamp } = this.closingScene;
@@ -544,8 +551,7 @@ export const endAnimateProjectPromise = (
   const runAnimation = () => {
     switch (type) {
       case "a11y":
-        return;
-      // return a11yEnd({ mTimeline: a11yTimeline });
+        return a11yEnd({ mTimeline: a11yTimeline });
       case "performance":
         return;
       // return performanceEnd({ mTimeline: performanceTimeline });

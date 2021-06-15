@@ -19,3 +19,29 @@ export const round = (num: number, dec: number) => {
 export const isBrowser = typeof window === "object";
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
+
+export const setSameStylesOnDuplicatedEls = ({
+  parent = document,
+  els,
+}: {
+  parent?: Element | Document;
+  els: Element[];
+}) => {
+  const pairs: { pair: Element[]; style: string }[] = [];
+
+  // read
+  els.forEach((el) => {
+    const style = (el as HTMLElement).style.cssText;
+    const children = [
+      ...parent.getElementsByClassName(el.getAttribute("class")!),
+    ];
+    pairs.push({ pair: children, style });
+  });
+
+  // write
+  pairs.forEach(({ pair, style }) => {
+    pair.forEach((el) => {
+      (el as HTMLElement).style.cssText = style;
+    });
+  });
+};

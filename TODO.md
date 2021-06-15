@@ -1,5 +1,5 @@
 interactivity for 3 hero icons
-a11y: type click. change: new leaf, circle turns to crescent: Hi is it ok to be an ai
+a11y: type click. change: new leaf, circle turns to crescent: Hi is it ok to be an ai or no if op?
 performance: type click. change: switch OS, mac => windows 10 => windows xp
 responsive: type click. change: logo to React, TS, Solid
 

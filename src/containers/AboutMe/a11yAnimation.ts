@@ -1,6 +1,38 @@
+import { setSameStylesOnDuplicatedEls } from "../../utils";
 import { MainTimeline } from "./animateProjectPromise";
-// #ff9b9b
-// #a52c2c
+
+export const useInteractivityA11y = () => {
+  let currentTarget: HTMLElement;
+  const msg = ["Hi", "is", "it", "ok", "to", "be", "an", "ai", "or", "no"];
+  let msgIdx = 0;
+
+  const onClick = (e: MouseEvent) => {
+    currentTarget = e.currentTarget as HTMLElement;
+    const target = e.target as HTMLElement;
+
+    if (!target.closest(".card")) return;
+    if (!currentTarget.classList.contains("active")) return;
+
+    changeText();
+  };
+
+  const changeText = () => {
+    const cardTextEls = currentTarget.querySelectorAll(
+      ".card-text"
+    ) as NodeListOf<HTMLElement>;
+    msgIdx = (msgIdx + 1) % msg.length;
+
+    if (Number(cardTextEls[0].style.opacity) < 0.8) return;
+
+    cardTextEls.forEach((cardTextEl) => {
+      cardTextEl.textContent = msg[msgIdx];
+    });
+  };
+
+  return { onClick };
+};
+
+let init = true;
 export const a11yAnimation = ({
   target,
   mTimeline,
@@ -8,15 +40,31 @@ export const a11yAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
+  const cardEl = target.querySelector(".card") as HTMLElement;
+  let cardContent0: HTMLElement;
+  let cardContent1: HTMLElement;
+
+  if (init) {
+    cardContent0 = target.querySelector(".card-content") as HTMLElement;
+    cardContent1 = cardContent0.cloneNode(true) as HTMLElement;
+    cardContent1.style.opacity = "0";
+    cardEl.appendChild(cardContent1);
+  } else {
+    const res = target.querySelectorAll(
+      ".card-content"
+    ) as NodeListOf<HTMLElement>;
+    cardContent0 = res[0];
+    cardContent1 = res[1];
+  }
+
+  init = false;
   const contrastEndNum = 7;
   const contrastStartNum = 2;
   const cardTextEndColor = "#a52c2c";
   const cardTextStartColor = "#ff9b9b";
 
-  const cardEl = target.querySelector(".card") as HTMLElement;
-  const cardImg0 = target.querySelector(".card-img-0") as HTMLElement;
-  const cardImg1 = target.querySelector(".card-img-1") as HTMLElement;
   const contrastEl = target.querySelector(".contrast") as HTMLElement;
+  const colorEl = target.querySelector(".color") as HTMLElement;
   const contrastSmallFailEl = target.querySelector(
     ".contrast-small-fail"
   ) as HTMLElement;
@@ -30,7 +78,9 @@ export const a11yAnimation = ({
     ".contrast-large-success"
   ) as HTMLElement;
   const contrastTextEl = target.querySelector(".contrast-text") as HTMLElement;
-  const cardTextEl = target.querySelector(".card-text") as HTMLElement;
+  const [cardTextEl0, cardTextEl1] = target.querySelectorAll(
+    ".card-text"
+  ) as NodeListOf<HTMLElement>;
   const rgbEl = target.querySelector(".rgb") as HTMLElement;
   const rgbREl = target.querySelector(".rgb-r") as HTMLElement;
   const rgbGEl = target.querySelector(".rgb-g") as HTMLElement;
@@ -39,17 +89,22 @@ export const a11yAnimation = ({
   const blockGEl = target.querySelector(".block-g") as HTMLElement;
   const blockBEl = target.querySelector(".block-b") as HTMLElement;
   const personEl = target.querySelector(".person") as HTMLElement;
+  const moonEl = target.querySelector(".moon") as HTMLElement;
+  const flowerClosedBudEl = target.querySelector(
+    ".flower-closed-bud"
+  ) as HTMLElement;
+  const flowerLeaf0El = target.querySelector(".flower-leaf-0") as HTMLElement;
+  const flowerLeaf1El = target.querySelector(".flower-leaf-1") as HTMLElement;
+  const flowerStemEl = target.querySelector(".flower-stem") as HTMLElement;
+  const personContainerEl = target.querySelector(
+    ".person-container"
+  ) as HTMLElement;
 
   const resetStyles = () => {
     contrastSmallSuccessEl.style.opacity = "";
     contrastLargeSuccessEl.style.opacity = "";
     contrastSmallFailEl.style.opacity = "";
     contrastLargeFailEl.style.opacity = "";
-
-    cardImg0.style.filter = "";
-    cardImg1.style.filter = "";
-    cardImg0.style.opacity = "1";
-    cardImg1.style.opacity = "0";
 
     rgbEl.style.opacity = "";
     rgbREl.style.fillOpacity = "";
@@ -59,60 +114,226 @@ export const a11yAnimation = ({
     blockGEl.style.opacity = "";
     blockBEl.style.opacity = "";
     contrastTextEl.textContent = contrastStartNum.toFixed(1);
-    cardTextEl.style.fill = cardTextStartColor;
-    cardTextEl.style.transition = "";
+    cardTextEl0.style.fill = cardTextStartColor;
+    cardTextEl0.style.transition = "";
   };
 
   const start = () => {
-    mTimeline.animate(
-      cardEl,
-      [
-        {
-          opacity: 0,
-          x: 0,
-        },
-        {
-          opacity: 1,
-          x: 1,
-        },
-      ],
-      {
-        duration: 500,
-      }
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          cardEl,
+          [
+            {
+              opacity: 0,
+              x: 0,
+            },
+            {
+              opacity: 1,
+              x: 1,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+
+        mTimeline.animate(
+          personContainerEl,
+          [
+            {
+              scale: 1,
+              x: 0,
+              y: 0,
+            },
+            {
+              scale: 0.25,
+              x: 6,
+              y: 3.6,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+
+        mTimeline.animate(
+          target,
+          [
+            {
+              scale: 1,
+              x: 0,
+            },
+            {
+              scale: 2.5,
+              x: -35,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+      },
+      { duration: 500 }
     );
 
-    mTimeline.animate(
-      personEl,
-      [
-        {
-          opacity: 1,
-          scale: 1,
-        },
-        {
-          opacity: 0,
-          scale: 0,
-        },
-      ],
-      {
-        duration: 500,
-      }
+    mTimeline.scene(
+      () => {
+        const duration = 500;
+
+        mTimeline.animate(
+          flowerClosedBudEl,
+          [
+            {
+              scale: 0,
+              y: 1.8,
+            },
+            {
+              scale: 0.8,
+              y: 1.8,
+            },
+            {
+              scale: 1,
+              y: 0,
+            },
+          ],
+          {
+            duration,
+          }
+        );
+
+        mTimeline.animate(
+          flowerStemEl,
+          [
+            {
+              scaleY: 0,
+            },
+            {
+              scaleY: 1,
+            },
+          ],
+          {
+            duration,
+            delay: 100,
+          }
+        );
+
+        mTimeline.animate(
+          moonEl,
+          [
+            {
+              scale: 0,
+            },
+            {
+              scale: 1,
+            },
+          ],
+          {
+            duration,
+          }
+        );
+        mTimeline.animate(
+          flowerLeaf0El,
+          [
+            {
+              scale: 0,
+              rotate: 0,
+            },
+            {
+              scale: 1,
+              rotate: -35,
+            },
+          ],
+          {
+            duration,
+            delay: duration - 100,
+          }
+        );
+        mTimeline.animate(
+          flowerLeaf1El,
+          [
+            {
+              scale: 0,
+              rotate: 0,
+              y: 0,
+            },
+            {
+              scale: 1,
+              y: 0.1,
+              rotate: 25,
+            },
+          ],
+          {
+            duration,
+            delay: duration - 100,
+          }
+        );
+      },
+      { duration: 1000 }
     );
 
-    mTimeline.animate(
-      target,
-      [
-        {
-          scale: 1,
-          x: 0,
-        },
-        {
-          scale: 2.5,
-          x: -20,
-        },
-      ],
-      {
-        duration: 500,
-      }
+    mTimeline.scene(
+      () => {
+        mTimeline.setTimeout(() => {
+          setSameStylesOnDuplicatedEls({
+            parent: target,
+            els: [
+              flowerClosedBudEl,
+              flowerLeaf0El,
+              flowerLeaf1El,
+              moonEl,
+              flowerStemEl,
+              cardTextEl0,
+            ],
+          });
+        }, 900);
+
+        mTimeline.animate(
+          cardTextEl0,
+          [
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+            },
+          ],
+          {
+            duration: 300,
+            delay: 500,
+          }
+        );
+
+        mTimeline.animate(
+          personContainerEl,
+          [
+            {
+              x: 6.2,
+            },
+          ],
+          {
+            duration: 100,
+          }
+        );
+
+        mTimeline.animate(
+          personEl,
+          [
+            {
+              rotate: 0,
+              x: 0,
+              y: 0,
+            },
+            {
+              rotate: -20,
+              x: 5,
+              y: 0.5,
+            },
+          ],
+          { duration: 500 }
+        );
+      },
+      { duration: 500 }
     );
   };
 
@@ -141,8 +362,10 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        cardTextEl.style.fill = cardTextEndColor;
-        cardTextEl.style.transition = "fill 1500ms";
+        cardTextEl0.style.fill = cardTextEndColor;
+        colorEl.style.fill = cardTextEndColor;
+        cardTextEl0.style.transition = "fill 1600ms";
+        colorEl.style.transition = "fill 1600ms";
 
         mTimeline.countAnimation({
           el: contrastTextEl,
@@ -167,17 +390,15 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
+        cardTextEl1.style.fill = cardTextEndColor;
         mTimeline.animate(
           contrastEl,
           [
             {
-              opacity: 1,
-            },
-            {
               opacity: 0,
             },
           ],
-          { duration: 200, fill: "forwards" }
+          { duration: 200 }
         );
 
         mTimeline.animate(
@@ -185,32 +406,43 @@ export const a11yAnimation = ({
           [
             {
               opacity: 0,
+              x: 0,
+              y: 0,
             },
             {
               opacity: 1,
+              x: -0.5,
+              y: 0.2,
             },
           ],
-          { duration: 200, delay: 200, fill: "forwards" }
+          { duration: 200, delay: 200 }
         );
       },
       { duration: 1000 }
     );
 
-    const cardImgDuration = 600;
+    const toggleCardContent = ({
+      showFirstEl,
+      duration = 600,
+    }: {
+      showFirstEl: boolean;
+      duration?: number;
+    }) => {
+      const el0 = showFirstEl ? cardContent1 : cardContent0;
+      const el1 = !showFirstEl ? cardContent1 : cardContent0;
 
+      mTimeline.animate(el0, [{ opacity: 1 }, { opacity: 0 }], {
+        duration,
+      });
+      mTimeline.animate(el1, [{ opacity: 0 }, { opacity: 1 }], {
+        duration,
+      });
+    };
     mTimeline.scene(
       () => {
-        cardImg1.style.filter = "url(#a11y-protanopia)";
-        // cardImg1.style.opacity = "1";
-        // cardImg0.style.opacity = "0";
-        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
-        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
+        cardContent1.style.filter = "url(#a11y-protanopia)";
+
+        toggleCardContent({ showFirstEl: false });
 
         blockREl.style.opacity = "1";
         rgbREl.style.fillOpacity = "0";
@@ -220,17 +452,8 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        cardImg0.style.filter = "url(#a11y-deuteranopia)";
-        // cardImg0.style.opacity = "1";
-        // cardImg1.style.opacity = "0";
-        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
-        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
+        cardContent0.style.filter = "url(#a11y-deuteranopia)";
+        toggleCardContent({ showFirstEl: true });
 
         blockREl.style.opacity = "0";
         rgbREl.style.fillOpacity = "1";
@@ -243,17 +466,8 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        cardImg1.style.filter = "url(#a11y-tritanopia)";
-        // cardImg1.style.opacity = "1";
-        // cardImg0.style.opacity = "0";
-        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
-        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
+        cardContent1.style.filter = "url(#a11y-tritanopia)";
+        toggleCardContent({ showFirstEl: false });
 
         blockGEl.style.opacity = "0";
         rgbGEl.style.fillOpacity = "1";
@@ -266,17 +480,8 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        cardImg0.style.filter = "url(#a11y-achromatopsia)";
-        // cardImg0.style.opacity = "1";
-        // cardImg1.style.opacity = "0";
-        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
-        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
+        cardContent0.style.filter = "url(#a11y-achromatopsia)";
+        toggleCardContent({ showFirstEl: true });
 
         blockREl.style.opacity = "1";
         rgbREl.style.fillOpacity = "0";
@@ -288,7 +493,7 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        cardImg1.style.filter = "";
+        cardContent1.style.filter = "";
 
         blockREl.style.opacity = "0";
         blockGEl.style.opacity = "0";
@@ -297,38 +502,26 @@ export const a11yAnimation = ({
         rgbGEl.style.fillOpacity = "1";
         rgbBEl.style.fillOpacity = "1";
 
-        mTimeline.animate(cardImg0, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
-        mTimeline.animate(cardImg1, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-          duration: cardImgDuration,
-        });
+        toggleCardContent({ showFirstEl: false });
       },
       { duration: 1000 }
     );
 
     mTimeline.scene(
       () => {
-        cardImg0.style.filter = "";
+        cardContent0.style.filter = "";
 
         mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
           duration: 400,
-          fill: "forwards",
         });
 
-        mTimeline.animate(cardImg0, [{ opacity: 0 }, { opacity: 1 }], {
-          fill: "forwards",
-        });
-        mTimeline.animate(cardImg1, [{ opacity: 1 }, { opacity: 0 }], {
-          fill: "forwards",
-        });
+        toggleCardContent({ showFirstEl: true, duration: 0 });
       },
       { duration: 800 }
     );
   };
 
+  mTimeline.svg = target;
   mTimeline.resetStyles = resetStyles;
   mTimeline.start = start;
   mTimeline.loop = loop;
