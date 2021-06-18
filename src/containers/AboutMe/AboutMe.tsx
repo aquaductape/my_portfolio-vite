@@ -182,12 +182,12 @@ const AboutMe = () => {
   };
 
   onMount(() => {
-    document.body.addEventListener("mousemove", function init() {
-      paths = createDuplicatedPaths(svgEl);
-      hideFullNameLetterCombo();
-      animationReady = true;
-      document.body.removeEventListener("mousemove", init);
-    });
+    // document.body.addEventListener("mousemove", function init() {
+    //   paths = createDuplicatedPaths(svgEl);
+    //   hideFullNameLetterCombo();
+    //   animationReady = true;
+    //   document.body.removeEventListener("mousemove", init);
+    // });
   });
 
   createEffect(() => {
@@ -211,8 +211,8 @@ const AboutMe = () => {
     <section
       id="about-me"
       class="about-me"
-      // onMouseMove={onMousemove}
-      onTouchMove={onTouchmove}
+      onMouseMove={onMousemove}
+      // onTouchMove={onTouchmove}
     >
       <div class="about-me-inner">
         <div class="about-me-content">

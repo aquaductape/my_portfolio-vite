@@ -114,8 +114,10 @@ export const a11yAnimation = ({
     blockGEl.style.opacity = "";
     blockBEl.style.opacity = "";
     contrastTextEl.textContent = contrastStartNum.toFixed(1);
+    colorEl.style.fill = cardTextStartColor;
     cardTextEl0.style.fill = cardTextStartColor;
     cardTextEl0.style.transition = "";
+    colorEl.style.transition = "";
   };
 
   const start = () => {
@@ -166,7 +168,7 @@ export const a11yAnimation = ({
             },
             {
               scale: 2.5,
-              x: -35,
+              x: -55,
             },
           ],
           {

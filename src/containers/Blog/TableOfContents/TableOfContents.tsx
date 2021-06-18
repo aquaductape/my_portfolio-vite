@@ -48,7 +48,7 @@ const Row = ({
 }: Omit<TTableOfContents, "index"> & { visibleMarker: boolean }) => {
   const [context, { setTableOfContents, setSmoothScroll }] =
     useContext(GlobalContext);
-  const { minWidth_1680 } = useMatchMedia();
+  const { minWidth_1680, minWidth_400 } = useMatchMedia();
   const paddingLeft = depth === 0 ? "" : `${depth * 50}px`;
   const nextChildren: TTableOfContents[] = children.map((id) => {
     const result = context.tableOfContents.contents!.find(
@@ -77,9 +77,10 @@ const Row = ({
       duration: 300,
       padding,
       onEnd: () => {
-        if (!minWidth_1680.matches) {
-          if (target.closest(`.${style["dropdown"]}`)) return;
-          el.focus();
+        if (!minWidth_400.matches) {
+          setTableOfContents({
+            dropdownActive: false,
+          });
         }
         setSmoothScroll({ active: false });
       },

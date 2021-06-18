@@ -1,3 +1,4 @@
+import { camelToKebabCase } from "../../utils";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
@@ -5,18 +6,28 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 // Why am I creating animations from scratch?
 // 1. To have Lighthouse Performance score of 100%
 //    - by saving file size
-//    - not installing code for IE, GSAP 3 still has code for IE, but it's unnecessary for this website
+//    - not installing bloat for IE, GSAP 3 still has code for IE, but it's unnecessary for this website
 // 3. GSAP is hands down the best animation lib, but it brings down Performance score by 1%. Even though I can use their CDN and save load time, it's useless for Lighthouse because they clear cache when auditing
+
+const elAttributes = ["ry", "strokeWidth", "attrX", "attrY", "width", "height"];
+// const parseAttr = (attr) => {
+//   return;
+// };
 
 type TAnimateStyle = {
   x?: number;
   y?: number;
+  attrX?: number;
+  attrY?: number;
+  width?: number;
+  height?: number;
   scale?: number;
   scaleX?: number;
   scaleY?: number;
   rotate?: number;
   ry?: number;
   strokeWidth?: number;
+  strokeDashoffset?: number;
   opacity?: number;
 };
 
@@ -31,6 +42,16 @@ type TElAnimation = {
   animationId: number | null;
   finished: boolean;
   styles: TElStyles;
+};
+
+export type TInteractivity = {
+  selector: string;
+  event: (props: {
+    currentTarget: HTMLElement;
+    target: HTMLElement;
+    selectorTarget: HTMLElement;
+    mTimeline: MainTimeline;
+  }) => void;
 };
 
 /**
@@ -52,7 +73,9 @@ export class MainTimeline {
   start: () => void;
   loop: () => void;
   resetStyles: () => void;
+  interactivity: TInteractivity[];
   svg: Element | null;
+  private init: boolean;
   private timeoutMap: Map<number, boolean>;
   private scenes: { cb: () => void; duration?: number }[];
   private sceneRunning: boolean;
@@ -63,6 +86,7 @@ export class MainTimeline {
     timeoutId: number | null;
   } | null;
   constructor(id: string) {
+    this.init = true;
     this.id = id;
     this.svg = null;
     this.finished = false;
@@ -76,6 +100,25 @@ export class MainTimeline {
     this.start = () => {};
     this.loop = () => {};
     this.resetStyles = () => {};
+    this.interactivity = [];
+  }
+
+  addInteractivity() {
+    this.svg!.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const currentTarget = e.currentTarget as HTMLElement;
+
+      for (const item of this.interactivity) {
+        const { selector, event } = item;
+        const el = target.closest(selector) as HTMLElement;
+
+        if (!el) continue;
+        if (el.style.opacity !== "" && Number(el.style.opacity) <= 0.9)
+          continue;
+
+        event({ currentTarget, target, mTimeline: this, selectorTarget: el });
+      }
+    });
   }
 
   play() {
@@ -230,16 +273,24 @@ export class MainTimeline {
       }px) rotate(${current.rotate || 0}deg) scale(${getScale()})`;
     }
 
-    if ("ry" in current) {
-      el.setAttribute("ry", current.ry!.toString());
-    }
+    for (let attr of elAttributes) {
+      // @ts-ignore
+      const val = current[attr] as string;
+      if (val == null) continue;
 
-    if ("strokeWidth" in current) {
-      el.setAttribute("stroke-width", current.strokeWidth!.toString());
+      attr = camelToKebabCase(attr);
+      const matchingRes = attr.match(/^attr-(.)/)!;
+      if (matchingRes && matchingRes[1]) attr = matchingRes[1];
+
+      console.log({ attr, val });
+      el.setAttribute(camelToKebabCase(attr), val);
     }
 
     if ("opacity" in current) {
       el.style.opacity = current.opacity!.toString();
+    }
+    if ("strokeDashoffset" in current) {
+      el.style.strokeDashoffset = current.strokeDashoffset!.toString();
     }
   }
 
@@ -261,6 +312,19 @@ export class MainTimeline {
     let currentElAnimation: TElAnimation = this.animationMap.get(
       _el as HTMLElement
     )!;
+
+    //     const getInitKeyframe = () => {
+    //       const keyframe = _keyframes![0];
+    //       const style: TAnimateStyle = {};
+    //       for (let attr of elAttributes) {
+    //         if (!(attr in keyframe)) continue;
+    //         const newAttr = camelToKebabCase(attr);
+    //
+    //         style[attr as keyof TAnimateStyle] = _el.getAttribute();
+    //       }
+    //       // if inline style is not present
+    //     };
+
     if (!_keyframes) {
       _keyframes = [
         { ...currentElAnimation.styles.current },
@@ -553,8 +617,7 @@ export const endAnimateProjectPromise = (
       case "a11y":
         return a11yEnd({ mTimeline: a11yTimeline });
       case "performance":
-        return;
-      // return performanceEnd({ mTimeline: performanceTimeline });
+        return performanceEnd({ mTimeline: performanceTimeline });
       case "responsive":
         return responsiveEnd({ mTimeline: responsiveTimeline });
     }

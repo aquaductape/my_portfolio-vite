@@ -1,56 +1,232 @@
-import { batch, createEffect, createState, onMount } from "solid-js";
-import { TKeyframe } from "../../ts";
-import { MainTimeline } from "./animateProjectPromise";
+import { MainTimeline, TInteractivity } from "./animateProjectPromise";
 
-export const useInteractivity = () => {
-  const [os, setOS] = createState([
-    { os: "mac", active: true },
-    { os: "windows10", active: false },
-    { os: "windowsxp", active: false },
-  ]);
-  let osCurrentIdx = 0;
-  let currentTarget: HTMLElement;
-
-  const onClick = (e: MouseEvent) => {
-    currentTarget = e.currentTarget as HTMLElement;
-    const target = e.target as HTMLElement;
-
-    if (!target.closest(".browser")) return;
-
-    osCurrentIdx = (osCurrentIdx + 1) % os.length;
-    batch(() => {
-      setOS({}, "active", false);
-      setOS(osCurrentIdx, "active", true);
-    });
-  };
-
-  createEffect(() => {
-    os.forEach(({ os, active }) => {
-      if (!currentTarget) return;
-
-      const el = currentTarget.querySelector(`.title-bar-${os}`) as HTMLElement;
-      const browserBodyEl = currentTarget.querySelector(
-        ".browser-body"
-      ) as HTMLElement;
-
-      if (active) {
-        el.style.visibility = "visible";
-
-        if (os === "windows10") {
-          browserBodyEl.setAttribute("ry", "0");
-        }
-
-        if (os === "mac") {
-          browserBodyEl.setAttribute("ry", "0.237");
-        }
-      } else {
-        el.style.visibility = "hidden";
-      }
-    });
-  });
-
-  return { onClick };
+const state = {
+  os: "mac",
+  color: {
+    green: "#7ada7a",
+    blue: "#43b7ff",
+    grey: "#b3b3b3",
+  },
 };
+
+const interactivity: TInteractivity[] = [
+  {
+    selector: ".page-btn",
+    event: ({ currentTarget }) => {
+      const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
+
+      const heroBg = query(".hero-bg");
+      const heroWindows10 = query(".hero-windows10");
+      const heroWindowsXp = query(".hero-windowsxp");
+      const heroMac = query(".hero-mac");
+      const titleWindows10 = query(".title-bar-windows10");
+      const browserWindowsXp = query(".browser-windowsxp");
+      const titleMac = query(".title-bar-mac");
+      const pageImgBg = query(".page-img-bg");
+      const browserBody = query(".browser-body");
+
+      const fromTo = (swapEl: HTMLElement[][], color: string) => {
+        for (const els of swapEl) {
+          const [fromEl, toEl] = els;
+
+          fromEl.style.transition = "opacity 300ms";
+          toEl.style.transition = "opacity 300ms";
+          fromEl.style.opacity = "0";
+          fromEl.style.pointerEvents = "none";
+          toEl.style.pointerEvents = "";
+          toEl.style.opacity = "1";
+        }
+        heroBg.style.fill = color;
+        pageImgBg.style.fill = color;
+        heroBg.style.transition = "fill 300ms";
+        pageImgBg.style.transition = "fill 300ms";
+      };
+
+      if (state.os === "mac") {
+        fromTo(
+          [
+            [titleMac, titleWindows10],
+            [heroWindows10, heroWindowsXp],
+          ],
+          state.color.green
+        );
+        browserBody.setAttribute("ry", "0");
+        state.os = "windows10";
+        return;
+      }
+
+      if (state.os === "windows10") {
+        fromTo(
+          [
+            [titleWindows10, browserWindowsXp],
+            [heroWindowsXp, heroMac],
+          ],
+          state.color.grey
+        );
+        state.os = "windowsxp";
+        return;
+      }
+
+      if (state.os === "windowsxp") {
+        fromTo(
+          [
+            [browserWindowsXp, titleMac],
+            [heroMac, heroWindows10],
+          ],
+          state.color.blue
+        );
+        browserBody.setAttribute("ry", "0.237");
+        state.os = "mac";
+        return;
+      }
+    },
+  },
+  //   {
+  //     selector: ".title-bar-expand",
+  //     event: ({ currentTarget, mTimeline }) => {
+  //       const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
+  //
+  //       const titleWindows10 = query(".title-bar-windows10");
+  //       const browserWindowsXp = query(".browser-windowsxp");
+  //       const titleMac = query(".title-bar-mac");
+  //       const browserBody = query(".browser-body");
+  //       const heroBg = query(".hero-bg");
+  //       const titleBar = state.os === "mac" ? titleMac : browserWindowsXp;
+  //       const titleBarButtons = titleBar.querySelector(
+  //         ".title-bar-buttons"
+  //       ) as HTMLElement;
+  //       const titleLeft = titleBar.querySelector(".title-left") as HTMLElement;
+  //       const titleMid = titleBar.querySelector(".title-mid") as HTMLElement;
+  //       const titleRight = titleBar.querySelector(".title-right") as HTMLElement;
+  //       const duration = 300;
+  //
+  //       // xp translate(0.5px, -0.5px) rotate(0deg) scale(1.55, 1)
+  //       // xp btns translate(1.75px, -0.5px) rotate(0deg) scale(1, 1)
+  //       const animateBodies = (type: "body" | "frame", el: HTMLElement) => {
+  //         const width = type === "body" ? 5.15 : 5.053;
+  //
+  //         // <rect
+  //         //   width="5.053"
+  //         //   height="3.087"
+  //         //   x="2.18"
+  //         //   y="4.544"
+  //         //   class="frame"
+  //         //   fill="none"
+  //         //   stroke="#0056eb"
+  //         //   stroke-width=".097"
+  //         //   stroke-linecap="round"
+  //         //   stroke-dashoffset="16.97"
+  //         // />
+  //         mTimeline.animate(
+  //           el,
+  //           [
+  //             // <rect width="5.15" height="3.397" x="2.132" y="4.248" ry=".237" class="browser-body" fill="#fff"></rect>
+  //             {
+  //               width: 5.15,
+  //               height: 3.397,
+  //               attrX: 2.132,
+  //               attrY: 4.248,
+  //             },
+  //             // browser-body <rect width="7.38" height="4" x="1.67" y="3.9" ry=".237" class="browser-body" fill="#fff"></rect>
+  //             {
+  //               width: 7.38,
+  //               height: 4,
+  //               attrX: 1.67,
+  //               attrY: 3.9,
+  //             },
+  //           ],
+  //           { duration: 300 }
+  //         );
+  //       };
+  //       const animateTitleSections = (
+  //         elLeft: HTMLElement,
+  //         elMid: HTMLElement,
+  //         elRight: HTMLElement
+  //       ) => {
+  //         mTimeline.animate(
+  //           elLeft,
+  //           [
+  //             {
+  //               x: 0,
+  //               y: 0,
+  //             },
+  //             {
+  //               x: -0.5,
+  //               y: -0.5,
+  //             },
+  //           ],
+  //           { duration }
+  //         );
+  //
+  //         mTimeline.animate(
+  //           elRight,
+  //           [
+  //             {
+  //               x: 0,
+  //               y: 0,
+  //             },
+  //             {
+  //               x: 1.8,
+  //               y: -0.5,
+  //             },
+  //           ],
+  //           { duration }
+  //         );
+  //
+  //         mTimeline.animate(
+  //           elMid,
+  //           [
+  //             {
+  //               scaleX: 1,
+  //               x: 0,
+  //               y: 0,
+  //             },
+  //             {
+  //               scaleX: 1.55,
+  //               x: -2,
+  //               y: -0.5,
+  //             },
+  //           ],
+  //           { duration }
+  //         );
+  //       };
+  //
+  //       mTimeline.animate(
+  //         titleBarButtons,
+  //         [
+  //           {
+  //             x: 0,
+  //             y: 0,
+  //           },
+  //           {
+  //             x: -0.45,
+  //             y: -0.5,
+  //           },
+  //         ],
+  //         { duration: 300 }
+  //       );
+  //
+  //       mTimeline.animate(
+  //         heroBg,
+  //         [
+  //           {
+  //             x: 0,
+  //             y: 0,
+  //             scaleX: 1,
+  //             scaleY: 1,
+  //           },
+  //           {
+  //             x: 0.65,
+  //             y: -0.48,
+  //             scaleX: 1.435,
+  //             scaleY: 1.25,
+  //           },
+  //         ],
+  //         { duration: 300 }
+  //       );
+  //     },
+  //   },
+];
 
 // 104.198.14.52
 export const performanceAnimation = ({
@@ -60,89 +236,75 @@ export const performanceAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  const airplaneEl = target.querySelector(".airplane") as HTMLElement;
-  const browserEl = target.querySelector(".browser") as HTMLElement;
-  const pageEl = target.querySelector(".page") as HTMLElement;
-  const urlBarEl = target.querySelector(".url-bar") as HTMLElement;
-  const filesEl = target.querySelector(".files") as HTMLElement;
-  const fileImg0El = target.querySelector(".file-img-0") as HTMLElement;
-  const fileImg1El = target.querySelector(".file-img-1") as HTMLElement;
-  const fileImg2El = target.querySelector(".file-img-2") as HTMLElement;
-  const fileJSEl = target.querySelector(".file-js") as HTMLElement;
-  const fileCSSEl = target.querySelector(".file-css") as HTMLElement;
-  const fileHTMLEl = target.querySelector(".file-html") as HTMLElement;
-  const percentEl = target.querySelector(".percent") as HTMLElement;
-  const percentProgressBarEl = target.querySelector(
-    ".percent-progress-bar"
-  ) as SVGElement;
-  const percentTextEl = target.querySelector(".percent-text") as HTMLElement;
-  const checkmarkEl = target.querySelector(".checkmark") as HTMLElement;
+  const query = (s: string): HTMLElement => target.querySelector(s)!;
 
-  const els = [
-    airplaneEl,
-    browserEl,
-    pageEl,
-    urlBarEl,
-    filesEl,
-    fileImg0El,
-    fileImg1El,
-    fileImg2El,
-    fileJSEl,
-    fileCSSEl,
-    fileHTMLEl,
-    percentEl,
-  ];
-
-  const resetStyles = () => {
-    percentTextEl.textContent = "0";
-    els.forEach((el) => {
-      el.style.transform = "";
-      el.style.opacity = "";
-    });
-  };
+  const airplaneEl = query(".airplane");
+  const browserEl = query(".browser");
+  const pageEl = query(".page");
+  const urlBarEl = query(".url-bar");
+  const filesEl = query(".files");
+  const fileImg0El = query(".file-img-0");
+  const fileImg1El = query(".file-img-1");
+  const fileImg2El = query(".file-img-2");
+  const fileJSEl = query(".file-js");
+  const fileCSSEl = query(".file-css");
+  const fileHTMLEl = query(".file-html");
+  const percentEl = query(".percent");
+  const percentProgressBarEl = query(".percent-progress-bar");
+  const percentTextEl = query(".percent-text");
+  const checkmarkEl = query(".checkmark");
+  const pageBtn = query(".page-btn");
 
   const start = () => {
-    resetStyles();
-
     mTimeline.scene(
       () => {
         mTimeline.animate(
           airplaneEl,
           [
             {
-              opacity: 1,
-              transform: " translate(0px, 0px) scale(1)",
+              x: 0,
+              y: 0,
+              rotate: 0,
+              scale: 1,
             },
             {
-              opacity: 0,
-              transform: " translate(0.5px, -3px) scale(0.5)",
+              x: -2.5,
+              y: -2,
+              rotate: -90,
+              scale: 0,
             },
           ],
           {
-            duration: 300,
-            fill: "forwards",
-          },
-          true
+            duration: 600,
+          }
         );
+
         mTimeline.animate(
           browserEl,
           [
             {
-              opacity: 0,
-              transform: "scale(0) translate(28px, -18px)",
+              x: -2.5,
+              y: -2.3,
+              scale: 0,
+              rotate: 40,
             },
             {
-              opacity: 1,
-              transform: "scale(0.3) translate(-10px, -2px)",
+              x: -3.5,
+              y: -1.2,
+              scale: 0.3,
+              rotate: 20,
             },
             {
-              opacity: 1,
-              transform: "scale(1) translate(0px, -2px)",
+              x: 0,
+              y: -1,
+              scale: 1,
+              rotate: 0,
             },
           ],
           {
+            delay: 400,
             duration: 800,
-            fill: "forwards",
+            easing: "linear",
           }
         );
 
@@ -150,20 +312,20 @@ export const performanceAnimation = ({
           target,
           [
             {
-              transform: "scale(1) translateX(0)",
+              scale: 1,
+              x: 0,
             },
             {
-              transform: "scale(2.5) translateX(-5px)",
+              scale: 2.5,
+              x: -32,
             },
           ],
           {
             duration: 500,
-            fill: "forwards",
-          },
-          true
+          }
         );
       },
-      { duration: 800 }
+      { duration: 1300 }
     );
   };
 
@@ -173,216 +335,156 @@ export const performanceAnimation = ({
         mTimeline.animate(
           urlBarEl,
           [
-            { opacity: 0, transform: "translateY(-2px)" },
-            { opacity: 1, transform: "translateY(-2px)" },
-            { opacity: 1, transform: "translateY(-4px) scale(1.2)" },
+            { opacity: 0, y: 0, scale: 0.1, offset: 0 },
+            // Chrome get's glitchy when transform-box is fill-box, the element translates from it's original position
+            { opacity: 1, y: -1, scale: 0.0001, offset: 0.1 },
+            { opacity: 1, y: -1, scale: 1, offset: 1 },
           ],
           {
-            fill: "forwards",
-            duration: 800,
+            duration: 500,
           }
         );
+      },
+      { duration: 800 }
+    );
+
+    mTimeline.scene(
+      () => {
         mTimeline.animate(
           browserEl,
           [
             {
-              transform: "scale(1) translate(0px, -2px)",
-            },
-            {
-              transform: "scale(1) translate(0px, -2px)",
-            },
-            {
-              transform: "scale(0.5) translate(0px, 1px)",
+              x: 0,
+              y: 0.5,
+              scale: 0.5,
             },
           ],
           {
-            fill: "forwards",
             duration: 800,
           }
         );
-      },
-      { duration: 1100 }
-    );
 
-    mTimeline.scene(
-      () => {
-        mTimeline.animate(
-          filesEl,
-          [
-            { opacity: 0, transform: "translateY(0.5px)" },
-            { opacity: 1, transform: "translateY(0.5px)" },
-          ],
-          {
-            fill: "forwards",
-            duration: 500,
-          }
-        );
-        mTimeline.animate(
-          urlBarEl,
-          [
-            { opacity: 1, transform: "translateY(-4px) scale(1.2)" },
-            { opacity: 0, transform: "translateY(-4px) scale(1.2)" },
-          ],
-          {
-            fill: "forwards",
-            duration: 500,
-          }
-        );
-      },
-      { duration: 800 }
-    );
-
-    mTimeline.scene(
-      () => {
-        mTimeline.animate(
-          filesEl,
-          [
-            { opacity: 1, transform: "scale(1) translateY(0.5px) " },
-            { opacity: 1, transform: "scale(1.8) translateY(1.5px) " },
-          ],
-          {
-            fill: "forwards",
-            duration: 500,
-          }
-        );
-      },
-      { duration: 800 }
-    );
-
-    mTimeline.scene(
-      () => {
-        const fileTranslate = 0.3;
-        const fileDuration = 300;
-
-        const keyframeOptions: KeyframeAnimationOptions = {
-          fill: "forwards",
-          duration: fileDuration,
-        };
-        const keyframes = ({
-          translate = 1,
-        }: {
-          translate: number;
-        }): TKeyframe[] => {
-          return [
-            { transform: "translateX(0px)" },
-            { transform: `translateX(${fileTranslate * translate}px)` },
-          ];
-        };
-
-        mTimeline.animate(
-          fileCSSEl,
-          keyframes({ translate: 1 }),
-          keyframeOptions
-        );
-        mTimeline.animate(
-          fileJSEl,
-          keyframes({ translate: 2 }),
-          keyframeOptions
-        );
-        mTimeline.animate(
-          fileImg0El,
-          keyframes({ translate: 3 }),
-          keyframeOptions
-        );
-        mTimeline.animate(
-          fileImg1El,
-          keyframes({ translate: 4 }),
-          keyframeOptions
-        );
-        mTimeline.animate(
-          fileImg2El,
-          keyframes({ translate: 5 }),
-          keyframeOptions
-        );
+        mTimeline.animate(urlBarEl, [{ y: -4.5, scale: 1.2 }], {
+          duration: 800,
+        });
       },
       { duration: 500 }
     );
 
     mTimeline.scene(
       () => {
-        const prevFileTranslateX = 0.3;
-        const fileDuration = 800;
-
-        const keyframeOptions = ({
-          delay = 0,
-        }: { delay?: number } = {}): KeyframeAnimationOptions => ({
-          fill: "forwards",
-          duration: fileDuration,
-          delay: 200 * delay,
-        });
-        const keyframes = ({
-          translate = 1,
-        }: {
-          translate: number;
-        }): TKeyframe[] => {
-          const keyframes = [
-            {
-              transform: `translate(${prevFileTranslateX * translate}px, 0px)`,
-            },
-            { transform: `translate(0px, 0px)` },
-            { transform: `translate(0px, 2px)` },
-          ];
-
-          if (!translate) {
-            keyframes.shift();
+        mTimeline.animate(
+          filesEl,
+          [
+            { opacity: 0, y: 0.5 },
+            { opacity: 1, y: 0.5 },
+          ],
+          {
+            duration: 500,
           }
+        );
+        mTimeline.animate(urlBarEl, [{ opacity: 1 }, { opacity: 0 }], {
+          duration: 500,
+        });
+      },
+      { duration: 800 }
+    );
 
-          return keyframes;
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(
+          filesEl,
+          [
+            {
+              y: 0.5,
+              scale: 1,
+            },
+            {
+              y: 3,
+              scale: 1.8,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+      },
+      { duration: 800 }
+    );
+
+    mTimeline.scene(
+      () => {
+        const animateFiles = (el: Element, multiplier: number) => {
+          mTimeline.animate(
+            el,
+            [
+              {
+                x: 0,
+              },
+              {
+                x: 0.3 * multiplier,
+              },
+            ],
+            { duration: 300, easing: "linear" }
+          );
         };
 
-        mTimeline.animate(
-          fileHTMLEl,
-          keyframes({ translate: 0 }),
-          keyframeOptions({ delay: 0 })
-        );
-        mTimeline.animate(
-          fileCSSEl,
-          keyframes({ translate: 1 }),
-          keyframeOptions({ delay: 1 })
-        );
-        mTimeline.animate(
-          fileJSEl,
-          keyframes({ translate: 2 }),
-          keyframeOptions({ delay: 2 })
-        );
-        mTimeline.animate(
-          fileImg0El,
-          keyframes({ translate: 3 }),
-          keyframeOptions({ delay: 3 })
-        );
-        mTimeline.animate(
-          fileImg1El,
-          keyframes({ translate: 4 }),
-          keyframeOptions({ delay: 4 })
-        );
-        mTimeline.animate(
-          fileImg2El,
-          keyframes({ translate: 5 }),
-          keyframeOptions({ delay: 5 })
-        );
+        animateFiles(fileCSSEl, 1);
+        animateFiles(fileJSEl, 2);
+        animateFiles(fileImg0El, 3);
+        animateFiles(fileImg1El, 4);
+        animateFiles(fileImg2El, 5);
+      },
+      { duration: 500 }
+    );
+
+    mTimeline.scene(
+      () => {
+        const animateFiles = (el: Element, multiplier: number) => {
+          const prevFileTranslateX = 0.3;
+
+          mTimeline.animate(
+            el,
+            [
+              {
+                x: prevFileTranslateX * multiplier,
+              },
+              {
+                x: 0,
+                y: 0,
+              },
+              { y: 2 },
+            ],
+            { duration: 800, delay: 200 * multiplier, easing: "linear" }
+          );
+        };
+
+        animateFiles(fileHTMLEl, 0);
+        animateFiles(fileCSSEl, 1);
+        animateFiles(fileJSEl, 2);
+        animateFiles(fileImg0El, 3);
+        animateFiles(fileImg1El, 4);
+        animateFiles(fileImg2El, 5);
       },
       { duration: 1800 }
     );
 
     mTimeline.scene(
       () => {
-        mTimeline.animate(filesEl, [{ opacity: 1 }, { opacity: 0 }], {
+        mTimeline.animate(filesEl, [{ opacity: 0 }], {
           duration: 0,
-          fill: "forwards",
         });
         mTimeline.animate(
           browserEl,
           [
             {
-              transform: "scale(0.5) translate(0px, 1px)",
-            },
-            {
-              transform: "scale(1) translate(-1px, -3px)",
+              scale: 1.2,
+              x: -1,
+              y: -3,
             },
           ],
           {
             duration: 500,
-            fill: "forwards",
           }
         );
         mTimeline.animate(
@@ -396,10 +498,23 @@ export const performanceAnimation = ({
             },
           ],
           {
-            duration: 200,
-            fill: "forwards",
-          },
-          true
+            duration: 300,
+          }
+        );
+        mTimeline.animate(
+          pageBtn,
+          [
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+            },
+          ],
+          {
+            delay: 300,
+            duration: 300,
+          }
         );
       },
       { duration: 1000 }
@@ -407,30 +522,31 @@ export const performanceAnimation = ({
 
     mTimeline.scene(
       () => {
-        const totalLength = Math.ceil(
-          // @ts-ignore
-          percentProgressBarEl.getTotalLength() + 0.5
-        );
+        const totalLength = 8;
         percentProgressBarEl.style.strokeDasharray = `${totalLength}px`;
         percentProgressBarEl.style.strokeDashoffset = `${totalLength}px`;
 
         mTimeline.animate(
           percentEl,
           [
-            { opacity: 0, transform: "translate(-0.5px, -3px)", offset: 0 },
+            { opacity: 0, x: 0, y: 0, scale: 0.01, offset: 0 },
             {
               opacity: 0,
-              transform: "translate(-0.5px, -3px) scale(0)",
+              x: -0.5,
+              y: -2.5,
+              scale: 0.0001,
               offset: 0.1,
             },
             {
               opacity: 1,
-              transform: "translate(-0.5px, -3px) scale(0)",
+              x: -0.5,
+              y: -2.5,
+              scale: 0,
               offset: 0.2,
             },
-            { opacity: 1, transform: "translate(-0.5px, -3px) scale(1)" },
+            { opacity: 1, scale: 1, x: -0.5, y: -2.5, offset: 1 },
           ],
-          { duration: 500, fill: "forwards" }
+          { duration: 500 }
         );
 
         mTimeline.setTimeout(() => {
@@ -438,7 +554,7 @@ export const performanceAnimation = ({
             el: percentTextEl,
             startNum: 0,
             endNum: 100,
-            duration: 1000,
+            duration: 1200,
           });
         }, 500);
 
@@ -452,30 +568,44 @@ export const performanceAnimation = ({
               strokeDashoffset: 0,
             },
           ],
-          { duration: 1000, delay: 500, fill: "forwards" }
+          { duration: 1400, delay: 500 }
         );
       },
-      { duration: 1700 }
+      { duration: 1900 }
     );
+
     mTimeline.scene(
       () => {
         mTimeline.animate(
           checkmarkEl,
           [
-            { opacity: 0, transform: "translate(-0.5px, -3px)", offset: 0 },
+            { opacity: 0, x: -0.5, y: -2.5, scale: 0, rotate: 90, offset: 0 },
             {
               opacity: 0,
-              transform: "translate(-0.5px, -3px) scale(0)",
+              x: -0.5,
+              y: -2.5,
+              scale: 0,
+              rotate: 90,
               offset: 0.1,
             },
             {
               opacity: 1,
-              transform: "translate(-0.5px, -3px) scale(0)",
+              scale: 0,
+              x: -0.5,
+              y: -2.5,
+              rotate: 90,
               offset: 0.2,
             },
-            { opacity: 1, transform: "translate(-0.5px, -3px) scale(1)" },
+            {
+              opacity: 1,
+              scale: 1,
+              x: -0.5,
+              y: -2.5,
+              rotate: 0,
+              offset: 1,
+            },
           ],
-          { duration: 500, fill: "forwards" }
+          { duration: 500 }
         );
       },
       { duration: 1000 }
@@ -483,59 +613,57 @@ export const performanceAnimation = ({
 
     mTimeline.scene(
       () => {
-        mTimeline.animate(percentEl, [{ opacity: 1 }, { opacity: 0 }], {
+        const resetFiles = (el: Element) => {
+          mTimeline.animate(
+            el,
+            [
+              {
+                x: 0,
+                y: 0,
+              },
+            ],
+            { duration: 0 }
+          );
+        };
+
+        mTimeline.animate(percentEl, [{ opacity: 0 }], {
           duration: 0,
-          fill: "forwards",
         });
-        mTimeline.animate(checkmarkEl, [{ opacity: 1 }, { opacity: 0 }], {
+        mTimeline.animate(filesEl, [{ y: 0.5, scale: 1 }], {
+          duration: 0,
+        });
+        mTimeline.animate(checkmarkEl, [{ opacity: 0 }], {
           duration: 500,
-          fill: "forwards",
         });
-        mTimeline.animate(pageEl, [{ opacity: 1 }, { opacity: 0 }], {
+        mTimeline.animate(pageEl, [{ opacity: 0 }], {
           duration: 500,
-          fill: "forwards",
         });
-        mTimeline.animate(
-          filesEl,
-          [{ opacity: 0, transform: "scale(1) translateY(0.5px) " }],
-          {
-            duration: 0,
-            fill: "forwards",
-          }
-        );
+        mTimeline.animate(pageBtn, [{ opacity: 0 }], {
+          duration: 500,
+        });
+
+        resetFiles(fileHTMLEl);
+        resetFiles(fileCSSEl);
+        resetFiles(fileJSEl);
+        resetFiles(fileImg0El);
+        resetFiles(fileImg1El);
+        resetFiles(fileImg2El);
       },
       { duration: 500 }
     );
 
     mTimeline.scene(
       () => {
-        mTimeline.clearAnimation([
-          percentEl,
-          percentProgressBarEl,
-          checkmarkEl,
-          pageEl,
-          fileHTMLEl,
-          fileCSSEl,
-          fileJSEl,
-          fileImg0El,
-          fileImg1El,
-          fileImg2El,
-          urlBarEl,
-        ]);
-
         mTimeline.animate(
           browserEl,
           [
             {
-              transform: "scale(1) translate(-1px, -3px)",
-            },
-            {
-              opacity: 1,
-              transform: "scale(1) translate(0px, -2px)",
+              x: 0,
+              y: -1,
+              scale: 1,
             },
           ],
           {
-            fill: "forwards",
             duration: 500,
           }
         );
@@ -544,7 +672,9 @@ export const performanceAnimation = ({
     );
   };
 
-  mTimeline.resetStyles = resetStyles;
+  // mTimeline.interactivity = interactivity;
+  mTimeline.svg = target;
+  // mTimeline.addInteractivity();
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();

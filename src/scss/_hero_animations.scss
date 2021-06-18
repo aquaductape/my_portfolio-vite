@@ -1,5 +1,12 @@
-.browser {
-  cursor: pointer;
+.page-btn {
+  .page-btn-bg {
+    transition: fill 250ms;
+  }
+  &:hover {
+    .page-btn-bg {
+      fill: #000000ff;
+    }
+  }
 }
 
 .title-bar-mac {

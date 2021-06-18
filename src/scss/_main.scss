@@ -472,7 +472,7 @@ section {
 
 .fullname-shadow {
   path {
-    transition: transform 250ms;
+    // transition: transform 250ms;
   }
 }
 
@@ -841,7 +841,7 @@ section {
 @media (min-width: 500px) {
   .fullname-shadow {
     path {
-      transition: transform 150ms;
+      // transition: transform 150ms;
     }
   }
   .about-me-group-list {
