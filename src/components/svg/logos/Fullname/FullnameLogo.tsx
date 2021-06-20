@@ -118,7 +118,7 @@ const FullnameLogo = (props: { ref: HTMLElement }) => {
       return;
     }
 
-    // animateBGs();
+    animateBGs();
   });
 
   return (
