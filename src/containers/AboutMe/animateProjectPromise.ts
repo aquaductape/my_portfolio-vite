@@ -140,10 +140,8 @@ export class MainTimeline {
       this.finished = false;
       // this.running = false
 
-      console.log("firefffff", newDuration);
       this.setTimeout(() => {
         this.closingScene = null;
-        console.log("firefff");
         run();
       }, newDuration + 100);
 
@@ -237,7 +235,6 @@ export class MainTimeline {
       const destx = to;
 
       const result = startx + (destx - startx!) * val;
-      // console.log({ result, destx, startx, val });
 
       updateStartKeyframe(from, key);
       current[key] = result;
@@ -282,7 +279,6 @@ export class MainTimeline {
       const matchingRes = attr.match(/^attr-(.)/)!;
       if (matchingRes && matchingRes[1]) attr = matchingRes[1];
 
-      console.log({ attr, val });
       el.setAttribute(camelToKebabCase(attr), val);
     }
 

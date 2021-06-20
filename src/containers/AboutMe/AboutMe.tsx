@@ -1,6 +1,5 @@
 // import { gsap } from "gsap";
 import {
-  iconDownload,
   iconGithub,
   iconLinkedin,
   iconStackOverflow,
@@ -9,20 +8,15 @@ import {
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
 import {
   For,
-  onMount,
   JSX,
   createState,
   createEffect,
   batch,
   on,
   createSignal,
+  useContext,
 } from "solid-js";
-import {
-  // AccessabilityIcon,
-  // AirplaneIcon,
-  // ResponsiveIcon,
-  ResumeIcon,
-} from "../../components/svg/icons/icons";
+import { ResumeIcon } from "../../components/svg/icons/icons";
 import {
   A11yIcon,
   PerformanceIcon,
@@ -32,13 +26,10 @@ import {
   endAnimateProjectPromise,
   startAnimateProjectPromise,
 } from "./animateProjectPromise";
-import {
-  animateDuplicatedPath,
-  createDuplicatedPaths,
-  hideFullNameLetterCombo,
-} from "../../components/svg/logos/Fullname/animation";
 import FullnameLogo from "../../components/svg/logos/Fullname/FullnameLogo";
 import useMatchMedia from "../../hooks/useMatchMedia";
+import { GlobalContext } from "../../context/context";
+import AboutMeLogo from "./AboutMeLogo";
 
 type TSocialLink = {
   href: string;
@@ -55,6 +46,8 @@ type TProjectPromise = {
 };
 
 const AboutMe = () => {
+  const [_, { setHero }] = useContext(GlobalContext);
+
   const socialLinks: TSocialLink[] = [
     {
       ariaLabel: "Github",
@@ -100,62 +93,11 @@ const AboutMe = () => {
     },
   ]);
 
-  const { minWidth_400 } = useMatchMedia();
   const [projectPromiseAnimationActive, setProjectPromiseAnimationActive] =
     createSignal("");
 
   const [init, setInit] = createSignal(true);
-  let hasCalcBCR = false;
-  let bcr!: DOMRect;
-  let prevScrollY = 0;
-  let svgEl!: HTMLElement;
   let projectPromisesGroupEl!: HTMLUListElement;
-  let paths: HTMLElement[];
-  let animationReady = false;
-  let deltaSize = minWidth_400.matches ? 15 : 5;
-
-  minWidth_400.addEventListener("change", (e) => {
-    deltaSize = e.matches ? 15 : 5;
-  });
-
-  const getBCR = () => {
-    if (prevScrollY !== window.scrollY) {
-      bcr = svgEl.getBoundingClientRect();
-      prevScrollY = window.scrollY;
-      return bcr;
-    }
-
-    if (hasCalcBCR) return bcr;
-
-    hasCalcBCR = true;
-    bcr = svgEl.getBoundingClientRect();
-    return bcr;
-  };
-
-  const onMousemove = (e: MouseEvent) => {
-    if (!animationReady) return;
-
-    const bcr = getBCR();
-    const midX = bcr.width / 2;
-    const midY = bcr.height / 2;
-    const deltaX = e.clientX - bcr.left - midX;
-    const deltaY = e.clientY - +bcr.top - midY;
-
-    animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
-  };
-
-  const onTouchmove = (e: TouchEvent) => {
-    if (!animationReady) return;
-
-    const touch = e.touches[0] || e.changedTouches[0];
-    const bcr = getBCR();
-    const midX = bcr.width / 2;
-    const midY = bcr.height / 2;
-    const deltaX = touch.clientX - bcr.left - midX;
-    const deltaY = touch.clientY - +bcr.top - midY;
-
-    animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
-  };
 
   const mouseEnterProjectPromise = (idx: number) => {
     const filteredPP = projectPromises
@@ -164,6 +106,7 @@ const AboutMe = () => {
 
     batch(() => {
       setInit(false);
+      setHero({ bgActive: false });
       setProjectPromises(filteredPP, "active", false);
       setProjectPromises(idx, "active", true);
       setProjectPromiseAnimationActive(projectPromises[idx].type);
@@ -172,6 +115,7 @@ const AboutMe = () => {
 
   const mouseLeaveProjectPromise = () => {
     batch(() => {
+      setHero({ bgActive: true });
       setProjectPromiseAnimationActive("");
       setProjectPromises(
         { from: 0, to: projectPromises.length - 1 },
@@ -180,15 +124,6 @@ const AboutMe = () => {
       );
     });
   };
-
-  onMount(() => {
-    // document.body.addEventListener("mousemove", function init() {
-    //   paths = createDuplicatedPaths(svgEl);
-    //   hideFullNameLetterCombo();
-    //   animationReady = true;
-    //   document.body.removeEventListener("mousemove", init);
-    // });
-  });
 
   createEffect(() => {
     if (init()) return;
@@ -208,23 +143,10 @@ const AboutMe = () => {
   });
 
   return (
-    <section
-      id="about-me"
-      class="about-me"
-      onMouseMove={onMousemove}
-      // onTouchMove={onTouchmove}
-    >
+    <section id="about-me" class="about-me">
       <div class="about-me-inner">
         <div class="about-me-content">
-          <h1
-            id="about-me-logo"
-            class="about-me-logo"
-            aria-label="Caleb Taylor"
-            tabindex="-1"
-          >
-            <FullnameLogo ref={svgEl}></FullnameLogo>
-          </h1>
-
+          <AboutMeLogo></AboutMeLogo>
           <div class="about-me-intro">
             <p class="about-me-intro__declaration">
               Dedicated self-taught Front-End developer.
@@ -247,22 +169,16 @@ const AboutMe = () => {
                         props.active && props.type === "performance"
                           ? "active-performance"
                           : ""
-                      }
-
-                      ${
+                      } ${
                         props.active && props.type === "responsive"
                           ? "active-responsive"
                           : ""
-                      }
-
-                      ${
+                      } ${
                         !props.active &&
                         projectPromiseAnimationActive() === "performance"
                           ? "deactivate"
                           : ""
-                      }
-
-                      `}
+                      }`}
                       onMouseEnter={() => mouseEnterProjectPromise(idx())}
                     >
                       <span class="about-me-icon-container">

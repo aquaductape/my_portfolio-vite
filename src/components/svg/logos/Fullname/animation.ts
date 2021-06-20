@@ -7,10 +7,11 @@ export const createDuplicatedPaths = (svgEl: HTMLElement) => {
     ".fullname-shadow"
   ) as HTMLElement;
   const fullNameShadowBgContainer = svgEl.querySelector(
-    ".full-name-shadow-bg-container"
+    ".fullname-shadow-bg-container"
   ) as HTMLElement;
   let firstEl = fullNameShadowEl.firstElementChild as HTMLElement;
 
+  // debugger;
   const transition = "transform 250ms";
   const paths = Array.from({ length: numberOfNodes }, (_, idx) => {
     if (idx === 0) {
@@ -27,6 +28,10 @@ export const createDuplicatedPaths = (svgEl: HTMLElement) => {
     fullNameShadowEl.appendChild(path);
   });
 
+  setTimeout(() => {
+    paths.forEach((path) => (path.style.transition = ""));
+  }, 800);
+
   return paths;
 };
 
@@ -36,7 +41,7 @@ let revertActive = false;
 let stutterTimeoutId = null as unknown as number;
 let disabledCounter = 0;
 const disabledCounterMax = 180;
-let randomCounterMax = 0;
+let randomCounterMax = Math.random() * 300 + 150;
 
 const stutterRevert = ({
   max,
@@ -81,7 +86,6 @@ const animateStutter = ({
   disabledCounter++;
 
   if (disabledCounter <= disabledCounterMax + randomCounterMax) {
-    randomCounterMax = Math.random() * 100;
     return;
   }
 
@@ -92,10 +96,16 @@ const animateStutter = ({
   stutter += 0.5;
 
   window.clearTimeout(stutterTimeoutId);
-  stutterTimeoutId = window.setTimeout(
-    () => stutterRevert({ max, paths, steps, x, y }),
-    500
-  );
+  stutterTimeoutId = window.setTimeout(() => {
+    paths.forEach((path) => (path.style.transition = "transform 250ms"));
+
+    randomCounterMax = Math.random() * 300 + 150;
+    stutterRevert({ max, paths, steps, x, y });
+
+    setTimeout(() => {
+      paths.forEach((path) => (path.style.transition = ""));
+    }, 1200);
+  }, 500);
 
   if (stutter >= 25) {
     revertActive = true;

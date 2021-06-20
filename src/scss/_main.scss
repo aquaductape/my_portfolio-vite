@@ -110,7 +110,6 @@ section {
   // background: var(--nav-bg-color);
   background: linear-gradient(90deg, #1d2d4b, var(--nav-bg-color) 75%);
   z-index: 200;
-  pointer-events: none;
   transition: transform 500ms;
 
   &::before {
@@ -184,7 +183,6 @@ section {
   font-size: 16px;
   color: var(--nav-txt-color);
   padding: 20px 12px;
-  pointer-events: all;
   transition: 500ms color;
 
   .nav-list-link-content {
@@ -375,6 +373,14 @@ section {
   }
 }
 
+.sentinel-hero-animation {
+  height: 0;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .contact-item {
   margin: 0;
   margin-bottom: 10px;
@@ -403,14 +409,15 @@ section {
 }
 
 .about-me-logo {
+  position: relative;
   margin-top: 0px;
   height: 195px;
   margin-bottom: -5px;
+  overflow: hidden;
 
   svg {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     transform: translateZ(0);
   }
 }

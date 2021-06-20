@@ -1,13 +1,7 @@
 import { iconCode, iconLink } from "../../components/font-awesome/icons";
 import {
-  BackArrowIcon,
-  TableOfContentsIcon,
-} from "../../components/svg/icons/icons";
-import {
-  batch,
   createEffect,
   createSignal,
-  on,
   onCleanup,
   onMount,
   Show,
@@ -17,11 +11,8 @@ import { GlobalContext } from "../../context/context";
 import smoothScrollTo from "../../utils/smoothScrollTo";
 import { flip } from "../../utils/flip";
 import BlogPage from "./BlogPage";
-import reflow from "../../utils/reflow";
-import { capitalize } from "../../utils";
 import CONSTANTS from "../../constants";
 import style from "./Blog.module.scss";
-import { TableOfContentsDropdown } from "./TableOfContents/TableOfContents";
 import Nav from "./Nav/Nav";
 
 const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {

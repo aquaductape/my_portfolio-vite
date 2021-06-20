@@ -17,6 +17,11 @@ type THeader = {
   enableTranslate: boolean;
 };
 
+type THero = {
+  bgActive: boolean;
+  active: boolean;
+};
+
 type TBlog = {
   type: "3nRow" | "facify" | null;
   active: boolean;
@@ -32,6 +37,7 @@ type TBlogTableOfContents = {
 };
 
 export type TGlobalState = {
+  hero: THero;
   smoothScroll: TSmoothScroll;
   header: THeader;
   blog: TBlog;
@@ -41,6 +47,7 @@ export type TGlobalState = {
 export type TGlobalContext = [
   TGlobalState,
   {
+    setHero(props: Partial<THero>): void;
     setSmoothScroll(props: Partial<TSmoothScroll>): void;
     setHeader(props: Partial<THeader>): void;
     setBlog(props: Partial<TBlog>): void;
@@ -55,6 +62,10 @@ export type TGlobalContext = [
 ];
 
 const globalState = (): TGlobalState => ({
+  hero: {
+    bgActive: false,
+    active: false,
+  },
   smoothScroll: {
     active: false,
     debounceActive: false,
@@ -127,6 +138,15 @@ const GlobalProvider = (props: { children: any }) => {
   const store: TGlobalContext = [
     state,
     {
+      setHero: ({ bgActive, active }) => {
+        if (bgActive != null) {
+          setState("hero", "bgActive", bgActive);
+        }
+
+        if (active != null) {
+          setState("hero", "active", active);
+        }
+      },
       setBlog: ({ active, type, import: _import, finishedStaging }) => {
         batch(() => {
           if (active !== undefined) {

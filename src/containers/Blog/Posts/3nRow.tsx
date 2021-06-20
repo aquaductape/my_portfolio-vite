@@ -56,23 +56,8 @@ const Post3nRow = () => {
   return (
     <div class={style["blog-post"]}>
       <MainTableOfContents></MainTableOfContents>
+      <Heading2>TLDR</Heading2>
 
-      <Heading2>How to Use</Heading2>
-      <p>
-        It's a Tic Tac Toe game. What is Tic Tac Toe? Well you play against one
-        opponent, where you take turns filling out a 3x3 grid, the first person
-        to fill out 3 cells that form a line, either horizontal, vertical or
-        diagonal, wins the game!
-      </p>
-      <p>
-        To play against the opponent, there's a guided menu when you open the
-        page, where you can play against a Computer, or online multiplayer, or
-        with a friend that's literally next to you. You can change the color or
-        shape of your marker ( the default shape are 'X' or 'O'), by selecting
-        the button dropdown that holds the player marker near the top of the
-        screen. Doing this doesn't affect gameplay, but provides more fun to the
-        game.
-      </p>
       <Heading2>Design</Heading2>
       <p>
         The theme is fun playful design. There are no sharp corners, from
