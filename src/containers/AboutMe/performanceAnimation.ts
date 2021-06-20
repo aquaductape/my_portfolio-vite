@@ -7,6 +7,9 @@ const state = {
     blue: "#43b7ff",
     grey: "#b3b3b3",
   },
+  closed: false,
+  expanded: false,
+  minimized: false,
 };
 
 const interactivity: TInteractivity[] = [
@@ -672,7 +675,7 @@ export const performanceAnimation = ({
     );
   };
 
-  // mTimeline.interactivity = interactivity;
+  mTimeline.interactivity = interactivity;
   mTimeline.svg = target;
   // mTimeline.addInteractivity();
   mTimeline.start = start;

@@ -426,20 +426,28 @@ section {
   margin-left: 15px;
 }
 
+.about-me-icon-container {
+  transition: transform 500ms;
+}
+
+.about-me-promise-description {
+  transition: transform 500ms, opacity 500ms;
+
+  &.deactivate {
+    opacity: 0.7;
+  }
+}
+
 .about-me-list {
   display: flex;
   align-items: center;
   padding: 2.5px 0;
 
-  > span {
-    transition: transform 500ms;
+  .about-me-icon {
+    transition: transform 500ms, opacity 500ms;
   }
 
   &.active {
-    > span {
-      transform: translateX(50px);
-    }
-
     .about-me-icon {
       transition: transform 100ms, opacity 100ms;
     }
@@ -447,11 +455,21 @@ section {
 
   &.active-performance {
     .about-me-icon-container {
-      transform: translateX(14px);
+      transform: translateX(35px);
     }
 
     .about-me-promise-description {
-      transform: none;
+      transform: translateX(15px);
+    }
+  }
+
+  &.active-a11y {
+    .about-me-icon-container {
+      transform: translateX(50px);
+    }
+
+    .about-me-promise-description {
+      transform: translateX(25px);
     }
   }
 

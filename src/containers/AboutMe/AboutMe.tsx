@@ -174,6 +174,10 @@ const AboutMe = () => {
                           ? "active-responsive"
                           : ""
                       } ${
+                        props.active && props.type === "a11y"
+                          ? "active-a11y"
+                          : ""
+                      } ${
                         !props.active &&
                         projectPromiseAnimationActive() === "performance"
                           ? "deactivate"
@@ -192,7 +196,13 @@ const AboutMe = () => {
                           <Icon></Icon>
                         </span>
                       </span>
-                      <span class="about-me-promise-description">
+                      <span
+                        class={`about-me-promise-description ${
+                          !props.active && !!projectPromiseAnimationActive()
+                            ? "deactivate"
+                            : ""
+                        }`}
+                      >
                         {props.content}
                       </span>
                     </li>

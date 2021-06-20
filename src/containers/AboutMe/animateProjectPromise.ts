@@ -79,12 +79,12 @@ export class MainTimeline {
   private timeoutMap: Map<number, boolean>;
   private scenes: { cb: () => void; duration?: number }[];
   private sceneRunning: boolean;
-  private timeoutRunning: boolean;
   private closingScene: {
     duration: number;
     timestamp: number;
     timeoutId: number | null;
   } | null;
+  private interactivityAdded: boolean;
   constructor(id: string) {
     this.init = true;
     this.id = id;
@@ -96,14 +96,16 @@ export class MainTimeline {
     this.scenes = [];
     this.closingScene = null;
     this.sceneRunning = false;
-    this.timeoutRunning = false;
     this.start = () => {};
     this.loop = () => {};
     this.resetStyles = () => {};
     this.interactivity = [];
+    this.interactivityAdded = false;
   }
 
   addInteractivity() {
+    if (this.interactivityAdded) return;
+    this.interactivityAdded = true;
     this.svg!.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;
@@ -128,6 +130,7 @@ export class MainTimeline {
 
     const run = () => {
       setTimeout(() => this.svg!.classList.add("active"));
+      this.addInteractivity();
       this._start();
       this._loop(true);
     };
