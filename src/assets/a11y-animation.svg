@@ -21,11 +21,24 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs91" />
+     id="defs91">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath887">
+      <rect
+         style="fill:#ffffff;stroke:none;stroke-width:0.0731799;stroke-linecap:round;stroke-dashoffset:16.9701"
+         id="rect889"
+         width="5.3433719"
+         height="7.1913681"
+         x="1.7195772"
+         y="0.25681958" />
+    </clipPath>
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -39,74 +52,121 @@
      inkscape:window-height="1016"
      id="namedview89"
      showgrid="false"
-     inkscape:zoom="90.509668"
-     inkscape:cx="5.3419268"
-     inkscape:cy="2.207732"
+     inkscape:zoom="93.230796"
+     inkscape:cx="3.7704396"
+     inkscape:cy="3.4319813"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg87" />
+     inkscape:current-layer="svg87"
+     inkscape:document-rotation="0"
+     inkscape:snap-bbox="false"
+     inkscape:object-paths="false"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:object-nodes="false" />
   <g
-     class="card"
-     id="g28">
+     id="g950"
+     class="card">
     <path
-       d="M3.672 2.293h4.253c.13 0 .234.104.234.234v2.622c0 .13-.104.233-.234.233H3.672a.233.233 0 01-.234-.233V2.527c0-.13.104-.234.234-.234z"
-       fill="#fff"
+       d="m 3.672,2.293 h 4.253 c 0.13,0 0.234,0.104 0.234,0.234 v 2.622 c 0,0.13 -0.104,0.233 -0.234,0.233 H 3.672 A 0.233,0.233 0 0 1 3.438,5.149 V 2.527 c 0,-0.13 0.104,-0.234 0.234,-0.234 z"
+       fill="#ffffff"
        paint-order="markers fill stroke"
        id="path2" />
-    <path
-       d="M4.147 3.226h.174v.527h.632v-.527h.173v1.285h-.173v-.612H4.32v.612h-.174zm1.319.321h.158v.964h-.158zm0-.375h.158v.2h-.158z"
-       aria-label="Hi"
-       fill="#8d8d8d"
-       id="path4" />
-    <path
-       d="M6.958 5.376V2.79"
-       fill="none"
-       stroke="green"
-       stroke-width=".059"
-       id="path6" />
     <g
-       paint-order="markers fill stroke"
-       id="g12">
+       id="g930"
+       class="card-art">
       <path
-         d="M6.437 3.521s.113.254.249.39.205.141.244.102z"
-         fill="#8fff8f"
-         id="path8" />
+         d="m 8.001,2.748 a 0.292,0.292 0 1 1 -0.584,0 a 0.292,0.292 0 0 1 0.584,0 z"
+         fill="#5858ff"
+         paint-order="markers fill stroke"
+         id="path26"
+         class="moon" />
       <path
-         d="M6.437 3.521s.254.113.39.249.141.205.103.243z"
-         fill="green"
-         id="path10" />
-    </g>
-    <g
-       stroke-width=".912"
-       paint-order="markers fill stroke"
-       id="g18">
+         id="path920"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
+         d="m 7.3384513,3.2015026 c 0,0.1620489 -0.1313659,0.2934155 -0.2934156,0.2934155 c -0.095772,0 -0.1808281,-0.045886 -0.2343816,-0.116872 C 6.8653026,2.9746183 7.190526,2.9740192 7.2068244,2.9566843 c 0.079319,0.052523 0.1316265,0.1425622 0.1316269,0.2448183 z"
+         sodipodi:nodetypes="ssccs"
+         class="moon-shadow" />
       <path
-         d="M7.528 4.03s-.124.278-.273.427c-.149.149-.224.155-.267.113z"
-         fill="#8fff8f"
-         id="path14" />
-      <path
-         d="M7.528 4.03s-.278.123-.427.272c-.15.15-.156.225-.113.268z"
-         fill="green"
-         id="path16" />
-    </g>
-    <g
-       paint-order="markers fill stroke"
-       id="g24">
-      <path
-         d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
+         d="m 7.1992351,2.637523 c 0,0 -0.240866,0.1244069 -0.3410179,0.4981784 C 6.7580657,3.5094735 6.8434748,3.5375212 6.94944,3.5659147 c 0.107893,0.02891 0.1958831,0.047325 0.296035,-0.3264476 C 7.3456277,2.8656951 7.2001983,2.6377812 7.2001983,2.6377812 Z"
          fill="#ff2d79"
-         id="path20" />
+         id="path947"
+         style="fill:#fe2dff;fill-opacity:1;stroke-width:0.997313;paint-order:markers fill stroke"
+         class="flower-petal-3" />
       <path
-         d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-         fill="#d42100"
-         id="path22" />
+         d="m 6.9543595,2.4361212 c 0,0 -0.2354971,0.2144082 -0.2354979,0.6689991 c 8e-7,0.4545917 0.1054471,0.4604498 0.2343262,0.4604497 c 0.1312224,-2e-7 0.2366687,-0.00586 0.2366687,-0.4604495 C 7.1898565,2.6505287 6.955531,2.436121 6.955531,2.436121 Z"
+         fill="#ff2d79"
+         id="path945"
+         style="fill:#ff2db5;fill-opacity:1;stroke-width:1.17163;paint-order:markers fill stroke"
+         class="flower-petal-2" />
+      <path
+         d="M 6.958,5.376 V 3.4038258"
+         fill="none"
+         stroke="#008000"
+         stroke-width="0.059"
+         id="path6"
+         sodipodi:nodetypes="cc"
+         class="flower-stem" />
+      <g
+         id="g1002"
+         class="flower-leaf-1">
+        <path
+           d="m 6.2437709,3.777661 c 0,0 0.2595082,0.099702 0.4518412,0.099702 c 0.1923331,0 0.1695373,-0.067202 0.244659,-0.1004092 z"
+           fill="#8fff8f"
+           id="path8"
+           sodipodi:nodetypes="cscc"
+           style="paint-order:markers fill stroke" />
+        <path
+           d="m 6.2437709,3.777661 c 0,0 0.2595082,-0.099702 0.4518412,-0.099702 c 0.1923331,0 0.244659,0.045255 0.244659,0.098995 z"
+           fill="#008000"
+           id="path10"
+           style="paint-order:markers fill stroke" />
+      </g>
+      <g
+         id="g996"
+         class="flower-leaf-0">
+        <path
+           d="m 7.733516,4.311477 c 0,0 -0.2842569,0.1088945 -0.4949747,0.1088945 c -0.2107178,0 -0.1921129,-0.063321 -0.2687006,-0.1088945 z"
+           fill="#8fff8f"
+           id="path14"
+           sodipodi:nodetypes="cscc"
+           style="stroke-width:0.912;paint-order:markers fill stroke" />
+        <path
+           d="m 7.733516,4.311477 c 0,0 -0.2835498,-0.1096015 -0.4942676,-0.1096015 c -0.212132,0 -0.2694077,0.04879 -0.2694077,0.1096015 z"
+           fill="#008000"
+           id="path16"
+           style="stroke-width:0.912;paint-order:markers fill stroke" />
+      </g>
+      <g
+         paint-order="markers fill stroke"
+         id="g24">
+        <path
+           d="m 6.969,2.6 c 0,0 -0.201,0.183 -0.201,0.571 c 0,0.388 0.09,0.393 0.2,0.393 C 7.08,3.564 7.17,3.559 7.17,3.171 C 7.17,2.783 6.97,2.6 6.97,2.6 Z"
+           fill="#ff2d79"
+           id="path20"
+           class="flower-petal-1" />
+        <path
+           d="m 6.8,2.957 c 0,0 -0.032,-0.174 -0.032,0.214 c 0,0.388 0.09,0.393 0.2,0.393 C 7.203,3.544 6.828,3.152 6.8,2.957 Z"
+           fill="#d42100"
+           id="path22"
+           class="flower-petal-0" />
+      </g>
     </g>
-    <path
-       d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-       fill="#5858ff"
-       paint-order="markers fill stroke"
-       id="path26" />
+    <text
+       xml:space="preserve"
+       style="font-size:1.87254px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.108032"
+       x="3.9804175"
+       y="4.5209889"
+       id="text876"
+       class="card-text"><tspan
+         sodipodi:role="line"
+         id="tspan874"
+         x="3.9804175"
+         y="4.5209889"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.87254px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.108032">Hi</tspan></text>
   </g>
   <g
      id="g958"
@@ -121,6 +181,23 @@
        stroke-dashoffset="16.97"
        paint-order="markers fill stroke"
        id="path30" />
+    <g
+       id="g990"
+       class="color-container">
+      <circle
+         style="fill:none;stroke:#000000;stroke-width:0.0472376;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
+         id="path966"
+         cx="4.5514998"
+         cy="2.6875"
+         r="0.40388119" />
+      <circle
+         style="fill:#ff0000;stroke:none;stroke-width:0.0327132;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
+         id="circle968"
+         cx="4.5514998"
+         cy="2.6875"
+         r="0.27969763"
+         class="color" />
+    </g>
     <g
        class="contrast-small-fail"
        id="g36">
@@ -215,10 +292,6 @@
          y="3.0303888"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:0.979539px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.0565121">3.3</tspan></text>
   </g>
-  <path
-     d="M5.001 2.347a.734.734 0 00.039-1.3.688.688 0 00-.334-.074.674.674 0 00-.334.074.767.767 0 00-.382.646c0 .294.223.598.508.691.137.045.37.028.503-.037zm-.894 4.304c.06-.05.091-.117.168-.364.11-.353.22-.783.301-1.183.058-.281.085-.348.14-.348.067 0 .107.106.203.537.108.48.288 1.142.346 1.27.07.152.286.192.41.075.09-.085.093-.178.012-.441-.253-.827-.41-1.64-.456-2.375-.031-.487-.016-.596.091-.65a1.38 1.38 0 01.326-.049c.596-.037 1.18-.116 1.264-.17.194-.127.106-.462-.123-.464-.041 0-.245.02-.453.047-.98.121-2.233.127-3.384.015-.365-.036-.448-.021-.515.088-.108.178-.003.375.216.407.176.025.995.087 1.154.087.18 0 .292.03.366.1.051.048.055.07.055.304 0 .659-.147 1.549-.399 2.41-.117.402-.145.588-.096.648.107.13.26.153.374.056z"
-     fill="#888f9b"
-     id="path85" />
   <g
      id="g978"
      class="rgb">
@@ -230,7 +303,8 @@
        ry="0.227"
        fill="#ffffff"
        paint-order="markers fill stroke"
-       id="rect66" />
+       id="rect66"
+       style="stroke:#000000;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none" />
     <text
        x="1.7106009"
        y="3.0413954"
@@ -248,15 +322,18 @@
            class="rgb-r"
            fill="#d20000"
            stroke-width="0.011"
-           id="tspan68">R</tspan><tspan
+           id="tspan68"
+           style="-inkscape-font-specification:'Ubuntu Medium';font-family:Ubuntu;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal">R</tspan><tspan
            class="rgb-g"
            fill="#0d9c00"
            stroke-width="0.011"
-           id="tspan70">G</tspan><tspan
+           id="tspan70"
+           style="-inkscape-font-specification:'Ubuntu Medium';font-family:Ubuntu;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal">G</tspan><tspan
            class="rgb-b"
            fill="#0000d6"
            stroke-width="0.011"
-           id="tspan72">B</tspan></tspan></text>
+           id="tspan72"
+           style="-inkscape-font-specification:'Ubuntu Medium';font-family:Ubuntu;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal">B</tspan></tspan></text>
     <use
        xlink:href="#a"
        transform="translate(0.77)"
@@ -284,4 +361,10 @@
        x="0"
        y="0" />
   </g>
+  <path
+     d="M 5.001,2.347 A 0.734,0.734 0 0 0 5.04,1.047 A 0.688,0.688 0 0 0 4.706,0.973 A 0.674,0.674 0 0 0 4.372,1.047 A 0.767,0.767 0 0 0 3.99,1.693 c 0,0.294 0.223,0.598 0.508,0.691 C 4.635,2.429 4.868,2.412 5.001,2.347 Z M 4.107,6.651 C 4.167,6.601 4.198,6.534 4.275,6.287 C 4.385,5.934 4.495,5.504 4.576,5.104 C 4.634,4.823 4.661,4.756 4.716,4.756 c 0.067,0 0.107,0.106 0.203,0.537 c 0.108,0.48 0.288,1.142 0.346,1.27 c 0.07,0.152 0.286,0.192 0.41,0.075 C 5.765,6.553 5.768,6.46 5.687,6.197 C 5.434,5.37 5.277,4.557 5.231,3.822 C 5.2,3.335 5.215,3.226 5.322,3.172 A 1.38,1.38 0 0 1 5.648,3.123 C 6.244,3.086 6.828,3.007 6.912,2.953 C 7.106,2.826 7.018,2.491 6.789,2.489 c -0.041,0 -0.245,0.02 -0.453,0.047 C 5.356,2.657 4.103,2.663 2.952,2.551 C 2.587,2.515 2.504,2.53 2.437,2.639 C 2.329,2.817 2.434,3.014 2.653,3.046 c 0.176,0.025 0.995,0.087 1.154,0.087 c 0.18,0 0.292,0.03 0.366,0.1 c 0.051,0.048 0.055,0.07 0.055,0.304 c 0,0.659 -0.147,1.549 -0.399,2.41 C 3.712,6.349 3.684,6.535 3.733,6.595 c 0.107,0.13 0.26,0.153 0.374,0.056 z"
+     fill="#888f9b"
+     id="path85"
+     class="person"
+     clip-path="url(#clipPath887)" />
 </svg>

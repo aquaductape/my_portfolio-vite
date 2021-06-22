@@ -12,7 +12,7 @@ export const A11yIcon = () => {
       onClick={onClick}
     >
       <defs>
-        <mask maskUnits="userSpaceOnUse" id="a11y-b">
+        <clipPath clipPathUnits="userSpaceOnUse" id="a11y-b">
           <path
             fill="#fff"
             stroke-width=".073"
@@ -20,7 +20,7 @@ export const A11yIcon = () => {
             stroke-dashoffset="16.97"
             d="M1.72.257h5.343v7.191H1.72z"
           />
-        </mask>
+        </clipPath>
 
         <filter id="a11y-protanopia" color-interpolation-filters="sRGB">
           <feColorMatrix
@@ -369,7 +369,7 @@ export const A11yIcon = () => {
           opacity="0"
         />
       </g>
-      <g mask="url(#a11y-b)" class="person-container">
+      <g clip-path="url(#a11y-b)" class="person-container">
         <path
           d="M5.001 2.347a.734.734 0 00.039-1.3.688.688 0 00-.334-.074.674.674 0 00-.334.074.767.767 0 00-.382.646c0 .294.223.598.508.691.137.045.37.028.503-.037zm-.894 4.304c.06-.05.091-.117.168-.364.11-.353.22-.783.301-1.183.058-.281.085-.348.14-.348.067 0 .107.106.203.537.108.48.288 1.142.346 1.27.07.152.286.192.41.075.09-.085.093-.178.012-.441-.253-.827-.41-1.64-.456-2.375-.031-.487-.016-.596.091-.65a1.38 1.38 0 01.326-.049c.596-.037 1.18-.116 1.264-.17.194-.127.106-.462-.123-.464-.041 0-.245.02-.453.047-.98.121-2.233.127-3.384.015-.365-.036-.448-.021-.515.088-.108.178-.003.375.216.407.176.025.995.087 1.154.087.18 0 .292.03.366.1.051.048.055.07.055.304 0 .659-.147 1.549-.399 2.41-.117.402-.145.588-.096.648.107.13.26.153.374.056z"
           fill="#888f9b"
@@ -1025,7 +1025,7 @@ export const ResponsiveIcon = () => {
       onClick={onClick}
     >
       <defs>
-        <mask maskUnits="userSpaceOnUse" id="responsive-a">
+        <clipPath clipPathUnits="userSpaceOnUse" id="responsive-a">
           <rect
             width="5.099"
             height="3.14"
@@ -1040,8 +1040,8 @@ export const ResponsiveIcon = () => {
             paint-order="markers fill stroke"
             class="monitor-mask"
           />
-        </mask>
-        <mask maskUnits="userSpaceOnUse" id="responsive-b">
+        </clipPath>
+        <clipPath clipPathUnits="userSpaceOnUse" id="responsive-b">
           <rect
             width="2.861"
             height="3.555"
@@ -1054,7 +1054,7 @@ export const ResponsiveIcon = () => {
             stroke-linecap="round"
             stroke-dashoffset="16.97"
           />
-        </mask>
+        </clipPath>
       </defs>
 
       <g
@@ -1070,7 +1070,7 @@ export const ResponsiveIcon = () => {
             />
             <g
               class="page-container"
-              mask="url(#responsive-a)"
+              clip-path="url(#responsive-a)"
               style="transform-origin: center; "
             >
               <g
@@ -1227,7 +1227,7 @@ export const ResponsiveIcon = () => {
                 class="monitor-border"
               />
             </g>
-            <g mask="url(#responsive-b)" class="mobile-container">
+            <g clip-path="url(#responsive-b)" class="mobile-container">
               <rect
                 width="1.746"
                 height="2.83"

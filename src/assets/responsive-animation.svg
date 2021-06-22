@@ -36,9 +36,9 @@
      inkscape:window-height="1016"
      id="namedview74"
      showgrid="false"
-     inkscape:zoom="65.067128"
-     inkscape:cx="4.0502233"
-     inkscape:cy="5.4310214"
+     inkscape:zoom="73.571577"
+     inkscape:cx="3.835485"
+     inkscape:cy="4.1411264"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -53,25 +53,9 @@
   </sodipodi:namedview>
   <defs
      id="defs8">
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="responsive-b">
-      <rect
-         width="2.861"
-         height="3.555"
-         x="1.109"
-         y="2.555"
-         ry="0"
-         class="mobile"
-         fill="#fff"
-         stroke-width=".031"
-         stroke-linecap="round"
-         stroke-dashoffset="16.97"
-         id="rect5" />
-    </mask>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask909">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath872">
       <rect
          width="5.099"
          height="3.1400001"
@@ -85,13 +69,30 @@
          stroke-dashoffset="16.97"
          paint-order="markers fill stroke"
          class="monitor"
-         id="rect911" />
-    </mask>
+         id="rect874" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath878">
+      <rect
+         width="2.8610001"
+         height="3.5550001"
+         x="1.109"
+         y="2.5550001"
+         ry="0"
+         class="mobile"
+         fill="#ffffff"
+         stroke-width="0.031"
+         stroke-linecap="round"
+         stroke-dashoffset="16.97"
+         id="rect880" />
+    </clipPath>
   </defs>
   <g
      class="page"
-     mask="url(#mask909)"
-     id="g46">
+     mask="none"
+     id="g46"
+     clip-path="url(#clipPath872)">
     <rect
        width="11.987281"
        height="7.1577029"
@@ -228,50 +229,43 @@
     </g>
   </g>
   <g
-     class="main-container"
-     id="g58">
-    <g
-       class="screen-container"
-       id="g52">
-      <rect
-         width="5.099"
-         height="3.14"
-         x="2.469"
-         y="1.861"
-         ry=".483"
-         fill="none"
-         stroke="#888f9b"
-         stroke-width=".253"
-         stroke-linecap="round"
-         stroke-linejoin="round"
-         stroke-dashoffset="16.97"
-         paint-order="markers fill stroke"
-         class="monitor-border"
-         id="rect48" />
-      <path
-         d="M4.541 4.924v.709s-.017.117-.078.182a.71.71 0 01-.22.119h1.551s-.16-.055-.22-.12a.39.39 0 01-.078-.181v-.709z"
-         class="desktop-stand"
-         fill="#888f9b"
-         id="path50" />
-    </g>
-    <g
-       mask="url(#responsive-b)"
-       id="g56">
-      <rect
-         width="1.746"
-         height="2.83"
-         x="1.847"
-         y="2.983"
-         ry=".284"
-         class="mobile-mask"
-         fill="#25385b"
-         stroke="#888f9b"
-         stroke-width=".251"
-         stroke-linecap="round"
-         stroke-linejoin="round"
-         id="rect54" />
-    </g>
+     class="screen-container"
+     id="g52">
+    <rect
+       width="5.099"
+       height="3.1400001"
+       x="2.4690001"
+       y="1.8609999"
+       ry="0.48300001"
+       fill="none"
+       stroke="#888f9b"
+       stroke-width="0.253"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       stroke-dashoffset="16.97"
+       paint-order="markers fill stroke"
+       class="monitor-border"
+       id="rect48" />
+    <path
+       d="m 4.541,4.924 v 0.709 c 0,0 -0.017,0.117 -0.078,0.182 a 0.71,0.71 0 0 1 -0.22,0.119 h 1.551 c 0,0 -0.16,-0.055 -0.22,-0.12 A 0.39,0.39 0 0 1 5.496,5.633 V 4.924 Z"
+       class="desktop-stand"
+       fill="#888f9b"
+       id="path50" />
   </g>
+  <rect
+     width="1.7460001"
+     height="2.8299999"
+     x="1.847"
+     y="2.983"
+     ry="0.28400001"
+     class="mobile-mask"
+     fill="#25385b"
+     stroke="#888f9b"
+     stroke-width="0.251"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="rect54"
+     clip-path="url(#clipPath878)" />
   <g
      id="g868"
      class="laptop-bottom">
