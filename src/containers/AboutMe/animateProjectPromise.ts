@@ -11,6 +11,7 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 
 const elAttributes = ["ry", "strokeWidth", "attrX", "attrY", "width", "height"];
 // const parseAttr = (attr) => {
+
 //   return;
 // };
 
@@ -312,17 +313,39 @@ export class MainTimeline {
       _el as HTMLElement
     )!;
 
-    //     const getInitKeyframe = () => {
-    //       const keyframe = _keyframes![0];
-    //       const style: TAnimateStyle = {};
-    //       for (let attr of elAttributes) {
-    //         if (!(attr in keyframe)) continue;
-    //         const newAttr = camelToKebabCase(attr);
-    //
-    //         style[attr as keyof TAnimateStyle] = _el.getAttribute();
-    //       }
-    //       // if inline style is not present
-    //     };
+    const getInitKeyframe = () => {
+      const keyframe = _keyframes![0];
+      const style: TKeyframeStyle = {};
+      const el = _el as HTMLElement;
+
+      for (let attr of elAttributes) {
+        if (!(attr in keyframe)) continue;
+        const newAttr = camelToKebabCase(attr);
+
+        // @ts-ignore
+        style[attr] = el.getAttribute(newAttr);
+      }
+
+      const opacity = el.style.opacity!;
+      const transform = el.style.transform!;
+
+      if (opacity) {
+        style.opacity = Number(opacity);
+      }
+
+      if (transform) {
+        const resTransform = transform.match(/translate\((.+)\)/)!;
+        if (resTransform) {
+          const [x, y] = resTransform[0]
+            .split(",")
+            .map((el) => Number(el.replace(/px\s/g, "")));
+          style.x = x;
+          style.y = y;
+        }
+      }
+
+      return style;
+    };
 
     if (!_keyframes) {
       _keyframes = [
@@ -330,6 +353,9 @@ export class MainTimeline {
         { ...currentElAnimation.styles.start }!,
       ];
     }
+
+    if (!currentElAnimation) _keyframes.push(getInitKeyframe());
+
     const keyframes = _keyframes!;
 
     if (!currentElAnimation) {

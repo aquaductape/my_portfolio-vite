@@ -9,6 +9,11 @@ import FullnameLogo from "../../components/svg/logos/Fullname/FullnameLogo";
 import { GlobalContext } from "../../context/context";
 import useMatchMedia from "../../hooks/useMatchMedia";
 
+export type TLogoPath = {
+  el: HTMLElement;
+  position: { x: number; y: number };
+};
+
 const AboutMeLogo = () => {
   const [context, { setHero }] = useContext(GlobalContext);
   const [animationReady, setAnimationReady] = createSignal(false);
@@ -18,7 +23,7 @@ const AboutMeLogo = () => {
   let hasCalcBCR = false;
   let bcr!: DOMRect;
   let svgEl!: HTMLElement;
-  let paths: HTMLElement[];
+  let paths: TLogoPath[];
   let deltaSize = minWidth_400.matches ? 15 : 5;
   let sentinelHeroAnimationEl!: HTMLDivElement;
   let addedEventsListeners = false;
@@ -39,11 +44,11 @@ const AboutMeLogo = () => {
   const onMousemove = (e: MouseEvent) => {
     if (touchstartFired) {
       touchstartFired = false;
-      paths.forEach((path) => (path.style.transition = "transform 350ms"));
+      // paths.forEach((path) => (path.style.transition = "transform 350ms"));
 
       setTimeout(() => {
         // console.log("reset");
-        paths.forEach((path) => (path.style.transition = ""));
+        // paths.forEach((path) => (path.style.transition = ""));
       }, 400);
     }
     if (!animationReady) return;

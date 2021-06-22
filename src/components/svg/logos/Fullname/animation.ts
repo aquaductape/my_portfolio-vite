@@ -1,3 +1,4 @@
+import { TLogoPath } from "../../../../containers/AboutMe/AboutMeLogo";
 import { round } from "../../../../utils";
 
 const numberOfNodes = 30;
@@ -15,21 +16,21 @@ export const createDuplicatedPaths = (svgEl: HTMLElement) => {
   const transition = "transform 250ms";
   const paths = Array.from({ length: numberOfNodes }, (_, idx) => {
     if (idx === 0) {
-      return firstEl;
+      return { el: firstEl, position: { x: 0, y: 0 } };
     }
     const clone = firstEl.cloneNode(true) as HTMLElement;
-    clone.style.transition = transition;
-    return clone;
+    // clone.style.transition = transition;
+    return { el: clone, position: { x: 0, y: 0 } };
   });
 
   fullNameShadowBgContainer.style.opacity = "1";
 
   paths.forEach((path) => {
-    fullNameShadowEl.appendChild(path);
+    fullNameShadowEl.appendChild(path.el);
   });
 
   setTimeout(() => {
-    paths.forEach((path) => (path.style.transition = ""));
+    // paths.forEach((path) => (path.style.transition = ""));
   }, 800);
 
   return paths;
@@ -52,7 +53,7 @@ const stutterRevert = ({
 }: {
   x: number;
   y: number;
-  paths: HTMLElement[];
+  paths: TLogoPath[];
   steps: number;
   max: number;
 }) => {
@@ -79,7 +80,7 @@ const animateStutter = ({
 }: {
   x: number;
   y: number;
-  paths: HTMLElement[];
+  paths: TLogoPath[];
   steps: number;
   max: number;
 }) => {
@@ -97,13 +98,13 @@ const animateStutter = ({
 
   window.clearTimeout(stutterTimeoutId);
   stutterTimeoutId = window.setTimeout(() => {
-    paths.forEach((path) => (path.style.transition = "transform 250ms"));
+    // paths.forEach((path) => (path.style.transition = "transform 250ms"));
 
     randomCounterMax = Math.random() * 300 + 150;
     stutterRevert({ max, paths, steps, x, y });
 
     setTimeout(() => {
-      paths.forEach((path) => (path.style.transition = ""));
+      // paths.forEach((path) => (path.style.transition = ""));
     }, 1200);
   }, 500);
 
@@ -120,7 +121,7 @@ export const animateDuplicatedPath = ({
 }: {
   deltaX: number;
   deltaY: number;
-  paths: HTMLElement[];
+  paths: TLogoPath[];
   deltaSize: number;
 }) => {
   const max = numberOfNodes;
@@ -153,7 +154,7 @@ export const animateDuplicatedPath = ({
 const animatePaths = (props: {
   x: number;
   y: number;
-  paths: HTMLElement[];
+  paths: TLogoPath[];
   steps: number;
   max: number;
 }) => {
@@ -170,7 +171,7 @@ const animatePaths = (props: {
     const path = paths[i - 1];
 
     if (path) {
-      path.style.transform = `translate(${x}px, ${y}px)`;
+      // path.style.transform = `translate(${x}px, ${y}px)`;
     }
   }
 };
@@ -182,3 +183,5 @@ export const hideFullNameLetterCombo = () => {
   el.style.transformBox = "fill-box";
   el.style.transition = "transform 800ms 100ms";
 };
+
+const animateTransition = () => {};
