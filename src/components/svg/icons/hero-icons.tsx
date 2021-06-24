@@ -12,7 +12,7 @@ export const A11yIcon = () => {
           />
         </clipPath>
 
-        <filter
+        {/* <filter
           id="a11y-protanopia"
           color-interpolation-filters="linearRGB"
           filterUnits="objectBoundingBox"
@@ -21,39 +21,8 @@ export const A11yIcon = () => {
           y="0"
           width="100%"
           height="100%"
-          // color-interpolation-filters="sRGB"
         >
           <feColorMatrix
-            values="
-                        0 0.7 0.7 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 1 0"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            type="matrix"
-            in="SourceGraphic"
-            result="daltonize_prt"
-          ></feColorMatrix>
-          <feColorMatrix
-            values="
-                    0.202001295331 0.991720719265 -0.193722014597 0 0   
-                    0.163800203026 0.792663865514 0.0435359314602 0 0   
-                    0.00913336570448 -0.0132684300993 1.00413506439 0 0   
-                    0 0 0 1 0"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            type="matrix"
-            in="SourceGraphic"
-            result="sim_prt"
-          />
-          <feComposite in2="daltonize_prt" in="sim_prt" result="prt" />
-
-          {/* <feColorMatrix
             type="matrix"
             x="0%"
             y="0%"
@@ -64,7 +33,7 @@ export const A11yIcon = () => {
         			0.114503 0.786281 0.099216  0.000 0.000
         			-0.003882 -0.048116	1.051998 0.000 0.000
         			0.000 0.000 0.000 1.000 0.000"
-          ></feColorMatrix> */}
+          ></feColorMatrix>
         </filter>
 
         <filter id="a11y-deuteranopia" color-interpolation-filters="sRGB">
@@ -95,7 +64,7 @@ export const A11yIcon = () => {
               		0.21, 0.72, 0.07, 0, 0
               		0, 0, 0, 1, 0"
           ></feColorMatrix>
-        </filter>
+        </filter> */}
       </defs>
       <g class="card" opacity="0">
         <path

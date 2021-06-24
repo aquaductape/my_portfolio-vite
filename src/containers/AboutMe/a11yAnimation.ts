@@ -22,6 +22,8 @@ const interactivity: TInteractivity[] = [
   },
 ];
 
+// these particular filters don't work in Safari, results in blank graphic. Instead hard-coded colors from a map, it's doable because there's not a lot of colors
+
 let init = true;
 export const a11yAnimation = ({
   target,
