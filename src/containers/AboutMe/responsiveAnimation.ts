@@ -1,4 +1,4 @@
-import { FireFox, Safari } from "../../lib/browserInfo";
+import { FireFox, IOS, Safari } from "../../lib/browserInfo";
 import {
   MainTimeline,
   TInteractivity,
@@ -491,7 +491,7 @@ export const responsiveAnimation = ({
           { duration: 100 }
         );
 
-        if (FireFox) {
+        if (FireFox || IOS) {
           mTimeline.animate(
             tabletBarsInnerEl,
             [
