@@ -18,6 +18,7 @@ export const A11yIcon = () => {
           color-interpolation-filters="sRGB"
         >
           <feColorMatrix
+            type="matrix"
             values="
         			0.152286 1.052583 -0.204868 0.000 0.000
         			0.114503 0.786281 0.099216  0.000 0.000
