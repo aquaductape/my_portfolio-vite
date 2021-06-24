@@ -4,7 +4,8 @@
   "description": "My solid + vite project + ts",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "quick": "git add . && git commit -m 'update' && git push"
   },
   "license": "ISC",
   "devDependencies": {

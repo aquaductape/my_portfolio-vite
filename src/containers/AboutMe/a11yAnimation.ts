@@ -99,7 +99,8 @@ export const a11yAnimation = ({
     colorEl.style.transition = "";
   };
 
-  cardContent0.style.filter = "url(#a11y-protanopia)";
+  // cardContent0. = "url(#a11y-protanopia)";
+  cardContent0.setAttribute("filter", "url(#a11y-protanopia)");
 
   const start = () => {
     mTimeline.scene(
