@@ -103,7 +103,7 @@ export const a11yAnimation = ({
   cardContent0.setAttribute("filter", "url(#a11y-protanopia)");
   setTimeout(() => {
     cardContent0.style.transform = "translate(0, 0)";
-  });
+  }, 200);
 
   const start = () => {
     mTimeline.scene(
