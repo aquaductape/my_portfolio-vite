@@ -16,21 +16,21 @@ export const createDuplicatedPaths = (svgEl: HTMLElement) => {
   const transition = "transform 250ms";
   const paths = Array.from({ length: numberOfNodes }, (_, idx) => {
     if (idx === 0) {
-      return { el: firstEl, position: { x: 0, y: 0 } };
+      return firstEl;
     }
     const clone = firstEl.cloneNode(true) as HTMLElement;
-    // clone.style.transition = transition;
-    return { el: clone, position: { x: 0, y: 0 } };
+    clone.style.transition = transition;
+    return clone;
   });
 
   fullNameShadowBgContainer.style.opacity = "1";
 
   paths.forEach((path) => {
-    fullNameShadowEl.appendChild(path.el);
+    fullNameShadowEl.appendChild(path);
   });
 
   setTimeout(() => {
-    // paths.forEach((path) => (path.style.transition = ""));
+    paths.forEach((path) => (path.style.transition = ""));
   }, 800);
 
   return paths;
@@ -171,7 +171,7 @@ const animatePaths = (props: {
     const path = paths[i - 1];
 
     if (path) {
-      // path.style.transform = `translate(${x}px, ${y}px)`;
+      path.style.transform = `translate(${x}px, ${y}px)`;
     }
   }
 };

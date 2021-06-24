@@ -1,450 +1,73 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   viewBox="0 0 9.413 7.684"
-   version="1.1"
-   id="svg116"
-   sodipodi:docname="performance-animation-copy.svg"
-   inkscape:version="1.0.2 (394de47547, 2021-03-26)">
-  <metadata
-     id="metadata122">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs120">
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient1922">
-      <stop
-         style="stop-color:#629bff;stop-opacity:1"
-         offset="0"
-         id="stop1918" />
-      <stop
-         style="stop-color:#003eaa;stop-opacity:0.99607843"
-         offset="1"
-         id="stop1920" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 9.413 7.684">
+  <defs>
+    <linearGradient id="c">
+      <stop offset="0" stop-color="#629bff"/>
+      <stop offset="1" stop-color="#003eaa" stop-opacity=".996"/>
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient1914">
-      <stop
-         style="stop-color:#d60000;stop-opacity:1"
-         offset="0"
-         id="stop1910" />
-      <stop
-         style="stop-color:#ff8989;stop-opacity:1"
-         offset="1"
-         id="stop1912" />
+    <linearGradient id="b">
+      <stop offset="0" stop-color="#d60000"/>
+      <stop offset="1" stop-color="#ff8989"/>
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient1902">
-      <stop
-         style="stop-color:#0056eb;stop-opacity:1"
-         offset="0"
-         id="stop1896" />
-      <stop
-         style="stop-color:#0a55db;stop-opacity:1"
-         offset="0.76972318"
-         id="stop1906" />
-      <stop
-         style="stop-color:#3c7ff4;stop-opacity:1"
-         offset="0.80723578"
-         id="stop1904" />
-      <stop
-         style="stop-color:#1263f1;stop-opacity:1;"
-         offset="0.83942324"
-         id="stop1908" />
-      <stop
-         style="stop-color:#0b2be8;stop-opacity:1"
-         offset="0.95380014"
-         id="stop1898" />
-      <stop
-         style="stop-color:#3880ff;stop-opacity:1"
-         offset="1"
-         id="stop1900" />
+    <linearGradient id="a">
+      <stop offset="0" stop-color="#0056eb"/>
+      <stop offset=".77" stop-color="#0a55db"/>
+      <stop offset=".807" stop-color="#3c7ff4"/>
+      <stop offset=".839" stop-color="#1263f1"/>
+      <stop offset=".954" stop-color="#0b2be8"/>
+      <stop offset="1" stop-color="#3880ff"/>
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient1876">
-      <stop
-         style="stop-color:#0056eb;stop-opacity:1"
-         offset="0"
-         id="stop1872" />
-      <stop
-         style="stop-color:#1969f4;stop-opacity:1;"
-         offset="0.45266199"
-         id="stop1892" />
-      <stop
-         style="stop-color:#3880ff;stop-opacity:1"
-         offset="1"
-         id="stop1874" />
-    </linearGradient>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask922">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect924"
-         width="121.44752"
-         height="82.723419"
-         x="271.00836"
-         y="137.54692" />
-    </mask>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask940">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect942"
-         width="146.39174"
-         height="76.245262"
-         x="-53.106396"
-         y="119.94283" />
-    </mask>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1876"
-       id="linearGradient1878"
-       x1="121.50646"
-       y1="377.3717"
-       x2="121.50646"
-       y2="376.68539"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(3.7795276,0,0,3.7795276,3.7795276e-5,-0.97155258)" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1902"
-       id="linearGradient1076"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-24.461055,-87.629792)"
-       x1="121.50646"
-       y1="387.74762"
-       x2="121.50646"
-       y2="377.14032" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1914"
-       id="linearGradient1078"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-24.461055,-87.533024)"
-       x1="129.92964"
-       y1="378.77563"
-       x2="128.40799"
-       y2="377.33517" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1922"
-       id="linearGradient1080"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-25.092617,-87.533024)"
-       x1="125.99973"
-       y1="377.49655"
-       x2="127.01517"
-       y2="378.72763" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1922"
-       id="linearGradient1082"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-24.442031,-87.533024)"
-       x1="125.99973"
-       y1="377.49655"
-       x2="127.01517"
-       y2="378.72763" />
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask922-6">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect924-2"
-         width="121.44752"
-         height="82.723419"
-         x="271.00836"
-         y="137.54692" />
-    </mask>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask940-91">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect942-2"
-         width="146.39174"
-         height="76.245262"
-         x="-53.106396"
-         y="119.94283" />
-    </mask>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask922-7">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect924-4"
-         width="121.44752"
-         height="82.723419"
-         x="271.00836"
-         y="137.54692" />
-    </mask>
-    <mask
-       maskUnits="userSpaceOnUse"
-       id="mask940-9">
-      <rect
-         style="fill:#ffffff;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-         id="rect942-9"
-         width="146.39174"
-         height="76.245262"
-         x="-53.106396"
-         y="119.94283" />
-    </mask>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1902"
-       id="linearGradient1309"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-24.461055,-87.629792)"
-       x1="121.50646"
-       y1="387.74762"
-       x2="121.50646"
-       y2="377.14032" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1902"
-       id="linearGradient1311"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2430564,0,0,0.2430564,-24.461055,-87.629792)"
-       x1="121.50646"
-       y1="387.74762"
-       x2="121.50646"
-       y2="377.14032" />
+    <linearGradient xlink:href="#a" id="f" gradientUnits="userSpaceOnUse" gradientTransform="translate(-24.461 -87.63) scale(.24306)" x1="121.506" y1="387.748" x2="121.506" y2="377.14"/>
+    <linearGradient xlink:href="#b" id="g" gradientUnits="userSpaceOnUse" gradientTransform="translate(-24.461 -87.533) scale(.24306)" x1="129.93" y1="378.776" x2="128.408" y2="377.335"/>
+    <linearGradient xlink:href="#c" id="h" gradientUnits="userSpaceOnUse" gradientTransform="translate(-25.093 -87.533) scale(.24306)" x1="126" y1="377.497" x2="127.015" y2="378.728"/>
+    <linearGradient xlink:href="#c" id="i" gradientUnits="userSpaceOnUse" gradientTransform="translate(-24.442 -87.533) scale(.24306)" x1="126" y1="377.497" x2="127.015" y2="378.728"/>
+    <linearGradient xlink:href="#a" id="d" gradientUnits="userSpaceOnUse" gradientTransform="translate(-24.461 -87.63) scale(.24306)" x1="121.506" y1="387.748" x2="121.506" y2="377.14"/>
+    <linearGradient xlink:href="#a" id="e" gradientUnits="userSpaceOnUse" gradientTransform="translate(-24.461 -87.63) scale(.24306)" x1="121.506" y1="387.748" x2="121.506" y2="377.14"/>
   </defs>
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     id="namedview118"
-     showgrid="false"
-     inkscape:zoom="159.44277"
-     inkscape:cx="5.0440565"
-     inkscape:cy="4.7462118"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg116"
-     showguides="true"
-     inkscape:guide-bbox="true"
-     inkscape:document-rotation="0"
-     inkscape:snap-bbox="false"
-     inkscape:object-paths="false"
-     inkscape:snap-intersection-paths="true"
-     inkscape:snap-smooth-nodes="false"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-nodes="true"
-     inkscape:snap-others="true"
-     inkscape:object-nodes="false" />
-  <g
-     id="g1951"
-     class="title-bar-windowsxp">
-    <path
-       style="fill:url(#linearGradient1309);fill-opacity:1;stroke-width:0.0721882;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-       d="m 6.763,3.985 v 0.6445313 c 0.197635,3.6e-6 0.3314812,0 0.5198282,0 V 4.2408594 c 0,-0.1412539 -0.114607,-0.2558592 -0.255859,-0.2558594 z"
-       id="path1164"
-       sodipodi:nodetypes="cccssc" />
-    <path
-       style="fill:url(#linearGradient1311);fill-opacity:1;stroke-width:0.0721882;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-       d="m 2.615,3.985 v 0.6445313 c 1.3290171,-9.71e-5 3.058626,-2.26e-5 4.254,0 V 3.985 Z"
-       id="path1162"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:url(#linearGradient1076);fill-opacity:1;stroke-width:0.0721882;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;paint-order:markers fill stroke"
-       d="m 2.3882971,3.985 c -0.141248,0 -0.2558594,0.1146055 -0.2558594,0.2558594 v 0.3886719 c 0.2095915,-2.86e-5 0.3533941,1.63e-5 0.5635623,0 V 3.985 Z"
-       id="path976"
-       sodipodi:nodetypes="sscccs" />
-    <g
-       id="g1981"
-       class="title-bar-buttons">
-      <g
-         id="g1991"
-         class="title-bar-close">
-        <rect
-           style="fill:url(#linearGradient1078);fill-opacity:1;stroke:#ffffff;stroke-width:0.0257235;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;stroke-opacity:1;paint-order:normal"
-           id="rect978"
-           width="0.48156133"
-           height="0.48156133"
-           x="6.6609449"
-           y="4.0888906"
-           ry="0.094517685"
-           class="hover" />
-        <path
-           id="path982"
-           style="fill:none;stroke:#ffffff;stroke-width:0.0643084px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="M 6.7493247,4.4855014 L 7.0541253,4.1807038 m -0.3048006,0 l 0.3048006,0.3047976" />
+  <g class="title-bar-windows10">
+    <path d="M6.763 4.196v.434h.52v-.434z" class="title-right" fill="#fff"/>
+    <path d="M2.615 4.196v.434H6.87v-.434z" class="title-mid" fill="#fff"/>
+    <path d="M2.132 4.196v.434h.564v-.434z" class="title-left" fill="#fff"/>
+  </g>
+  <g class="title-bar-windowsxp">
+    <path d="M6.763 3.985v.645h.52v-.39a.256.256 0 00-.256-.255z" class="title-right" fill="url(#d)" paint-order="markers fill stroke"/>
+    <path d="M2.615 3.985v.645h4.254v-.645z" class="title-mid" fill="url(#e)" paint-order="markers fill stroke"/>
+    <path d="M2.388 3.985a.256.256 0 00-.256.256v.389h.564v-.645z" class="title-left" fill="url(#f)" paint-order="markers fill stroke"/>
+    <g class="title-bar-buttons">
+      <g class="title-bar-close">
+        <rect width=".482" height=".482" x="6.661" y="4.089" ry=".095" class="hover" fill="url(#g)" stroke="#fff" stroke-width=".026" stroke-linecap="round" stroke-dashoffset="16.97"/>
+        <path d="M6.75 4.486l.304-.305m-.305 0l.305.305" fill="none" stroke="#fff" stroke-width=".064"/>
       </g>
-      <g
-         id="g1999"
-         class="title-bar-collapse">
-        <rect
-           style="fill:url(#linearGradient1080);fill-opacity:1;stroke:#ffffff;stroke-width:0.0257235;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;stroke-opacity:1;paint-order:normal"
-           id="rect988"
-           width="0.48156133"
-           height="0.48156133"
-           x="5.3597693"
-           y="4.0888906"
-           ry="0.094517685"
-           class="hover" />
-        <path
-           style="fill:none;stroke:#ffffff;stroke-width:0.0643084px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="M 5.6447723,4.4406504 H 5.4433447"
-           id="path990"
-           sodipodi:nodetypes="cc" />
+      <g class="title-bar-collapse">
+        <rect width=".482" height=".482" x="5.36" y="4.089" ry=".095" class="hover" fill="url(#h)" stroke="#fff" stroke-width=".026" stroke-linecap="round" stroke-dashoffset="16.97"/>
+        <path d="M5.645 4.44h-.202" fill="none" stroke="#fff" stroke-width=".064"/>
       </g>
-      <g
-         id="g2011"
-         class="title-bar-expand">
-        <rect
-           style="fill:url(#linearGradient1082);fill-opacity:1;stroke:#ffffff;stroke-width:0.0257235;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;stroke-opacity:1;paint-order:normal"
-           id="rect994"
-           width="0.48156133"
-           height="0.48156133"
-           x="6.0103564"
-           y="4.0888906"
-           ry="0.094517685"
-           class="hover" />
-        <path
-           id="path998"
-           style="fill:none;stroke:#ffffff;stroke-width:0.05;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="M 6.1117176,4.2403728 H 6.3905484 M 6.1117176,4.1961638 H 6.3905484 V 4.4749946 H 6.1117176 Z"
-           class="expand" />
-        <path
-           id="path1002"
-           style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.0392724;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701;stroke-opacity:1;paint-order:markers fill stroke"
-           d="M 6.1829139,4.2797777 V 4.2051867 H 6.3957608 V 4.3779434 H 6.3418588 M 6.1065133,4.2813994 h 0.212847 v 0.1727567 h -0.212847 z"
-           class="minimize" />
+      <g class="title-bar-expand">
+        <rect width=".482" height=".482" x="6.01" y="4.089" ry=".095" class="hover" fill="url(#i)" stroke="#fff" stroke-width=".026" stroke-linecap="round" stroke-dashoffset="16.97"/>
+        <path d="M6.112 4.24h.279m-.28-.044h.28v.279h-.28z" class="expand" fill="none" stroke="#fff" stroke-width=".05"/>
+        <path d="M6.183 4.28v-.075h.213v.173h-.054m-.235-.097h.212v.173h-.212z" class="minimize" fill="none" stroke="#fff" stroke-width=".039" stroke-linecap="round" stroke-dashoffset="16.97" paint-order="markers fill stroke"/>
       </g>
     </g>
   </g>
-  <g
-     id="g1690"
-     class="title-bar-mac">
-    <path
-       d="M 6.763,4.0807032 V 4.625625 H 7.2830003 V 4.3346094 c 0,-0.141 -0.11486,-0.2539062 -0.25586,-0.2539062 z"
-       id="path1586"
-       sodipodi:nodetypes="cccssc" />
-    <path
-       d="M 2.615,4.0807032 L 2.6153552,4.625625 H 6.869 V 4.0807032 Z"
-       id="path1584"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       d="m 2.3878596,4.07875 c -0.1419999,0 -0.2559974,0.1158595 -0.2558593,0.2558594 V 4.625625 H 2.696 V 4.0807032 H 2.3878596 Z"
-       id="path1038"
-       sodipodi:nodetypes="ccccccc" />
-    <g
-       id="g1724"
-       class="title-bar-buttons">
-      <g
-         id="g1734"
-         class="title-bar-close">
-        <circle
-           cx="2.436712"
-           cy="4.3695688"
-           r="0.115"
-           fill="#ff2a2a"
-           paint-order="markers fill stroke"
-           id="circle1040" />
-        <g
-           id="g1740"
-           class="hover">
-          <path
-             style="fill:none;stroke:#640000;stroke-width:0.03;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             d="M 2.3785493,4.3114062 L 2.4948749,4.4277318"
-             id="path1042" />
-          <path
-             style="fill:none;stroke:#640000;stroke-width:0.03;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             d="M 2.3785493,4.4277319 L 2.4948749,4.3114063"
-             id="path1044" />
-        </g>
+  <g class="title-bar-mac">
+    <path d="M6.763 4.08v.546h.52v-.291a.255.255 0 00-.256-.254z" class="title-right"/>
+    <path d="M2.615 4.08v.546H6.87V4.08z" class="title-mid"/>
+    <path d="M2.388 4.079a.256.256 0 00-.256.256v.29h.564v-.544h-.308z" class="title-left"/>
+    <g class="title-bar-buttons">
+      <g class="title-bar-close">
+        <circle cx="2.437" cy="4.37" r=".115" fill="#ff2a2a" paint-order="markers fill stroke"/>
+        <path d="M2.379 4.311l.116.117m-.116 0l.116-.117" fill="none" stroke="#640000" stroke-width=".03"/>
       </g>
-      <g
-         id="g1746"
-         class="title-bar-collapse">
-        <circle
-           cx="2.8597119"
-           cy="4.3695688"
-           r="0.115"
-           fill="#ffcc00"
-           paint-order="markers fill stroke"
-           id="circle1050" />
-        <path
-           style="fill:none;fill-opacity:1;stroke:#5c4a00;stroke-width:0.04;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="M 2.7940467,4.3695691 H 2.9253773"
-           id="path1052"
-           sodipodi:nodetypes="cc"
-           class="hover" />
+      <g class="title-bar-collapse">
+        <circle cx="2.86" cy="4.37" r=".115" fill="#fc0" paint-order="markers fill stroke"/>
+        <path d="M2.794 4.37h.131" class="hover" fill="none" stroke="#5c4a00" stroke-width=".04"/>
       </g>
-      <g
-         id="g1762"
-         class="title-bar-expand">
-        <circle
-           cx="3.2817121"
-           cy="4.3695688"
-           r="0.115"
-           fill="#00d400"
-           paint-order="markers fill stroke"
-           id="circle1056"
-           style="fill:#00eb13;fill-opacity:1" />
-        <g
-           id="g1768"
-           class="minimize hover">
-          <path
-             id="path1058"
-             style="fill:#006100;fill-opacity:1;stroke-width:0.00313941;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
-             inkscape:transform-center-y="-0.018911116"
-             d="M 3.3728143,4.374849 L 3.2869923,4.460671 L 3.2804023,4.368259 Z"
-             sodipodi:nodetypes="cccc" />
-          <path
-             id="path1060"
-             style="fill:#006100;fill-opacity:1;stroke-width:0.00313941;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
-             inkscape:transform-center-y="0.018911506"
-             d="M 3.19061,4.364289 L 3.276432,4.278467 l 0.00659,0.092413 z"
-             sodipodi:nodetypes="cccc" />
+      <g class="title-bar-expand">
+        <circle cx="3.282" cy="4.37" r=".115" fill="#00eb13" paint-order="markers fill stroke"/>
+        <g class="minimize hover" fill="#006100">
+          <path d="M3.373 4.375l-.086.086-.007-.093z"/>
+          <path d="M3.19 4.364l.086-.086.007.093z"/>
         </g>
-        <g
-           id="g1774"
-           class="expand hover">
-          <path
-             id="path1064"
-             style="fill:#006100;fill-opacity:1;stroke-width:0.00312981;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
-             inkscape:transform-center-y="0.017464477"
-             d="m 3.2536833,4.4271 l 0.08556,-0.08556 l 0.00657,0.09213 z"
-             sodipodi:nodetypes="cccc" />
-          <path
-             id="path1066"
-             style="fill:#006100;fill-opacity:1;stroke-width:0.00312981;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:16.9701"
-             inkscape:transform-center-y="-0.01746485"
-             d="m 3.3097418,4.3120388 l -0.08556,0.08556 l -0.00657,-0.09213 z"
-             sodipodi:nodetypes="cccc" />
-        </g>
+        <path d="M3.254 4.427l.085-.085.007.092zm.056-.115l-.086.086-.006-.093z" fill="#006100"/>
       </g>
     </g>
   </g>

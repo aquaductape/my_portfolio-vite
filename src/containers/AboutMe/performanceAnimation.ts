@@ -1,4 +1,8 @@
-import { MainTimeline, TInteractivity } from "./animateProjectPromise";
+import {
+  MainTimeline,
+  TInteractivity,
+  TKeyframeStyle,
+} from "./animateProjectPromise";
 
 const state = {
   os: "mac",
@@ -9,7 +13,7 @@ const state = {
   },
   closed: false,
   expanded: false,
-  minimized: false,
+  collapsed: false,
 };
 
 const interactivity: TInteractivity[] = [
@@ -84,151 +88,272 @@ const interactivity: TInteractivity[] = [
       }
     },
   },
-  //   {
-  //     selector: ".title-bar-expand",
-  //     event: ({ currentTarget, mTimeline }) => {
-  //       const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
-  //
-  //       const titleWindows10 = query(".title-bar-windows10");
-  //       const browserWindowsXp = query(".browser-windowsxp");
-  //       const titleMac = query(".title-bar-mac");
-  //       const browserBody = query(".browser-body");
-  //       const heroBg = query(".hero-bg");
-  //       const titleBar = state.os === "mac" ? titleMac : browserWindowsXp;
-  //       const titleBarButtons = titleBar.querySelector(
-  //         ".title-bar-buttons"
-  //       ) as HTMLElement;
-  //       const titleLeft = titleBar.querySelector(".title-left") as HTMLElement;
-  //       const titleMid = titleBar.querySelector(".title-mid") as HTMLElement;
-  //       const titleRight = titleBar.querySelector(".title-right") as HTMLElement;
-  //       const duration = 300;
-  //
-  //       // xp translate(0.5px, -0.5px) rotate(0deg) scale(1.55, 1)
-  //       // xp btns translate(1.75px, -0.5px) rotate(0deg) scale(1, 1)
-  //       const animateBodies = (type: "body" | "frame", el: HTMLElement) => {
-  //         const width = type === "body" ? 5.15 : 5.053;
-  //
-  //         // <rect
-  //         //   width="5.053"
-  //         //   height="3.087"
-  //         //   x="2.18"
-  //         //   y="4.544"
-  //         //   class="frame"
-  //         //   fill="none"
-  //         //   stroke="#0056eb"
-  //         //   stroke-width=".097"
-  //         //   stroke-linecap="round"
-  //         //   stroke-dashoffset="16.97"
-  //         // />
-  //         mTimeline.animate(
-  //           el,
-  //           [
-  //             // <rect width="5.15" height="3.397" x="2.132" y="4.248" ry=".237" class="browser-body" fill="#fff"></rect>
-  //             {
-  //               width: 5.15,
-  //               height: 3.397,
-  //               attrX: 2.132,
-  //               attrY: 4.248,
-  //             },
-  //             // browser-body <rect width="7.38" height="4" x="1.67" y="3.9" ry=".237" class="browser-body" fill="#fff"></rect>
-  //             {
-  //               width: 7.38,
-  //               height: 4,
-  //               attrX: 1.67,
-  //               attrY: 3.9,
-  //             },
-  //           ],
-  //           { duration: 300 }
-  //         );
-  //       };
-  //       const animateTitleSections = (
-  //         elLeft: HTMLElement,
-  //         elMid: HTMLElement,
-  //         elRight: HTMLElement
-  //       ) => {
-  //         mTimeline.animate(
-  //           elLeft,
-  //           [
-  //             {
-  //               x: 0,
-  //               y: 0,
-  //             },
-  //             {
-  //               x: -0.5,
-  //               y: -0.5,
-  //             },
-  //           ],
-  //           { duration }
-  //         );
-  //
-  //         mTimeline.animate(
-  //           elRight,
-  //           [
-  //             {
-  //               x: 0,
-  //               y: 0,
-  //             },
-  //             {
-  //               x: 1.8,
-  //               y: -0.5,
-  //             },
-  //           ],
-  //           { duration }
-  //         );
-  //
-  //         mTimeline.animate(
-  //           elMid,
-  //           [
-  //             {
-  //               scaleX: 1,
-  //               x: 0,
-  //               y: 0,
-  //             },
-  //             {
-  //               scaleX: 1.55,
-  //               x: -2,
-  //               y: -0.5,
-  //             },
-  //           ],
-  //           { duration }
-  //         );
-  //       };
-  //
-  //       mTimeline.animate(
-  //         titleBarButtons,
-  //         [
-  //           {
-  //             x: 0,
-  //             y: 0,
-  //           },
-  //           {
-  //             x: -0.45,
-  //             y: -0.5,
-  //           },
-  //         ],
-  //         { duration: 300 }
-  //       );
-  //
-  //       mTimeline.animate(
-  //         heroBg,
-  //         [
-  //           {
-  //             x: 0,
-  //             y: 0,
-  //             scaleX: 1,
-  //             scaleY: 1,
-  //           },
-  //           {
-  //             x: 0.65,
-  //             y: -0.48,
-  //             scaleX: 1.435,
-  //             scaleY: 1.25,
-  //           },
-  //         ],
-  //         { duration: 300 }
-  //       );
-  //     },
-  //   },
+  {
+    selector: ".title-bar-close",
+    event: ({ currentTarget, mTimeline }) => {
+      const perfContainer = currentTarget.querySelector(".perf-container")!;
+      mTimeline.animate(perfContainer, [{ scaleY: 1 }, { scaleY: 0 }], {
+        duration: 200,
+      });
+    },
+  },
+  {
+    selector: "svg",
+    event: ({ currentTarget, mTimeline }) => {
+      if (!state.collapsed) return;
+      state.collapsed = false;
+      console.log("open");
+
+      const browser = currentTarget.querySelector(".browser")!;
+      const titleBars = currentTarget.querySelector(".title-bars")!;
+
+      mTimeline.animate(browser, null, {
+        duration: 200,
+        disable: false,
+        resetSavedStyle: true,
+      });
+
+      mTimeline.animate(
+        titleBars,
+        [
+          {
+            opacity: 1,
+          },
+        ],
+        {
+          duration: 200,
+        }
+      );
+    },
+  },
+  {
+    selector: ".title-bar-collapse",
+    event: ({ currentTarget, mTimeline }) => {
+      if (state.collapsed) return;
+      state.collapsed = true;
+
+      const browser = currentTarget.querySelector(".browser")!;
+      const titleBars = currentTarget.querySelector(".title-bars")!;
+
+      mTimeline.animate(
+        browser,
+        [
+          {
+            x: -3,
+            y: 1.6,
+            scale: 0.2,
+          },
+        ],
+        {
+          duration: 200,
+          disable: true,
+        }
+      );
+
+      mTimeline.animate(
+        titleBars,
+        [
+          {
+            opacity: 0,
+          },
+        ],
+        {
+          duration: 200,
+        }
+      );
+    },
+  },
+  {
+    selector: ".title-bar-expand",
+    event: ({ currentTarget, mTimeline }) => {
+      const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
+
+      const titleWindows10 = query(".title-bar-windows10");
+      const browserWindowsXp = query(".browser-windowsxp");
+      const titleMac = query(".title-bar-mac");
+      const browserBody = query(".browser-body");
+      const heroBg = query(".hero-bg");
+      const frameWindowsXp = query(".frame");
+      const herosImg = query(".heros-img");
+      const resultScore = query(".result-score");
+      const duration = 400;
+
+      state.expanded = !state.expanded;
+
+      const toggleExpMinIcon = (el: HTMLElement) => {
+        const minimizeIcon = el.querySelector(".minimize")!;
+        const expandIcon = el.querySelector(".expand")!;
+
+        mTimeline.animate(
+          minimizeIcon,
+          [
+            {
+              opacity: 1,
+            },
+          ],
+          { duration: 0, reset: !state.expanded }
+        );
+        mTimeline.animate(
+          expandIcon,
+          [
+            {
+              opacity: 0,
+            },
+          ],
+          { duration: 0, reset: !state.expanded }
+        );
+      };
+
+      const animateBodies = (el: HTMLElement) => {
+        mTimeline.animate(
+          el,
+          [
+            {
+              width: 7.435,
+              height: 4,
+              attrX: 1.64,
+              attrY: 3.9,
+            },
+          ],
+          { duration, reset: !state.expanded }
+        );
+      };
+
+      const animateTitleButtons = (
+        type: "windows10" | "mac" | "windowsxp",
+        titleBar: HTMLElement
+      ) => {
+        const titleBarButtons = titleBar.querySelector(
+          ".title-bar-buttons"
+        ) as HTMLElement;
+
+        let endKeyframe: TKeyframeStyle;
+
+        switch (type) {
+          case "mac":
+            endKeyframe = { x: -0.5, y: -0.5 };
+            break;
+          default:
+            endKeyframe = {
+              x: 1.8,
+              y: -0.5,
+            };
+        }
+
+        mTimeline.animate(
+          titleBarButtons,
+          [
+            {
+              x: 0,
+              y: 0,
+            },
+            endKeyframe,
+          ],
+          { duration, reset: !state.expanded }
+        );
+      };
+
+      const animateTitleSections = (titleBar: HTMLElement) => {
+        const titleLeft = titleBar.querySelector(".title-left")!;
+        const titleMid = titleBar.querySelector(".title-mid")!;
+        const titleRight = titleBar.querySelector(".title-right")!;
+
+        mTimeline.animate(
+          titleLeft,
+          [
+            {
+              x: 0,
+              y: 0,
+            },
+            {
+              x: -0.5,
+              y: -0.5,
+            },
+          ],
+          { duration, reset: !state.expanded }
+        );
+
+        mTimeline.animate(
+          titleRight,
+          [
+            {
+              x: 0,
+              y: 0,
+            },
+            {
+              x: 1.8,
+              y: -0.5,
+            },
+          ],
+          { duration, reset: !state.expanded }
+        );
+
+        mTimeline.animate(
+          titleMid,
+          [
+            {
+              scaleX: 1,
+              x: 0,
+              y: 0,
+            },
+            {
+              scaleX: 1.55,
+              x: -2,
+              y: -0.5,
+            },
+          ],
+          { duration, reset: !state.expanded }
+        );
+      };
+
+      animateTitleSections(titleWindows10);
+      animateTitleSections(browserWindowsXp);
+      animateTitleSections(titleMac);
+      animateBodies(browserBody);
+      animateBodies(frameWindowsXp);
+      animateTitleButtons("windows10", titleWindows10);
+      animateTitleButtons("mac", titleMac);
+      animateTitleButtons("windowsxp", browserWindowsXp);
+      toggleExpMinIcon(titleWindows10);
+      toggleExpMinIcon(browserWindowsXp);
+
+      mTimeline.animate(
+        herosImg,
+        [
+          { x: 0, y: 0 },
+          { x: 1.17, y: -0.2 },
+        ],
+        {
+          duration,
+          reset: !state.expanded,
+        }
+      );
+
+      mTimeline.animate(resultScore, [{ x: 0 }, { x: 1.57 }], {
+        duration,
+        reset: !state.expanded,
+      });
+
+      mTimeline.animate(
+        heroBg,
+        [
+          {
+            x: 0,
+            y: 0,
+            scaleX: 1,
+            scaleY: 1,
+          },
+          {
+            x: 0.655,
+            y: -0.48,
+            scaleX: 1.442,
+            scaleY: 1.25,
+          },
+        ],
+        { duration, reset: !state.expanded }
+      );
+    },
+  },
 ];
 
 // 104.198.14.52
@@ -494,9 +619,6 @@ export const performanceAnimation = ({
           pageEl,
           [
             {
-              opacity: 0,
-            },
-            {
               opacity: 1,
             },
           ],
@@ -507,9 +629,6 @@ export const performanceAnimation = ({
         mTimeline.animate(
           pageBtn,
           [
-            {
-              opacity: 0,
-            },
             {
               opacity: 1,
             },
@@ -678,6 +797,8 @@ export const performanceAnimation = ({
   mTimeline.interactivity = interactivity;
   mTimeline.svg = target;
   // mTimeline.addInteractivity();
+  // start();
+  // loop();
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();

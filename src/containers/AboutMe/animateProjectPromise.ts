@@ -10,10 +10,13 @@ import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
 // 3. GSAP is hands down the best animation lib, but it brings down Performance score by 1%. Even though I can use their CDN and save load time, it's useless for Lighthouse because they clear cache when auditing
 
 const elAttributes = ["ry", "strokeWidth", "attrX", "attrY", "width", "height"];
-// const parseAttr = (attr) => {
 
-//   return;
-// };
+const parseAttr = (attr: string) => {
+  attr = camelToKebabCase(attr);
+  const matchingRes = attr.match(/^attr-(.)/)!;
+  if (matchingRes && matchingRes[1]) attr = matchingRes[1];
+  return attr;
+};
 
 type TAnimateStyle = {
   x?: number;
@@ -36,13 +39,15 @@ export type TKeyframeStyle = TAnimateStyle & { offset?: number };
 
 type TElStyles = {
   current: TAnimateStyle;
-  start?: TAnimateStyle;
+  init?: TAnimateStyle;
+  saved?: TAnimateStyle;
 };
 
 type TElAnimation = {
   animationId: number | null;
   finished: boolean;
   styles: TElStyles;
+  disabled: boolean;
 };
 
 export type TInteractivity = {
@@ -111,13 +116,25 @@ export class MainTimeline {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;
 
+      if (!currentTarget.classList.contains("active")) return;
+
+      const isVisible = (el: HTMLElement): boolean => {
+        if (el === currentTarget) return true;
+
+        const opacity = el.style.opacity || el.getAttribute("opacity");
+        const notVisible = opacity && Number(opacity) <= 0.7;
+
+        if (notVisible) return false;
+
+        return isVisible(el.parentElement!);
+      };
+
       for (const item of this.interactivity) {
         const { selector, event } = item;
         const el = target.closest(selector) as HTMLElement;
-
         if (!el) continue;
-        if (el.style.opacity !== "" && Number(el.style.opacity) <= 0.9)
-          continue;
+
+        if (!isVisible(el)) continue;
 
         event({ currentTarget, target, mTimeline: this, selectorTarget: el });
       }
@@ -208,16 +225,16 @@ export class MainTimeline {
     val?: number;
     elAnimation: TElAnimation;
   }) {
+    const { current, init } = elAnimation.styles;
     const fromKeyframe = keyframes[idx];
     const toKeyframe = keyframes[idx + 1];
     const mainKeyframe = toKeyframe || fromKeyframe;
-    const { current, start } = elAnimation.styles;
 
     const updateStartKeyframe = (fromVal: number, key: keyof TAnimateStyle) => {
-      const startVal = start![key];
+      const startVal = init![key];
       if (startVal != null) return;
 
-      start![key] = fromVal;
+      init![key] = fromVal;
     };
 
     for (const _key in mainKeyframe) {
@@ -253,11 +270,20 @@ export class MainTimeline {
     current: TAnimateStyle;
   }) {
     const getScale = () => {
-      if ("scale" in current) return `${current.scale}, ${current.scale}`;
-
-      const result = `${"scaleX" in current ? current.scaleX : 1}, ${
-        "scaleY" in current ? current.scaleY : 1
+      const result = `${
+        "scaleX" in current
+          ? current.scaleX
+          : "scale" in current
+          ? current.scale
+          : 1
+      }, ${
+        "scaleY" in current
+          ? current.scaleY
+          : "scale" in current
+          ? current.scale
+          : 1
       }`;
+
       return result;
     };
 
@@ -279,16 +305,14 @@ export class MainTimeline {
       const val = current[attr] as string;
       if (val == null) continue;
 
-      attr = camelToKebabCase(attr);
-      const matchingRes = attr.match(/^attr-(.)/)!;
-      if (matchingRes && matchingRes[1]) attr = matchingRes[1];
-
-      el.setAttribute(camelToKebabCase(attr), val);
+      attr = parseAttr(attr);
+      el.setAttribute(attr, val);
     }
 
     if ("opacity" in current) {
       el.style.opacity = current.opacity!.toString();
     }
+
     if ("strokeDashoffset" in current) {
       el.style.strokeDashoffset = current.strokeDashoffset!.toString();
     }
@@ -301,17 +325,26 @@ export class MainTimeline {
       duration: _duration,
       easing = "ease-in-out",
       delay,
+      reset,
+      disable,
+      resetSavedStyle,
     }: {
       duration: number;
       easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
       delay?: number;
+      reset?: boolean;
+      /**
+       * current lexical animation will run, but future animations will not. Future animations won't run, but end keyframe will be saved and be used once future animation is renabled with `resetSavedStyle`
+       */
+      disable?: boolean;
+      resetSavedStyle?: boolean;
     }
   ) {
     const durations: number[] = [];
-    const isClosing = !_keyframes;
     let currentElAnimation: TElAnimation = this.animationMap.get(
       _el as HTMLElement
     )!;
+    reset = _keyframes === null ? true : reset;
 
     const getInitKeyframe = () => {
       const keyframe = _keyframes![0];
@@ -320,14 +353,18 @@ export class MainTimeline {
 
       for (let attr of elAttributes) {
         if (!(attr in keyframe)) continue;
-        const newAttr = camelToKebabCase(attr);
+        const newAttr = parseAttr(attr);
 
         // @ts-ignore
-        style[attr] = el.getAttribute(newAttr);
+        style[attr] = Number(el.getAttribute(newAttr));
       }
 
-      const opacity = el.style.opacity!;
+      const opacity = el.style.opacity! || el.getAttribute("opacity");
       const transform = el.style.transform!;
+
+      if (keyframe.opacity != null) {
+        style.opacity = 1;
+      }
 
       if (opacity) {
         style.opacity = Number(opacity);
@@ -338,7 +375,7 @@ export class MainTimeline {
         if (resTransform) {
           const [x, y] = resTransform[0]
             .split(",")
-            .map((el) => Number(el.replace(/px\s/g, "")));
+            .map((el) => Number(el.replace(/px\s*/g, "")));
           style.x = x;
           style.y = y;
         }
@@ -347,14 +384,28 @@ export class MainTimeline {
       return style;
     };
 
-    if (!_keyframes) {
+    if (reset) {
       _keyframes = [
         { ...currentElAnimation.styles.current },
-        { ...currentElAnimation.styles.start }!,
+        { ...currentElAnimation.styles.init },
       ];
     }
 
-    if (!currentElAnimation) _keyframes.push(getInitKeyframe());
+    if (!currentElAnimation && _keyframes!.length === 1) {
+      _keyframes!.unshift(getInitKeyframe());
+    }
+
+    if (
+      currentElAnimation &&
+      currentElAnimation.disabled &&
+      disable === false &&
+      resetSavedStyle
+    ) {
+      _keyframes = [
+        { ...currentElAnimation.styles.current, offset: 0 },
+        { ...currentElAnimation.styles.saved!, offset: 1 },
+      ];
+    }
 
     const keyframes = _keyframes!;
 
@@ -362,22 +413,69 @@ export class MainTimeline {
       currentElAnimation = {
         animationId: null,
         finished: false,
-        styles: { current: { ...keyframes[0] }, start: { ...keyframes[0] } },
+        disabled: false,
+        styles: {
+          current: { ...keyframes[0] },
+          init: { ...keyframes[0] },
+        },
       };
       this.animationMap.set(_el as HTMLElement, currentElAnimation);
     }
 
-    if (
-      currentElAnimation.animationId != null &&
-      !currentElAnimation.finished
-    ) {
-      console.log("cancel");
-      window.cancelAnimationFrame(currentElAnimation.animationId);
+    const interrupted =
+      currentElAnimation.animationId != null && !currentElAnimation.finished;
+
+    if (interrupted) {
+      window.cancelAnimationFrame(currentElAnimation.animationId!);
     }
 
-    currentElAnimation.finished = false;
+    if (currentElAnimation.disabled && disable == null) {
+      currentElAnimation.styles.saved = {
+        ...currentElAnimation.styles.current,
+        ...keyframes[keyframes.length - 1],
+      };
+      return;
+    }
 
-    if ("offset" in keyframes[0] && !isClosing) {
+    if (disable) {
+      currentElAnimation.styles.saved = {
+        ...currentElAnimation.styles.current,
+        ...keyframes[keyframes.length - 1],
+      };
+    }
+
+    currentElAnimation.disabled = !!disable;
+
+    const copy = (
+      obj: { [key: string]: any },
+      { filter }: { filter: string[] }
+    ): TAnimateStyle => {
+      const style: TAnimateStyle = {};
+      for (const key in obj) {
+        if (filter.includes(key)) continue;
+        // @ts-ignore
+        style[key] = obj[key];
+      }
+
+      return style;
+    };
+
+    if (interrupted && !reset) {
+      const currentKeyframe: TKeyframeStyle = copy(
+        currentElAnimation.styles.current,
+        { filter: ["offset"] }
+      );
+
+      if ("offset" in keyframes[0]) {
+        const newOffset = keyframes[1].offset! / 2;
+        currentKeyframe.offset = 0;
+        keyframes[0].offset = newOffset;
+      }
+
+      keyframes.unshift(currentKeyframe);
+    }
+
+    if ("offset" in keyframes[0] && !reset) {
       keyframes.forEach((item, idx, self) => {
         const nextItem = self[idx + 1];
 
@@ -402,7 +500,7 @@ export class MainTimeline {
       }
     }
 
-    // console.log(durations);
+    currentElAnimation.finished = false;
     let durationIdx = 0;
     let duration = durations[durationIdx];
     let start: number | null = null;
@@ -429,14 +527,12 @@ export class MainTimeline {
           });
 
           currentElAnimation.finished = true;
-          // console.log("done!");
+
           // @ts-ignore
           // console.timeEnd(`hi ${_el.className.baseVal}`);
           return;
         }
       }
-
-      // console.log("fire");
 
       const p = (now - start!) / duration;
       const val = timingFunction(p);
@@ -536,14 +632,9 @@ export class MainTimeline {
     goNext(duration || 0);
   }
 
-  clearAnimation(els: Element[]) {
-    els.forEach((el) => {
-      el.getAnimations().forEach((animation) => animation.cancel());
-    });
-  }
+  disable(el: Element) {}
 
   stop() {
-    // console.log(this.closingScene, this.running, this.timeoutMap);
     if (this.svg) {
       this.svg.classList.remove("active");
     }
@@ -592,7 +683,12 @@ export class MainTimeline {
     this.timeoutMap.clear();
 
     for (const [el] of animationEntries) {
-      this.animate(el, null, { duration, easing: "ease-in-out" });
+      this.animate(el, null, {
+        duration,
+        easing: "ease-in-out",
+        disable: false,
+        reset: true,
+      });
     }
 
     this.closingScene = {

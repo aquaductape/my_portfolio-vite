@@ -9,10 +9,16 @@ import FullnameLogo from "../../components/svg/logos/Fullname/FullnameLogo";
 import { GlobalContext } from "../../context/context";
 import useMatchMedia from "../../hooks/useMatchMedia";
 
-export type TLogoPath = {
-  el: HTMLElement;
-  position: { x: number; y: number };
-};
+export type TLogoPath = HTMLElement;
+
+/**
+ * Problem in Mobile: When selecting hero icon, it jitters while shadow animation is moving due to complex shadow mask
+ *
+ * Solution:
+ * 1. when selecting hero icon and no other icons are running, pause hero, and then run after shadow animation is done. Shadow animation
+ * 2. When selecting hero icon and other icon is running, don't move shadow.
+ * 3. When selection outside hero icon to close hero icon animation, run shadow animation after hero icon animation is done
+ */
 
 const AboutMeLogo = () => {
   const [context, { setHero }] = useContext(GlobalContext);
@@ -44,11 +50,11 @@ const AboutMeLogo = () => {
   const onMousemove = (e: MouseEvent) => {
     if (touchstartFired) {
       touchstartFired = false;
-      // paths.forEach((path) => (path.style.transition = "transform 350ms"));
+      paths.forEach((path) => (path.style.transition = "transform 350ms"));
 
       setTimeout(() => {
         // console.log("reset");
-        // paths.forEach((path) => (path.style.transition = ""));
+        paths.forEach((path) => (path.style.transition = ""));
       }, 400);
     }
     if (!animationReady) return;
@@ -108,53 +114,53 @@ const AboutMeLogo = () => {
     document.body.removeEventListener("touchmove", onTouchmove);
   };
 
-  onMount(() => {
-    const observer = createIntersectionObserver();
-    observer.observe(sentinelHeroAnimationEl);
+  //   onMount(() => {
+  //     const observer = createIntersectionObserver();
+  //     observer.observe(sentinelHeroAnimationEl);
+  //
+  //     window.addEventListener(
+  //       "resize",
+  //       debounce(
+  //         () => {
+  //           bcr = svgEl.getBoundingClientRect();
+  //         },
+  //         100,
+  //         { trailing: true }
+  //       )
+  //     );
+  //
+  //     const generate = () => {
+  //       if (paths) return;
+  //
+  //       paths = createDuplicatedPaths(svgEl);
+  //       hideFullNameLetterCombo();
+  //       setAnimationReady(true);
+  //     };
+  //
+  //     document.body.addEventListener("mousemove", function init() {
+  //       generate();
+  //       document.body.removeEventListener("mousemove", init);
+  //     });
+  //
+  //     document.body.addEventListener("touchmove", function init() {
+  //       generate();
+  //       document.body.removeEventListener("touchmove", init);
+  //     });
+  //   });
 
-    window.addEventListener(
-      "resize",
-      debounce(
-        () => {
-          bcr = svgEl.getBoundingClientRect();
-        },
-        100,
-        { trailing: true }
-      )
-    );
-
-    const generate = () => {
-      if (paths) return;
-
-      paths = createDuplicatedPaths(svgEl);
-      hideFullNameLetterCombo();
-      setAnimationReady(true);
-    };
-
-    document.body.addEventListener("mousemove", function init() {
-      generate();
-      document.body.removeEventListener("mousemove", init);
-    });
-
-    document.body.addEventListener("touchmove", function init() {
-      generate();
-      document.body.removeEventListener("touchmove", init);
-    });
-  });
-
-  createEffect(() => {
-    if (animationReady()) {
-      setAnimationReady(false);
-      addHeroEvents();
-    }
-
-    if (context.hero.active && !context.blog.active) {
-      addHeroEvents();
-    } else {
-      addedEventsListeners = false;
-      removeHeroEvents();
-    }
-  });
+  //   createEffect(() => {
+  //     if (animationReady()) {
+  //       setAnimationReady(false);
+  //       addHeroEvents();
+  //     }
+  //
+  //     if (context.hero.active && !context.blog.active) {
+  //       addHeroEvents();
+  //     } else {
+  //       addedEventsListeners = false;
+  //       removeHeroEvents();
+  //     }
+  //   });
 
   return (
     <h1

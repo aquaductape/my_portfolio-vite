@@ -1,57 +1,59 @@
-import { ChromeForAndroid, FireFox } from "../../lib/browserInfo";
-import { TKeyframe } from "../../ts";
-import { MainTimeline, TKeyframeStyle } from "./animateProjectPromise";
+import { FireFox } from "../../lib/browserInfo";
+import {
+  MainTimeline,
+  TInteractivity,
+  TKeyframeStyle,
+} from "./animateProjectPromise";
 
-export const useInteractivityResponsive = () => {
-  let currentTarget: HTMLElement;
-  let theme = "dark" as "light" | "dark";
+let theme = "dark" as "light" | "dark";
 
-  const onClick = (e: MouseEvent) => {
-    currentTarget = e.currentTarget as HTMLElement;
-    // const target = e.target as HTMLElement;
+const interactivity: TInteractivity[] = [
+  {
+    selector: ".main-container",
+    event: ({ currentTarget }) => {
+      const changeTheme = (theme: "light" | "dark") => {
+        const pageTextEls = currentTarget.querySelectorAll(
+          ".page-text"
+        ) as NodeListOf<HTMLElement>;
+        const pageChatEl = currentTarget.querySelector(
+          ".page-chat-input"
+        ) as HTMLElement;
+        const pageBodyEl = currentTarget.querySelector(
+          ".page-body"
+        ) as HTMLElement;
+        const navBarBgEl = currentTarget.querySelector(
+          ".navbar-bg"
+        ) as HTMLElement;
 
-    if (!currentTarget.classList.contains("active")) return;
+        const textColor = theme === "light" ? "#9597a5" : "#fff";
+        const pageColor = theme === "light" ? "#fff" : "#333";
+        const navColor = theme === "light" ? "#5d8aff" : "#88a3e9";
+        const transition = "fill 500ms";
 
-    changeTheme(theme);
+        pageTextEls.forEach((pageTextEl) => {
+          pageTextEl.style.fill = textColor;
+          pageTextEl.style.transition = transition;
+        });
 
-    if (theme === "dark") {
-      theme = "light";
-    } else {
-      theme = "dark";
-    }
-  };
+        pageBodyEl.style.fill = pageColor;
+        pageChatEl.style.fill = pageColor;
+        navBarBgEl.style.fill = navColor;
 
-  const changeTheme = (theme: "light" | "dark") => {
-    const pageTextEls = currentTarget.querySelectorAll(
-      ".page-text"
-    ) as NodeListOf<HTMLElement>;
-    const pageChatEl = currentTarget.querySelector(
-      ".page-chat-input"
-    ) as HTMLElement;
-    const pageBodyEl = currentTarget.querySelector(".page-body") as HTMLElement;
-    const navBarBgEl = currentTarget.querySelector(".navbar-bg") as HTMLElement;
+        pageBodyEl.style.transition = transition;
+        pageChatEl.style.transition = transition;
+        navBarBgEl.style.transition = transition;
+      };
 
-    const textColor = theme === "light" ? "#9597a5" : "#fff";
-    const pageColor = theme === "light" ? "#fff" : "#333";
-    const navColor = theme === "light" ? "#5d8aff" : "#88a3e9";
-    const transition = "fill 500ms";
+      changeTheme(theme);
 
-    pageTextEls.forEach((pageTextEl) => {
-      pageTextEl.style.fill = textColor;
-      pageTextEl.style.transition = transition;
-    });
-
-    pageBodyEl.style.fill = pageColor;
-    pageChatEl.style.fill = pageColor;
-    navBarBgEl.style.fill = navColor;
-
-    pageBodyEl.style.transition = transition;
-    pageChatEl.style.transition = transition;
-    navBarBgEl.style.transition = transition;
-  };
-
-  return { onClick };
-};
+      if (theme === "dark") {
+        theme = "light";
+      } else {
+        theme = "dark";
+      }
+    },
+  },
+];
 
 export const responsiveAnimation = ({
   target,
@@ -60,51 +62,32 @@ export const responsiveAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  const pageContainerEl = target.querySelector(
-    ".page-container"
-  ) as HTMLElement;
-  const pageInnerEl = target.querySelector(".page-inner") as HTMLElement;
-  const pageEl = target.querySelector(".page") as HTMLElement;
-  const mobileEl = target.querySelector(".mobile") as HTMLElement;
-  const monitorBorderEl = target.querySelector(
-    ".monitor-border"
-  ) as HTMLElement;
-  const monitorMaskEl = target.querySelector(".monitor-mask") as HTMLElement;
-  const logoEl = target.querySelector(".logo") as HTMLElement;
-  const mobileContainerEl = target.querySelector(
-    ".mobile-container"
-  ) as HTMLElement;
-  const desktopStandEl = target.querySelector(".desktop-stand") as HTMLElement;
-  const laptopBottomEl = target.querySelector(".laptop-bottom") as HTMLElement;
-  const tabletBarsEl = target.querySelector(".tablet-bars") as HTMLElement;
-  const tabletBarsInnerEl = target.querySelector(
-    ".tablet-bars-inner"
-  ) as HTMLElement;
-  const tabletBarBottomEl = target.querySelector(
-    ".tablet-bar-bottom"
-  ) as HTMLElement;
-  const tabletBarTopEl = target.querySelector(".tablet-bar-top") as HTMLElement;
-  const mainContainerEl = target.querySelector(
-    ".main-container"
-  ) as HTMLElement;
-  const mainInnerEl = target.querySelector(".main-inner") as HTMLElement;
-  const mainInnerRotateEl = target.querySelector(
-    ".main-inner-rotate"
-  ) as HTMLElement;
-  const pageChatEl = target.querySelector(".page-chat") as HTMLElement;
-  const pageContentColumn0El = target.querySelector(
-    ".page-content-column-0"
-  ) as HTMLElement;
-  const pageContentColumn1El = target.querySelector(
-    ".page-content-column-1"
-  ) as HTMLElement;
-  const pageContentColumn2El = target.querySelector(
-    ".page-content-column-2"
-  ) as HTMLElement;
-  const navLinksEl = target.querySelector(".nav-links") as HTMLElement;
-  const navLink0El = target.querySelector(".nav-link-0") as HTMLElement;
-  const navLink1El = target.querySelector(".nav-link-1") as HTMLElement;
-  const navLink2El = target.querySelector(".nav-link-2") as HTMLElement;
+  const query = (s: string): HTMLElement => target.querySelector(s)!;
+  const pageContainerEl = query(".page-container");
+  const pageInnerEl = query(".page-inner");
+  const pageEl = query(".page");
+  const mobileEl = query(".mobile");
+  const monitorBorderEl = query(".monitor-border");
+  const monitorMaskEl = query(".monitor-mask");
+  const logoEl = query(".logo");
+  const mobileContainerEl = query(".mobile-container");
+  const desktopStandEl = query(".desktop-stand");
+  const laptopBottomEl = query(".laptop-bottom");
+  const tabletBarsEl = query(".tablet-bars");
+  const tabletBarsInnerEl = query(".tablet-bars-inner");
+  const tabletBarBottomEl = query(".tablet-bar-bottom");
+  const tabletBarTopEl = query(".tablet-bar-top");
+  const mainContainerEl = query(".main-container");
+  const mainInnerEl = query(".main-inner");
+  const mainInnerRotateEl = query(".main-inner-rotate");
+  const pageChatEl = query(".page-chat");
+  const pageContentColumn0El = query(".page-content-column-0");
+  const pageContentColumn1El = query(".page-content-column-1");
+  const pageContentColumn2El = query(".page-content-column-2");
+  const navLinksEl = query(".nav-links");
+  const navLink0El = query(".nav-link-0");
+  const navLink1El = query(".nav-link-1");
+  const navLink2El = query(".nav-link-2");
 
   // img: deno, "one punch man ok", "doge icon", "starcrafts zergling", "need for madness 1 radical one",
   // colors: light yellow, light blue, white, light magenta
@@ -940,6 +923,7 @@ export const responsiveAnimation = ({
   };
 
   mTimeline.svg = target;
+  mTimeline.interactivity = interactivity;
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();

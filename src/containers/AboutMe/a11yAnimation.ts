@@ -1,36 +1,26 @@
 import { setSameStylesOnDuplicatedEls } from "../../utils";
-import { MainTimeline } from "./animateProjectPromise";
+import { MainTimeline, TInteractivity } from "./animateProjectPromise";
 
-export const useInteractivityA11y = () => {
-  let currentTarget: HTMLElement;
-  const msg = ["Hi", "is", "it", "ok", "to", "be", "an", "ai", "or", "no"];
-  let msgIdx = 0;
+const msg = ["Hi", "is", "it", "ok", "to", "be", "an", "ai", "or", "no"];
+let msgIdx = 0;
 
-  const onClick = (e: MouseEvent) => {
-    currentTarget = e.currentTarget as HTMLElement;
-    const target = e.target as HTMLElement;
+const interactivity: TInteractivity[] = [
+  {
+    selector: ".card",
+    event: ({ currentTarget }) => {
+      const cardTextEls = currentTarget.querySelectorAll(
+        ".card-text"
+      ) as NodeListOf<HTMLElement>;
+      msgIdx = (msgIdx + 1) % msg.length;
 
-    if (!target.closest(".card")) return;
-    if (!currentTarget.classList.contains("active")) return;
+      if (Number(cardTextEls[0].style.opacity) < 0.8) return;
 
-    changeText();
-  };
-
-  const changeText = () => {
-    const cardTextEls = currentTarget.querySelectorAll(
-      ".card-text"
-    ) as NodeListOf<HTMLElement>;
-    msgIdx = (msgIdx + 1) % msg.length;
-
-    if (Number(cardTextEls[0].style.opacity) < 0.8) return;
-
-    cardTextEls.forEach((cardTextEl) => {
-      cardTextEl.textContent = msg[msgIdx];
-    });
-  };
-
-  return { onClick };
-};
+      cardTextEls.forEach((cardTextEl) => {
+        cardTextEl.textContent = msg[msgIdx];
+      });
+    },
+  },
+];
 
 let init = true;
 export const a11yAnimation = ({
@@ -40,12 +30,13 @@ export const a11yAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  const cardEl = target.querySelector(".card") as HTMLElement;
+  const query = (s: string): HTMLElement => target.querySelector(s)!;
+  const cardEl = query(".card");
   let cardContent0: HTMLElement;
   let cardContent1: HTMLElement;
 
   if (init) {
-    cardContent0 = target.querySelector(".card-content") as HTMLElement;
+    cardContent0 = query(".card-content");
     cardContent1 = cardContent0.cloneNode(true) as HTMLElement;
     cardContent1.style.opacity = "0";
     cardEl.appendChild(cardContent1);
@@ -63,42 +54,30 @@ export const a11yAnimation = ({
   const cardTextEndColor = "#a52c2c";
   const cardTextStartColor = "#ff9b9b";
 
-  const contrastEl = target.querySelector(".contrast") as HTMLElement;
-  const colorEl = target.querySelector(".color") as HTMLElement;
-  const contrastSmallFailEl = target.querySelector(
-    ".contrast-small-fail"
-  ) as HTMLElement;
-  const contrastLargeFailEl = target.querySelector(
-    ".contrast-large-fail"
-  ) as HTMLElement;
-  const contrastSmallSuccessEl = target.querySelector(
-    ".contrast-small-success"
-  ) as HTMLElement;
-  const contrastLargeSuccessEl = target.querySelector(
-    ".contrast-large-success"
-  ) as HTMLElement;
-  const contrastTextEl = target.querySelector(".contrast-text") as HTMLElement;
+  const contrastEl = query(".contrast");
+  const colorEl = query(".color");
+  const contrastSmallFailEl = query(".contrast-small-fail");
+  const contrastLargeFailEl = query(".contrast-large-fail");
+  const contrastSmallSuccessEl = query(".contrast-small-success");
+  const contrastLargeSuccessEl = query(".contrast-large-success");
+  const contrastTextEl = query(".contrast-text");
   const [cardTextEl0, cardTextEl1] = target.querySelectorAll(
     ".card-text"
   ) as NodeListOf<HTMLElement>;
-  const rgbEl = target.querySelector(".rgb") as HTMLElement;
-  const rgbREl = target.querySelector(".rgb-r") as HTMLElement;
-  const rgbGEl = target.querySelector(".rgb-g") as HTMLElement;
-  const rgbBEl = target.querySelector(".rgb-b") as HTMLElement;
-  const blockREl = target.querySelector(".block-r") as HTMLElement;
-  const blockGEl = target.querySelector(".block-g") as HTMLElement;
-  const blockBEl = target.querySelector(".block-b") as HTMLElement;
-  const personEl = target.querySelector(".person") as HTMLElement;
-  const moonEl = target.querySelector(".moon") as HTMLElement;
-  const flowerClosedBudEl = target.querySelector(
-    ".flower-closed-bud"
-  ) as HTMLElement;
-  const flowerLeaf0El = target.querySelector(".flower-leaf-0") as HTMLElement;
-  const flowerLeaf1El = target.querySelector(".flower-leaf-1") as HTMLElement;
-  const flowerStemEl = target.querySelector(".flower-stem") as HTMLElement;
-  const personContainerEl = target.querySelector(
-    ".person-container"
-  ) as HTMLElement;
+  const rgbEl = query(".rgb");
+  const rgbREl = query(".rgb-r");
+  const rgbGEl = query(".rgb-g");
+  const rgbBEl = query(".rgb-b");
+  const blockREl = query(".block-r");
+  const blockGEl = query(".block-g");
+  const blockBEl = query(".block-b");
+  const personEl = query(".person");
+  const moonEl = query(".moon");
+  const flowerClosedBudEl = query(".flower-closed-bud");
+  const flowerLeaf0El = query(".flower-leaf-0");
+  const flowerLeaf1El = query(".flower-leaf-1");
+  const flowerStemEl = query(".flower-stem");
+  const personContainerEl = query(".person-container");
 
   const resetStyles = () => {
     contrastSmallSuccessEl.style.opacity = "";
@@ -525,6 +504,7 @@ export const a11yAnimation = ({
 
   mTimeline.svg = target;
   mTimeline.resetStyles = resetStyles;
+  mTimeline.interactivity = interactivity;
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();
