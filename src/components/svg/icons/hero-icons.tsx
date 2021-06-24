@@ -14,9 +14,10 @@ export const A11yIcon = () => {
 
         <filter
           id="a11y-protanopia"
-          filterUnits="objectBoundingBox"
+          filterUnits="userSpaceOnUse"
           primitiveUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          color-interpolation-filters="linearRGB"
+          // color-interpolation-filters="sRGB"
         >
           <feColorMatrix
             type="matrix"
