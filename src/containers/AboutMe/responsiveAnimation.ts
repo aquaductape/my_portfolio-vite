@@ -491,7 +491,7 @@ export const responsiveAnimation = ({
           { duration: 100 }
         );
 
-        if (FireFox || IOS) {
+        if (FireFox && !IOS) {
           mTimeline.animate(
             tabletBarsInnerEl,
             [
@@ -507,6 +507,20 @@ export const responsiveAnimation = ({
             { duration: 100 }
           );
         } else if (Safari) {
+          mTimeline.animate(
+            tabletBarsInnerEl,
+            [
+              {
+                x: 0,
+                y: 0,
+              },
+              {
+                x: -0.2,
+                y: -0.7,
+              },
+            ],
+            { duration: 100 }
+          );
         } else {
           mTimeline.animate(
             tabletBarsInnerEl,
