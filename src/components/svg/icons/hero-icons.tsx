@@ -12,7 +12,11 @@ export const A11yIcon = () => {
           />
         </clipPath>
 
-        <filter id="a11y-protanopia" color-interpolation-filters="sRGB">
+        <filter
+          id="a11y-protanopia"
+          filterUnits="objectBoundingBox"
+          color-interpolation-filters="sRGB"
+        >
           <feColorMatrix
             values="
         			0.152286 1.052583 -0.204868 0.000 0.000
@@ -59,7 +63,7 @@ export const A11yIcon = () => {
           paint-order="markers fill stroke"
         />
 
-        <g class="card-content">
+        <g class="card-content" filter="url(#a11y-protanopia)">
           <g class="card-art">
             <path
               d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
