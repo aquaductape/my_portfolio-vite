@@ -63,7 +63,6 @@ export const responsiveAnimation = ({
   mTimeline: MainTimeline;
 }) => {
   const query = (s: string): HTMLElement => target.querySelector(s)!;
-  const pageContainerEl = query(".page-container");
   const screenContainer = query(".screen-container");
   const pageInnerEl = query(".page-inner");
   const pageEl = query(".page");
@@ -71,16 +70,12 @@ export const responsiveAnimation = ({
   const monitorBorderEl = query(".monitor-border");
   const monitorMaskEl = query(".monitor-mask");
   const logoEl = query(".logo");
-  const mobileContainerEl = query(".mobile-container");
   const desktopStandEl = query(".desktop-stand");
   const laptopBottomEl = query(".laptop-bottom");
   const tabletBarsEl = query(".tablet-bars");
-  const tabletBarsInnerEl = query(".tablet-bars-inner");
   const tabletBarBottomEl = query(".tablet-bar-bottom");
   const tabletBarTopEl = query(".tablet-bar-top");
   const mainContainerEl = query(".main-container");
-  const mainInnerEl = query(".main-inner");
-  const mainInnerRotateEl = query(".main-inner-rotate");
   const pageChatEl = query(".page-chat");
   const pageContentColumn0El = query(".page-content-column-0");
   const pageContentColumn1El = query(".page-content-column-1");
@@ -94,9 +89,7 @@ export const responsiveAnimation = ({
   // colors: light yellow, light blue, white, light magenta
   // window those 3 everytime you click (the reason is that there's three images on desktop and one on mobile )
 
-  const mainTranslateX = -0.37;
   const start = () => {
-    // resetStyles();
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -473,8 +466,6 @@ export const responsiveAnimation = ({
       { duration: 800 }
     );
 
-    return;
-
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -486,53 +477,6 @@ export const responsiveAnimation = ({
           ],
           { duration: 100 }
         );
-
-        if (FireFox && !IOS) {
-          mTimeline.animate(
-            tabletBarsInnerEl,
-            [
-              {
-                x: 0,
-                y: 0,
-              },
-              {
-                x: 0.2,
-                y: 0.7,
-              },
-            ],
-            { duration: 100 }
-          );
-        } else if (Safari) {
-          // mTimeline.animate(
-          //   tabletBarsInnerEl,
-          //   [
-          //     {
-          //       x: 0,
-          //       y: 0,
-          //     },
-          //     {
-          //       x: -0.2,
-          //       y: -0.7,
-          //     },
-          //   ],
-          //   { duration: 100 }
-          // );
-        } else {
-          mTimeline.animate(
-            tabletBarsInnerEl,
-            [
-              {
-                x: 0,
-                y: 0,
-              },
-              {
-                x: 0.25,
-                y: 0.1,
-              },
-            ],
-            { duration: 100 }
-          );
-        }
 
         mTimeline.animate(
           pageInnerEl,
@@ -553,12 +497,14 @@ export const responsiveAnimation = ({
           pageContentColumn0El,
           [
             {
-              x: 1,
+              x: 0.8,
+              y: 0,
               scale: 1,
             },
             {
-              x: 3,
-              scale: 1.4,
+              x: 4.2,
+              y: 1.7,
+              scale: 1.8,
             },
           ],
           {
@@ -617,13 +563,27 @@ export const responsiveAnimation = ({
     mTimeline.scene(
       () => {
         mTimeline.animate(
+          tabletBarsEl,
+          [
+            {
+              scaleX: 1,
+              scaleY: 1,
+            },
+            {
+              scaleX: 0.7,
+              scaleY: 0.5,
+            },
+          ],
+          {
+            duration: 300,
+          }
+        );
+
+        mTimeline.animate(
           tabletBarBottomEl,
           [
             {
               scaleX: 0,
-              scaleY: 0.7,
-              x: -0.8,
-              y: -0.5,
             },
           ],
           {
@@ -636,9 +596,6 @@ export const responsiveAnimation = ({
           [
             {
               scaleX: 0,
-              scaleY: 0.7,
-              x: 0.5,
-              y: -0.5,
             },
           ],
           {
@@ -650,14 +607,7 @@ export const responsiveAnimation = ({
           pageContentColumn0El,
           [
             {
-              x: 3,
-              y: 0,
-              scale: 1.4,
-            },
-            {
-              x: 2.2,
-              y: -0.2,
-              scale: 1.8,
+              scale: 1.6,
             },
           ],
           {
@@ -695,12 +645,10 @@ export const responsiveAnimation = ({
           [
             {
               scale: 1,
-              x: 0.5,
             },
           ],
           {
             duration: 300,
-            easing: "ease-in",
           }
         );
 
@@ -730,202 +678,37 @@ export const responsiveAnimation = ({
 
     mTimeline.scene(
       () => {
-        mTimeline.animate(
-          tabletBarsInnerEl,
-          [
-            {
-              x: 0,
-              y: 0,
-            },
-          ],
-          { duration: 0 }
-        );
+        mTimeline.reset([tabletBarsEl], { duration: 0 });
 
-        mTimeline.animate(tabletBarsEl, [{ rotate: 0, x: 0 }], {
-          duration: 0,
-        });
-
-        mTimeline.animate(
-          pageContentColumn0El,
+        mTimeline.reset(
           [
-            {
-              x: 0,
-              y: 0,
-              scale: 1,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          pageContentColumn1El,
-          [
-            {
-              x: 0,
-              opacity: 1,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          pageContentColumn2El,
-          [
-            {
-              x: 0,
-              opacity: 1,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          logoEl,
-          [
-            {
-              x: 0,
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          navLinksEl,
-          [
-            {
-              x: 0,
-              y: 0,
-            },
+            pageContentColumn0El,
+            pageContentColumn1El,
+            pageContentColumn2El,
+            logoEl,
+            navLinksEl,
+            navLink0El,
+            navLink1El,
+            navLink2El,
+            pageChatEl,
+            desktopStandEl,
+            pageInnerEl,
           ],
           { duration: 400 }
-        );
-
-        mTimeline.animate(
-          navLink0El,
-          [
-            {
-              scale: 1,
-              x: 0,
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          navLink1El,
-          [
-            {
-              scale: 1,
-              x: 0,
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          navLink2El,
-          [
-            {
-              scale: 1,
-              x: 0,
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          mainInnerEl,
-          [
-            {
-              x: 0,
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-            easing: "linear",
-          }
-        );
-
-        mTimeline.animate(
-          mainInnerRotateEl,
-          [
-            {
-              rotate: 0,
-            },
-          ],
-          {
-            duration: 400,
-          }
         );
 
         mTimeline.animate(
           mainContainerEl,
           [
             {
-              y: 0,
-              x: mainTranslateX,
+              y: -1,
               scale: 1.6,
-            },
-          ],
-          {
-            duration: 400,
-            easing: "ease-in",
-          }
-        );
-
-        mTimeline.animate(
-          desktopStandEl,
-          [
-            {
-              y: 0,
-            },
-          ],
-          {
-            duration: 400,
-            easing: "ease-in",
-          }
-        );
-
-        mTimeline.animate(
-          pageInnerEl,
-          [
-            {
               rotate: 0,
             },
           ],
           {
             duration: 400,
-          }
-        );
-
-        mTimeline.animate(
-          pageChatEl,
-          [
-            {
-              opacity: 1,
-            },
-          ],
-          {
-            duration: 400,
+            easing: "ease-in",
           }
         );
       },
@@ -935,11 +718,11 @@ export const responsiveAnimation = ({
 
   mTimeline.svg = target;
   mTimeline.interactivity = interactivity;
-  start();
-  loop();
-  // mTimeline.start = start;
-  // mTimeline.loop = loop;
-  // mTimeline.play();
+  // start();
+  // loop();
+  mTimeline.start = start;
+  mTimeline.loop = loop;
+  mTimeline.play();
 };
 
 export const responsiveEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {

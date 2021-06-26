@@ -1059,192 +1059,174 @@ export const ResponsiveIcon = () => {
       </defs>
 
       <g class="main-container">
-        <g class="main-inner">
-          <path
-            d="M4.541 4.924v.709s-.017.117-.078.182a.71.71 0 01-.22.119h1.551s-.16-.055-.22-.12a.39.39 0 01-.078-.181v-.709z"
-            class="desktop-stand"
-            fill="#888f9b"
-          />
-          <g class="page-container" clip-path="url(#responsive-a)">
-            <g class="page-inner">
-              <g class="page" opacity="0">
+        <path
+          d="M4.541 4.924v.709s-.017.117-.078.182a.71.71 0 01-.22.119h1.551s-.16-.055-.22-.12a.39.39 0 01-.078-.181v-.709z"
+          class="desktop-stand"
+          fill="#888f9b"
+        />
+        <g class="page-container" clip-path="url(#responsive-a)">
+          <g class="page-inner">
+            <g class="page" opacity="0">
+              <rect
+                width="11.987"
+                height="7.158"
+                x="-1.316"
+                y="1.723"
+                ry="0"
+                fill="#fff"
+                class="page-body"
+              />
+              <path
+                d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
+                class="navbar-bg"
+                fill="#5d8aff"
+                paint-order="markers fill stroke"
+              ></path>
+              <path
+                d="M1.656 1.48l-.274-.116.274-.46.273.46z"
+                class="logo"
+                fill="#0030ab"
+                paint-order="markers fill stroke"
+              />
+              <g class="nav-links">
                 <rect
-                  width="11.987"
-                  height="7.158"
-                  x="-1.316"
-                  y="1.723"
-                  ry="0"
-                  fill="#fff"
-                  class="page-body"
-                />
-                {/* <rect
-                  width="9.25"
-                  height="4.158"
-                  x="0.1"
-                  y="1.723"
-                  ry="0"
-                  fill="#fff"
-                  class="page-body"
-                ></rect> */}
-                <path
-                  d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
-                  class="navbar-bg"
-                  fill="#5d8aff"
-                  paint-order="markers fill stroke"
-                  // style="transform-origin: center;transform: scaleY(0.85) translate(0px, -0.35px);"
-                ></path>
-                {/* <path
-                  d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
-                  class="navbar-bg"
-                  fill="#5d8aff"
-                  paint-order="markers fill stroke"
-                /> */}
-                <path
-                  d="M1.656 1.48l-.274-.116.274-.46.273.46z"
-                  class="logo"
+                  width=".94"
+                  height=".188"
+                  x="7.174"
+                  y="1.156"
+                  ry=".068"
+                  class="nav-link-2"
                   fill="#0030ab"
                   paint-order="markers fill stroke"
                 />
-                <g class="nav-links">
-                  <rect
-                    width=".94"
-                    height=".188"
-                    x="7.174"
-                    y="1.156"
-                    ry=".068"
-                    class="nav-link-2"
-                    fill="#0030ab"
-                    paint-order="markers fill stroke"
-                  />
-                  <rect
-                    width=".94"
-                    height=".188"
-                    x="5.774"
-                    y="1.156"
-                    ry=".068"
-                    class="nav-link-1"
-                    fill="#0030ab"
-                    paint-order="markers fill stroke"
-                  />
-                  <rect
-                    width=".94"
-                    height=".188"
-                    x="4.374"
-                    y="1.156"
-                    ry=".068"
-                    class="nav-link-0"
-                    fill="#0030ab"
-                    paint-order="markers fill stroke"
-                  />
-                </g>
-                <g class="page-content-column-0">
-                  <rect
-                    width="1.561"
-                    height="1.305"
-                    x="1.07"
-                    y="1.933"
-                    ry=".032"
-                    fill="#ffd287"
-                    paint-order="markers fill stroke"
-                  />
-                  <path
-                    d="M1.118 3.725h1.437m-1.437.446h.895m-.895.447h1.437"
-                    class="page-text"
-                    fill="none"
-                    stroke="#9597a5"
-                    stroke-width=".159"
-                  />
-                </g>
-                <g class="page-content-column-1">
-                  <rect
-                    width="1.561"
-                    height="1.305"
-                    x="3.061"
-                    y="1.933"
-                    ry=".032"
-                    fill="#77ffd1"
-                    paint-order="markers fill stroke"
-                  />
-                  <path
-                    d="M3.082 3.725h.964m-.964.446h1.437m-1.437.447h1.437"
-                    class="page-text"
-                    fill="none"
-                    stroke="#9597a5"
-                    stroke-width=".159"
-                  />
-                </g>
-                <g class="page-content-column-2">
-                  <rect
-                    width="1.561"
-                    height="1.305"
-                    x="5.053"
-                    y="1.933"
-                    ry=".032"
-                    fill="#e881ff"
-                    paint-order="markers fill stroke"
-                  />
-                  <path
-                    d="M5.096 3.725h1.437m-1.437.446h1.437m-1.437.447h.817"
-                    class="page-text"
-                    fill="none"
-                    stroke="#9597a5"
-                    stroke-width=".159"
-                  />
-                </g>
-                <g class="page-chat" paint-order="markers fill stroke">
-                  <rect
-                    width="1.561"
-                    height="3.536"
-                    x="6.986"
-                    y="1.933"
-                    ry=".086"
-                    fill="#acc1ff"
-                  />
-                  <rect
-                    width="1.367"
-                    height=".272"
-                    x="7.076"
-                    y="5.063"
-                    ry=".007"
-                    fill="#f9f9f9"
-                    class="page-chat-input"
-                  />
-                </g>
+                <rect
+                  width=".94"
+                  height=".188"
+                  x="5.774"
+                  y="1.156"
+                  ry=".068"
+                  class="nav-link-1"
+                  fill="#0030ab"
+                  paint-order="markers fill stroke"
+                />
+                <rect
+                  width=".94"
+                  height=".188"
+                  x="4.374"
+                  y="1.156"
+                  ry=".068"
+                  class="nav-link-0"
+                  fill="#0030ab"
+                  paint-order="markers fill stroke"
+                />
+              </g>
+              <g class="page-content-column-0">
+                <rect
+                  width="1.561"
+                  height="1.305"
+                  x="1.07"
+                  y="1.933"
+                  ry=".032"
+                  fill="#ffd287"
+                  paint-order="markers fill stroke"
+                />
+                <path
+                  d="M1.118 3.725h1.437m-1.437.446h.895m-.895.447h1.437"
+                  class="page-text"
+                  fill="none"
+                  stroke="#9597a5"
+                  stroke-width=".159"
+                />
+              </g>
+              <g class="page-content-column-1">
+                <rect
+                  width="1.561"
+                  height="1.305"
+                  x="3.061"
+                  y="1.933"
+                  ry=".032"
+                  fill="#77ffd1"
+                  paint-order="markers fill stroke"
+                />
+                <path
+                  d="M3.082 3.725h.964m-.964.446h1.437m-1.437.447h1.437"
+                  class="page-text"
+                  fill="none"
+                  stroke="#9597a5"
+                  stroke-width=".159"
+                />
+              </g>
+              <g class="page-content-column-2">
+                <rect
+                  width="1.561"
+                  height="1.305"
+                  x="5.053"
+                  y="1.933"
+                  ry=".032"
+                  fill="#e881ff"
+                  paint-order="markers fill stroke"
+                />
+                <path
+                  d="M5.096 3.725h1.437m-1.437.446h1.437m-1.437.447h.817"
+                  class="page-text"
+                  fill="none"
+                  stroke="#9597a5"
+                  stroke-width=".159"
+                />
+              </g>
+              <g class="page-chat" paint-order="markers fill stroke">
+                <rect
+                  width="1.561"
+                  height="3.536"
+                  x="6.986"
+                  y="1.933"
+                  ry=".086"
+                  fill="#acc1ff"
+                />
+                <rect
+                  width="1.367"
+                  height=".272"
+                  x="7.076"
+                  y="5.063"
+                  ry=".007"
+                  fill="#f9f9f9"
+                  class="page-chat-input"
+                />
               </g>
             </g>
           </g>
-          <g class="screen-container">
-            <rect
-              width="5.099"
-              height="3.14"
-              x="2.469"
-              y="1.861"
-              ry=".483"
-              fill="none"
-              stroke="#888f9b"
-              stroke-width=".253"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-dashoffset="16.97"
-              paint-order="markers fill stroke"
-              class="monitor-border"
-            />
-          </g>
-          <g clip-path="url(#responsive-b)" class="mobile-container">
-            <rect
-              width="1.746"
-              height="2.83"
-              x="1.847"
-              y="2.983"
-              ry=".284"
-              class="mobile"
-              fill="#25385b"
-              stroke="#888f9b"
-              stroke-width=".251"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </g>
+        </g>
+        <g class="screen-container">
+          <rect
+            width="5.099"
+            height="3.14"
+            x="2.469"
+            y="1.861"
+            ry=".483"
+            fill="none"
+            stroke="#888f9b"
+            stroke-width=".253"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-dashoffset="16.97"
+            paint-order="markers fill stroke"
+            class="monitor-border"
+          />
+        </g>
+        <g clip-path="url(#responsive-b)" class="mobile-container">
+          <rect
+            width="1.746"
+            height="2.83"
+            x="1.847"
+            y="2.983"
+            ry=".284"
+            class="mobile"
+            fill="#25385b"
+            stroke="#888f9b"
+            stroke-width=".251"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </g>
       </g>
 

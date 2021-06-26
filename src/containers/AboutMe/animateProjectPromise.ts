@@ -41,7 +41,7 @@ export type TKeyframeStyle = TAnimateStyle & { offset?: number };
 
 type TElStyles = {
   current: TAnimateStyle;
-  init?: TAnimateStyle;
+  init: TAnimateStyle;
   saved?: TAnimateStyle;
 };
 
@@ -51,6 +51,7 @@ type TElAnimation = {
   bbox: DOMRect;
   styles: TElStyles;
   disabled: boolean;
+  origin: TOrigin;
 };
 
 export type TInteractivity = {
@@ -233,11 +234,11 @@ export class MainTimeline {
     const toKeyframe = keyframes[idx + 1];
     const mainKeyframe = toKeyframe || fromKeyframe;
 
-    const updateStartKeyframe = (fromVal: number, key: keyof TAnimateStyle) => {
-      const startVal = init![key];
-      if (startVal != null) return;
+    const updateInitKeyframe = (fromVal: number, key: keyof TAnimateStyle) => {
+      const initVal = init![key];
+      if (initVal != null) return;
 
-      init![key] = fromVal;
+      init![key] = fromVal || 0;
     };
 
     for (const _key in mainKeyframe) {
@@ -248,7 +249,7 @@ export class MainTimeline {
       if (val == null || !toKeyframe) {
         const from = fromKeyframe[key]!;
         current[key] = from;
-        updateStartKeyframe(from, key);
+        updateInitKeyframe(from, key);
 
         continue;
       }
@@ -260,22 +261,21 @@ export class MainTimeline {
 
       const result = startx + (destx - startx!) * val;
 
-      updateStartKeyframe(from, key);
-      current[key] = result;
+      updateInitKeyframe(from, key);
+      current[key] = result || 0;
     }
   }
 
   private _setElVals({
     el,
-    current,
-    bbox,
-    origin,
+    elAnimation,
   }: {
     el: HTMLElement;
-    current: TAnimateStyle;
-    bbox: DOMRect;
-    origin: TOrigin;
+    elAnimation: TElAnimation;
   }) {
+    const { bbox, origin, styles } = elAnimation;
+    const { current } = styles;
+
     const parseOrigin = (position: "x" | "y") => {
       let originNum: number[] = [];
       let idx = position === "x" ? 0 : 1;
@@ -351,6 +351,7 @@ export class MainTimeline {
       "rotate" in current
     ) {
       const transform = `${getTranslate()} ${getRotate()} ${getScale()}`;
+      // if (transform.match(/NaN/)) debugger;
 
       el.setAttribute("transform", transform);
     }
@@ -475,6 +476,7 @@ export class MainTimeline {
         finished: false,
         disabled: false,
         bbox: el.getBBox(),
+        origin: origin,
         styles: {
           current: { ...keyframes[0] },
           init: { ...keyframes[0] },
@@ -584,9 +586,7 @@ export class MainTimeline {
 
           this._setElVals({
             el: _el as HTMLElement,
-            current: currentElAnimation.styles.current,
-            bbox: currentElAnimation.bbox,
-            origin,
+            elAnimation: currentElAnimation,
           });
 
           currentElAnimation.finished = true;
@@ -609,9 +609,7 @@ export class MainTimeline {
 
       this._setElVals({
         el: _el as HTMLElement,
-        current: currentElAnimation.styles.current,
-        bbox: currentElAnimation.bbox,
-        origin,
+        elAnimation: currentElAnimation,
       });
 
       currentElAnimation.animationId = requestAnimationFrame(draw);
@@ -697,7 +695,20 @@ export class MainTimeline {
     goNext(duration || 0);
   }
 
-  disable(el: Element) {}
+  reset(
+    els: Element[],
+    {
+      duration,
+      easing = "ease-in-out",
+    }: {
+      duration: number;
+      easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
+    }
+  ) {
+    els.forEach((el) => {
+      this.animate(el, null, { duration, easing });
+    });
+  }
 
   stop() {
     if (this.svg) {
