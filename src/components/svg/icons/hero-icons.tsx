@@ -80,7 +80,6 @@ export const A11yIcon = () => {
               fill="#5858ff"
               paint-order="markers fill stroke"
               class="moon"
-              style="transform-origin: center; transform-box: fill-box; transform: scale(0, 0);"
             />
             <path
               d="M7.338 3.202a.293.293 0 01-.527.176c.054-.403.38-.404.396-.421.08.052.131.142.131.245z"
@@ -92,14 +91,12 @@ export const A11yIcon = () => {
               fill="#fe2dff"
               class="flower-petal-3"
               paint-order="markers fill stroke"
-              style="transform-origin: bottom center; transform-box: fill-box; transform: scale(0, 0);"
             />
             <path
               d="M6.954 2.436s-.235.215-.235.67c0 .454.105.46.234.46.131 0 .237-.006.237-.46 0-.455-.234-.67-.234-.67z"
               fill="#ff2db5"
               class="flower-petal-2"
               paint-order="markers fill stroke"
-              style="transform-origin: bottom center; transform-box: fill-box; transform: scale(0, 0);"
             />
             <path
               d="M6.958 5.376V3.404"
@@ -107,13 +104,8 @@ export const A11yIcon = () => {
               stroke="green"
               stroke-width=".059"
               class="flower-stem"
-              style="transform-origin: bottom; transform-box: fill-box; transform: scale(0, 0);"
             />
-            <g
-              class="flower-leaf-1"
-              paint-order="markers fill stroke"
-              style="transform-origin: right; transform-box: fill-box; transform: scale(0, 0);"
-            >
+            <g class="flower-leaf-1" paint-order="markers fill stroke">
               <path
                 d="M6.244 3.778s.26.1.452.1.17-.068.244-.101z"
                 fill="#8fff8f"
@@ -123,11 +115,7 @@ export const A11yIcon = () => {
                 fill="green"
               />
             </g>
-            <g
-              class="flower-leaf-0"
-              paint-order="markers fill stroke"
-              style="transform-origin: left; transform-box: fill-box; transform: scale(0, 0);"
-            >
+            <g class="flower-leaf-0" paint-order="markers fill stroke">
               <path
                 d="M7.734 4.311s-.285.11-.495.11c-.211 0-.193-.064-.27-.11z"
                 fill="#8fff8f"
@@ -137,11 +125,7 @@ export const A11yIcon = () => {
                 fill="green"
               />
             </g>
-            <g
-              paint-order="markers fill stroke"
-              style="transform-origin: center; transform-box: fill-box; transform: scale(0, 0);"
-              class="flower-closed-bud"
-            >
+            <g paint-order="markers fill stroke" class="flower-closed-bud">
               <path
                 d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
                 fill="#ff2d79"
@@ -1074,237 +1058,222 @@ export const ResponsiveIcon = () => {
         </clipPath>
       </defs>
 
-      <g
-        class="main-container"
-        style="transform-origin: center; transform-box: fill-box;"
-      >
-        <g class="main-inner" style="transform-origin: center; ">
-          <g class="main-inner-rotate" style="transform-origin: center; ">
-            <path
-              d="M4.541 4.924v.709s-.017.117-.078.182a.71.71 0 01-.22.119h1.551s-.16-.055-.22-.12a.39.39 0 01-.078-.181v-.709z"
-              class="desktop-stand"
-              fill="#888f9b"
-            />
-            <g
-              class="page-container"
-              clip-path="url(#responsive-a)"
-              style="transform-origin: center; "
-            >
-              <g
-                class="page-inner"
-                style="transform-origin: center;  transform-box: fill-box"
-              >
-                <g class="page" opacity="0" style="transform-origin: center;">
+      <g class="main-container">
+        <g class="main-inner">
+          <path
+            d="M4.541 4.924v.709s-.017.117-.078.182a.71.71 0 01-.22.119h1.551s-.16-.055-.22-.12a.39.39 0 01-.078-.181v-.709z"
+            class="desktop-stand"
+            fill="#888f9b"
+          />
+          <g class="page-container" clip-path="url(#responsive-a)">
+            <g class="page-inner">
+              <g class="page" opacity="0">
+                <rect
+                  width="11.987"
+                  height="7.158"
+                  x="-1.316"
+                  y="1.723"
+                  ry="0"
+                  fill="#fff"
+                  class="page-body"
+                />
+                {/* <rect
+                  width="9.25"
+                  height="4.158"
+                  x="0.1"
+                  y="1.723"
+                  ry="0"
+                  fill="#fff"
+                  class="page-body"
+                ></rect> */}
+                <path
+                  d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
+                  class="navbar-bg"
+                  fill="#5d8aff"
+                  paint-order="markers fill stroke"
+                  // style="transform-origin: center;transform: scaleY(0.85) translate(0px, -0.35px);"
+                ></path>
+                {/* <path
+                  d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
+                  class="navbar-bg"
+                  fill="#5d8aff"
+                  paint-order="markers fill stroke"
+                /> */}
+                <path
+                  d="M1.656 1.48l-.274-.116.274-.46.273.46z"
+                  class="logo"
+                  fill="#0030ab"
+                  paint-order="markers fill stroke"
+                />
+                <g class="nav-links">
                   <rect
-                    width="11.987"
-                    height="7.158"
-                    x="-1.316"
-                    y="1.723"
-                    ry="0"
-                    fill="#fff"
-                    class="page-body"
-                  />
-                  <path
-                    d="M10.685-.13v1.853h-11.99V-.13c4.202.006 8.362.001 11.99 0z"
-                    class="navbar-bg"
-                    fill="#5d8aff"
-                    paint-order="markers fill stroke"
-                  />
-                  <path
-                    d="M1.656 1.48l-.274-.116.274-.46.273.46z"
-                    class="logo"
+                    width=".94"
+                    height=".188"
+                    x="7.174"
+                    y="1.156"
+                    ry=".068"
+                    class="nav-link-2"
                     fill="#0030ab"
                     paint-order="markers fill stroke"
                   />
-                  <g class="nav-links">
-                    <rect
-                      width=".94"
-                      height=".188"
-                      x="7.174"
-                      y="1.156"
-                      ry=".068"
-                      class="nav-link-2"
-                      style="transform-origin: center; transform-box: fill-box;"
-                      fill="#0030ab"
-                      paint-order="markers fill stroke"
-                    />
-                    <rect
-                      width=".94"
-                      height=".188"
-                      x="5.774"
-                      y="1.156"
-                      ry=".068"
-                      class="nav-link-1"
-                      fill="#0030ab"
-                      style="transform-origin: center; transform-box: fill-box;"
-                      paint-order="markers fill stroke"
-                    />
-                    <rect
-                      width=".94"
-                      height=".188"
-                      x="4.374"
-                      y="1.156"
-                      ry=".068"
-                      class="nav-link-0"
-                      style="transform-origin: center; transform-box: fill-box;"
-                      fill="#0030ab"
-                      paint-order="markers fill stroke"
-                    />
-                  </g>
-                  <g class="page-content-column-0">
-                    <rect
-                      width="1.561"
-                      height="1.305"
-                      x="1.07"
-                      y="1.933"
-                      ry=".032"
-                      fill="#ffd287"
-                      paint-order="markers fill stroke"
-                    />
-                    <path
-                      d="M1.118 3.725h1.437m-1.437.446h.895m-.895.447h1.437"
-                      class="page-text"
-                      fill="none"
-                      stroke="#9597a5"
-                      stroke-width=".159"
-                    />
-                  </g>
-                  <g class="page-content-column-1">
-                    <rect
-                      width="1.561"
-                      height="1.305"
-                      x="3.061"
-                      y="1.933"
-                      ry=".032"
-                      fill="#77ffd1"
-                      paint-order="markers fill stroke"
-                    />
-                    <path
-                      d="M3.082 3.725h.964m-.964.446h1.437m-1.437.447h1.437"
-                      class="page-text"
-                      fill="none"
-                      stroke="#9597a5"
-                      stroke-width=".159"
-                    />
-                  </g>
-                  <g class="page-content-column-2">
-                    <rect
-                      width="1.561"
-                      height="1.305"
-                      x="5.053"
-                      y="1.933"
-                      ry=".032"
-                      fill="#e881ff"
-                      paint-order="markers fill stroke"
-                    />
-                    <path
-                      d="M5.096 3.725h1.437m-1.437.446h1.437m-1.437.447h.817"
-                      class="page-text"
-                      fill="none"
-                      stroke="#9597a5"
-                      stroke-width=".159"
-                    />
-                  </g>
-                  <g class="page-chat" paint-order="markers fill stroke">
-                    <rect
-                      width="1.561"
-                      height="3.536"
-                      x="6.986"
-                      y="1.933"
-                      ry=".086"
-                      fill="#acc1ff"
-                    />
-                    <rect
-                      width="1.367"
-                      height=".272"
-                      x="7.076"
-                      y="5.063"
-                      ry=".007"
-                      fill="#f9f9f9"
-                      class="page-chat-input"
-                    />
-                  </g>
+                  <rect
+                    width=".94"
+                    height=".188"
+                    x="5.774"
+                    y="1.156"
+                    ry=".068"
+                    class="nav-link-1"
+                    fill="#0030ab"
+                    paint-order="markers fill stroke"
+                  />
+                  <rect
+                    width=".94"
+                    height=".188"
+                    x="4.374"
+                    y="1.156"
+                    ry=".068"
+                    class="nav-link-0"
+                    fill="#0030ab"
+                    paint-order="markers fill stroke"
+                  />
+                </g>
+                <g class="page-content-column-0">
+                  <rect
+                    width="1.561"
+                    height="1.305"
+                    x="1.07"
+                    y="1.933"
+                    ry=".032"
+                    fill="#ffd287"
+                    paint-order="markers fill stroke"
+                  />
+                  <path
+                    d="M1.118 3.725h1.437m-1.437.446h.895m-.895.447h1.437"
+                    class="page-text"
+                    fill="none"
+                    stroke="#9597a5"
+                    stroke-width=".159"
+                  />
+                </g>
+                <g class="page-content-column-1">
+                  <rect
+                    width="1.561"
+                    height="1.305"
+                    x="3.061"
+                    y="1.933"
+                    ry=".032"
+                    fill="#77ffd1"
+                    paint-order="markers fill stroke"
+                  />
+                  <path
+                    d="M3.082 3.725h.964m-.964.446h1.437m-1.437.447h1.437"
+                    class="page-text"
+                    fill="none"
+                    stroke="#9597a5"
+                    stroke-width=".159"
+                  />
+                </g>
+                <g class="page-content-column-2">
+                  <rect
+                    width="1.561"
+                    height="1.305"
+                    x="5.053"
+                    y="1.933"
+                    ry=".032"
+                    fill="#e881ff"
+                    paint-order="markers fill stroke"
+                  />
+                  <path
+                    d="M5.096 3.725h1.437m-1.437.446h1.437m-1.437.447h.817"
+                    class="page-text"
+                    fill="none"
+                    stroke="#9597a5"
+                    stroke-width=".159"
+                  />
+                </g>
+                <g class="page-chat" paint-order="markers fill stroke">
+                  <rect
+                    width="1.561"
+                    height="3.536"
+                    x="6.986"
+                    y="1.933"
+                    ry=".086"
+                    fill="#acc1ff"
+                  />
+                  <rect
+                    width="1.367"
+                    height=".272"
+                    x="7.076"
+                    y="5.063"
+                    ry=".007"
+                    fill="#f9f9f9"
+                    class="page-chat-input"
+                  />
                 </g>
               </g>
             </g>
-            <g class="screen-container">
-              <rect
-                width="5.099"
-                height="3.14"
-                x="2.469"
-                y="1.861"
-                ry=".483"
-                fill="none"
-                stroke="#888f9b"
-                stroke-width=".253"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-dashoffset="16.97"
-                paint-order="markers fill stroke"
-                class="monitor-border"
-              />
-            </g>
-            <g clip-path="url(#responsive-b)" class="mobile-container">
-              <rect
-                width="1.746"
-                height="2.83"
-                x="1.847"
-                y="2.983"
-                ry=".284"
-                class="mobile"
-                fill="#25385b"
-                stroke="#888f9b"
-                stroke-width=".251"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
+          </g>
+          <g class="screen-container">
+            <rect
+              width="5.099"
+              height="3.14"
+              x="2.469"
+              y="1.861"
+              ry=".483"
+              fill="none"
+              stroke="#888f9b"
+              stroke-width=".253"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-dashoffset="16.97"
+              paint-order="markers fill stroke"
+              class="monitor-border"
+            />
+          </g>
+          <g clip-path="url(#responsive-b)" class="mobile-container">
+            <rect
+              width="1.746"
+              height="2.83"
+              x="1.847"
+              y="2.983"
+              ry=".284"
+              class="mobile"
+              fill="#25385b"
+              stroke="#888f9b"
+              stroke-width=".251"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </g>
         </g>
       </g>
-      <g
-        class="laptop-bottom"
-        paint-order="markers fill stroke"
-        opacity="0"
-        style="transform-origin: center; "
-      >
+
+      <g class="laptop-bottom" paint-order="markers fill stroke" opacity="0">
         <path
-          d="M.445 5.934h8.522c.071 0 .081.081.028.131-.079.075-.188.185-.228.224H.645c-.094-.063-.14-.137-.228-.224-.053-.05-.043-.131.028-.131z"
+          d="M.757 5.934H9.28c.072 0 .082.081.029.131-.08.075-.189.185-.229.224H.958c-.094-.063-.14-.137-.229-.224-.053-.05-.043-.131.028-.131z"
           fill="#888f9b"
         />
         <rect
           width="1.343"
           height=".193"
-          x="4.034"
+          x="4.346"
           y="5.934"
           ry=".046"
           fill="#545a64"
         />
       </g>
 
-      <g class="tablet-bars" opacity="0" style="transform-origin: center;">
-        <g class="tablet-bars-inner" style="transform-origin: center;">
-          <g style="transform: translateY(0.2px);">
-            <g
-              class="tablet-bar-bottom"
-              style="transform-origin: right bottom; transform-box: fill-box;"
-              paint-order="markers fill stroke"
-            >
-              <path d="M7.751 1.715l.51.037v4.18l-.51.099z" fill="#888f9b" />
-              <circle cx="8.036" cy="3.801" r=".157" fill="#545a64" />
-            </g>
-            <g
-              class="tablet-bar-top"
-              style="transform-origin: left bottom; transform-box: fill-box;"
-            >
-              <path
-                d="M1.636 1.715l-.51.037v4.18l.51.099z"
-                fill="#888f9b"
-                paint-order="markers fill stroke"
-              />
-            </g>
-          </g>
+      <g class="tablet-bars" opacity="0">
+        <g class="tablet-bar-bottom" paint-order="markers fill stroke">
+          <path d="M8.076 1.815l.51.037v4.18l-.51.099z" fill="#888f9b" />
+          <circle cx="8.361" cy="3.901" r=".157" fill="#545a64" />
         </g>
+        <path
+          d="M1.96 1.815l-.508.037v4.18l.509.099z"
+          fill="#888f9b"
+          class="tablet-bar-top"
+          paint-order="markers fill stroke"
+        />
       </g>
     </svg>
   );

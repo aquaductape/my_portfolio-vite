@@ -35,6 +35,8 @@ type TAnimateStyle = {
   opacity?: number;
 };
 
+type TOrigin = "center" | "left" | "right" | "top" | "bottom";
+
 export type TKeyframeStyle = TAnimateStyle & { offset?: number };
 
 type TElStyles = {
@@ -46,6 +48,7 @@ type TElStyles = {
 type TElAnimation = {
   animationId: number | null;
   finished: boolean;
+  bbox: DOMRect;
   styles: TElStyles;
   disabled: boolean;
 };
@@ -265,26 +268,78 @@ export class MainTimeline {
   private _setElVals({
     el,
     current,
+    bbox,
+    origin,
   }: {
     el: HTMLElement;
     current: TAnimateStyle;
+    bbox: DOMRect;
+    origin: TOrigin;
   }) {
-    const getScale = () => {
-      const result = `${
+    const parseOrigin = (position: "x" | "y") => {
+      let originNum: number[] = [];
+      let idx = position === "x" ? 0 : 1;
+      switch (origin) {
+        case "center":
+          originNum = [50, 50];
+          break;
+        case "left":
+          originNum = [0, 50];
+          break;
+        case "right":
+          originNum = [100, 50];
+          break;
+        case "top":
+          originNum = [50, 0];
+          break;
+        case "bottom":
+          originNum = [50, 100];
+          break;
+      }
+
+      return originNum[idx] / 100;
+    };
+
+    const getOrigin = (position: "x" | "y") => {
+      const dimension = position === "x" ? "width" : "height";
+      return bbox[position] + bbox[dimension] * parseOrigin(position);
+    };
+
+    const getScale = (position?: "x" | "y") => {
+      const scaleXResult =
         "scaleX" in current
           ? current.scaleX
           : "scale" in current
           ? current.scale
-          : 1
-      }, ${
+          : 1;
+      const scaleYResult =
         "scaleY" in current
           ? current.scaleY
           : "scale" in current
           ? current.scale
-          : 1
-      }`;
+          : 1;
 
-      return result;
+      if (position) {
+        return position === "x" ? scaleXResult! : scaleYResult!;
+      }
+
+      return `scale(${scaleXResult} ${scaleYResult})`;
+    };
+
+    const getRotate = () => {
+      return `rotate(${current.rotate || 0} ${
+        getOrigin("x") * (getScale("x") as number)
+      } ${getOrigin("y") * (getScale("y") as number)})`;
+    };
+
+    const translateOrigin = (position: "x" | "y") => {
+      return (1 - (getScale(position) as number)) * getOrigin(position);
+    };
+
+    const getTranslate = () => {
+      return `translate(${(current.x || 0) + translateOrigin("x")}, ${
+        (current.y || 0) + translateOrigin("y")
+      })`;
     };
 
     if (
@@ -295,9 +350,9 @@ export class MainTimeline {
       "scaleY" in current ||
       "rotate" in current
     ) {
-      el.style.transform = `translate(${current.x || 0}px, ${
-        current.y || 0
-      }px) rotate(${current.rotate || 0}deg) scale(${getScale()})`;
+      const transform = `${getTranslate()} ${getRotate()} ${getScale()}`;
+
+      el.setAttribute("transform", transform);
     }
 
     for (let attr of elAttributes) {
@@ -324,13 +379,16 @@ export class MainTimeline {
     {
       duration: _duration,
       easing = "ease-in-out",
+      origin = "center",
       delay,
       reset,
       disable,
       resetSavedStyle,
+      basedBBox,
     }: {
       duration: number;
       easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
+      origin?: TOrigin;
       delay?: number;
       reset?: boolean;
       /**
@@ -338,6 +396,7 @@ export class MainTimeline {
        */
       disable?: boolean;
       resetSavedStyle?: boolean;
+      basedBBox?: Element;
     }
   ) {
     const durations: number[] = [];
@@ -410,10 +469,12 @@ export class MainTimeline {
     const keyframes = _keyframes!;
 
     if (!currentElAnimation) {
+      const el = (basedBBox ? basedBBox : _el) as SVGGraphicsElement;
       currentElAnimation = {
         animationId: null,
         finished: false,
         disabled: false,
+        bbox: el.getBBox(),
         styles: {
           current: { ...keyframes[0] },
           init: { ...keyframes[0] },
@@ -524,6 +585,8 @@ export class MainTimeline {
           this._setElVals({
             el: _el as HTMLElement,
             current: currentElAnimation.styles.current,
+            bbox: currentElAnimation.bbox,
+            origin,
           });
 
           currentElAnimation.finished = true;
@@ -547,6 +610,8 @@ export class MainTimeline {
       this._setElVals({
         el: _el as HTMLElement,
         current: currentElAnimation.styles.current,
+        bbox: currentElAnimation.bbox,
+        origin,
       });
 
       currentElAnimation.animationId = requestAnimationFrame(draw);

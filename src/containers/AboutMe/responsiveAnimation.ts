@@ -64,6 +64,7 @@ export const responsiveAnimation = ({
 }) => {
   const query = (s: string): HTMLElement => target.querySelector(s)!;
   const pageContainerEl = query(".page-container");
+  const screenContainer = query(".screen-container");
   const pageInnerEl = query(".page-inner");
   const pageEl = query(".page");
   const mobileEl = query(".mobile");
@@ -93,7 +94,7 @@ export const responsiveAnimation = ({
   // colors: light yellow, light blue, white, light magenta
   // window those 3 everytime you click (the reason is that there's three images on desktop and one on mobile )
 
-  const mainTranslateX = -0.23;
+  const mainTranslateX = -0.37;
   const start = () => {
     // resetStyles();
     mTimeline.scene(
@@ -140,15 +141,16 @@ export const responsiveAnimation = ({
           [
             {
               scale: 1,
-              x: 0,
+              y: 0,
             },
             {
+              y: -1,
               scale: 1.6,
-              x: mainTranslateX,
             },
           ],
           {
             duration: 800,
+            basedBBox: screenContainer,
           }
         );
 
@@ -182,15 +184,15 @@ export const responsiveAnimation = ({
       () => {
         const translate: TKeyframeStyle[] = [
           {
-            y: 0,
+            y: -1,
             offset: 0,
           },
           {
-            y: -0.2,
+            y: -1.2,
             offset: 0.3,
           },
           {
-            y: 1.1,
+            y: 0,
             offset: 1,
           },
         ];
@@ -246,7 +248,7 @@ export const responsiveAnimation = ({
           mainContainerEl,
           [
             {
-              y: 1.35,
+              y: 0.5,
               scale: 1.4,
             },
           ],
@@ -297,7 +299,7 @@ export const responsiveAnimation = ({
                 x: 0,
               },
               {
-                x: 0.5,
+                x: 0.8,
               },
             ],
             {
@@ -320,7 +322,7 @@ export const responsiveAnimation = ({
               {
                 scale: 0.7,
                 x: translate * multiply,
-                y: -(translate / 5) * multiply,
+                y: -(translate / 4.5) * multiply,
               },
             ],
             {
@@ -348,6 +350,7 @@ export const responsiveAnimation = ({
           ],
           {
             duration: 700,
+            origin: "right",
             easing: "ease-in",
           }
         );
@@ -370,6 +373,7 @@ export const responsiveAnimation = ({
           ],
           {
             duration: 700,
+            origin: "left",
             easing: "ease-in",
           }
         );
@@ -379,11 +383,9 @@ export const responsiveAnimation = ({
           [
             {
               opacity: 0,
-              x: 0,
             },
             {
               opacity: 1,
-              x: 0.1,
             },
           ],
           {
@@ -449,35 +451,29 @@ export const responsiveAnimation = ({
     mTimeline.scene(
       () => {
         mTimeline.animate(
-          mainInnerEl,
+          mainContainerEl,
           [
             {
-              x: 0,
-              y: 0,
+              rotate: 0,
             },
             {
-              x: -1.1,
-              y: -1.6,
+              rotate: 90,
             },
           ],
           {
+            basedBBox: screenContainer,
             duration: 300,
-            easing: "linear",
           }
         );
 
-        mTimeline.animate(mainInnerRotateEl, [{ rotate: 0 }, { rotate: 90 }], {
-          duration: 300,
-          easing: "linear",
-        });
-
         mTimeline.animate(tabletBarsEl, [{ rotate: 0 }, { rotate: 90 }], {
           duration: 300,
-          easing: "linear",
         });
       },
       { duration: 800 }
     );
+
+    return;
 
     mTimeline.scene(
       () => {
@@ -507,20 +503,20 @@ export const responsiveAnimation = ({
             { duration: 100 }
           );
         } else if (Safari) {
-          mTimeline.animate(
-            tabletBarsInnerEl,
-            [
-              {
-                x: 0,
-                y: 0,
-              },
-              {
-                x: -0.2,
-                y: -0.7,
-              },
-            ],
-            { duration: 100 }
-          );
+          // mTimeline.animate(
+          //   tabletBarsInnerEl,
+          //   [
+          //     {
+          //       x: 0,
+          //       y: 0,
+          //     },
+          //     {
+          //       x: -0.2,
+          //       y: -0.7,
+          //     },
+          //   ],
+          //   { duration: 100 }
+          // );
         } else {
           mTimeline.animate(
             tabletBarsInnerEl,
@@ -939,9 +935,11 @@ export const responsiveAnimation = ({
 
   mTimeline.svg = target;
   mTimeline.interactivity = interactivity;
-  mTimeline.start = start;
-  mTimeline.loop = loop;
-  mTimeline.play();
+  start();
+  loop();
+  // mTimeline.start = start;
+  // mTimeline.loop = loop;
+  // mTimeline.play();
 };
 
 export const responsiveEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {

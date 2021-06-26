@@ -146,7 +146,7 @@ const AboutMe = () => {
     <section id="about-me" class="about-me">
       <div class="about-me-inner">
         <div class="about-me-content">
-          <AboutMeLogo></AboutMeLogo>
+          {/* <AboutMeLogo></AboutMeLogo> */}
           <div class="about-me-intro">
             <p class="about-me-intro__declaration">
               Dedicated self-taught Front-End developer.
