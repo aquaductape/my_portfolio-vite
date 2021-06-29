@@ -478,9 +478,11 @@ export const a11yAnimation = ({
           [
             {
               scaleX: 1,
+              x: 0,
             },
             {
-              scaleX: 1.1,
+              scaleX: 1.75,
+              x: 0.01,
             },
           ],
           {
@@ -492,6 +494,8 @@ export const a11yAnimation = ({
       },
       { duration: 950 }
     );
+
+    return;
 
     mTimeline.scene(
       () => {
@@ -773,11 +777,13 @@ export const a11yAnimation = ({
   };
 
   mTimeline.svg = target;
-  mTimeline.resetStyles = resetStyles;
-  mTimeline.interactivity = interactivity;
-  mTimeline.start = start;
-  mTimeline.loop = loop;
-  mTimeline.play();
+  // mTimeline.resetStyles = resetStyles;
+  // mTimeline.interactivity = interactivity;
+  // mTimeline.start = start;
+  // mTimeline.loop = loop;
+  // mTimeline.play();
+  start();
+  loop();
 };
 
 export const a11yEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
