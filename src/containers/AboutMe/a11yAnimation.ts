@@ -495,8 +495,6 @@ export const a11yAnimation = ({
       { duration: 950 }
     );
 
-    return;
-
     mTimeline.scene(
       () => {
         cardTextEl.style.fill = cardTextEndColor;
@@ -777,13 +775,11 @@ export const a11yAnimation = ({
   };
 
   mTimeline.svg = target;
-  // mTimeline.resetStyles = resetStyles;
-  // mTimeline.interactivity = interactivity;
-  // mTimeline.start = start;
-  // mTimeline.loop = loop;
-  // mTimeline.play();
-  start();
-  loop();
+  mTimeline.resetStyles = resetStyles;
+  mTimeline.interactivity = interactivity;
+  mTimeline.start = start;
+  mTimeline.loop = loop;
+  mTimeline.play();
 };
 
 export const a11yEnd = ({ mTimeline }: { mTimeline: MainTimeline }) => {
