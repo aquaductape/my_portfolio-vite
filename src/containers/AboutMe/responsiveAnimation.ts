@@ -1,4 +1,3 @@
-import { FireFox, IOS, Safari } from "../../lib/browserInfo";
 import {
   MainTimeline,
   TInteractivity,

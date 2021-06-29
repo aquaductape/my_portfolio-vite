@@ -73,7 +73,9 @@ export type TInteractivity = {
 
 3. Firefox doesn't use SVG 2.0, this means that certain attributes such as `ry` can't be animated as CSS property 
 
-4. transform-origin is a pain, and I wasn't able to get it right
+4. don't use transform origin css property for multiple reasons. transform origin is based on svg viewport, you can fix that setting transform-box to value of fill-box. However fill-box comes with problems where if the element's box size changes, then the origin changes to new box size and there's no control to prevent that. Browser inconsistencies are exaserbated when fill-box is used.
+
+5. Instead manually set the origin by modifiying translate when scaling, and setting el size on rotate extra parameters.
  */
 export class MainTimeline {
   id: string;
@@ -420,6 +422,8 @@ export class MainTimeline {
       }
 
       const opacity = el.style.opacity! || el.getAttribute("opacity");
+      const strokeDashoffset =
+        el.style.strokeDashoffset! || el.getAttribute("stroke-dashoffset");
       const transform = el.style.transform!;
 
       if (keyframe.opacity != null) {
@@ -428,6 +432,10 @@ export class MainTimeline {
 
       if (opacity) {
         style.opacity = Number(opacity);
+      }
+
+      if (strokeDashoffset) {
+        style.strokeDashoffset = Number(strokeDashoffset);
       }
 
       if (transform) {

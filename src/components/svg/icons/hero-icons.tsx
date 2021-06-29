@@ -1,368 +1,390 @@
 export const A11yIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.413 7.684">
+    <svg viewBox="0 0 9.413 7.684" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <clipPath clipPathUnits="userSpaceOnUse" id="a11y-b">
+        <clipPath id="a11y-a">
+          <path fill="#fff" d="M1.72.257h5.343v7.191H1.72z" />
+        </clipPath>
+        <clipPath id="a11y-b">
           <path
+            class="talk-bubble-content-mask"
+            d="M1.056 2.216h4.189v1.097l.695.561-.695.559v1.016h-4.19z"
             fill="#fff"
-            stroke-width=".073"
-            stroke-linecap="round"
-            stroke-dashoffset="16.97"
-            d="M1.72.257h5.343v7.191H1.72z"
           />
         </clipPath>
-
-        {/* <filter
-          id="a11y-protanopia"
-          color-interpolation-filters="linearRGB"
-          filterUnits="objectBoundingBox"
-          primitiveUnits="userSpaceOnUse"
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-        >
-          <feColorMatrix
-            type="matrix"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            values="
-        			0.152286 1.052583 -0.204868 0.000 0.000
-        			0.114503 0.786281 0.099216  0.000 0.000
-        			-0.003882 -0.048116	1.051998 0.000 0.000
-        			0.000 0.000 0.000 1.000 0.000"
-          ></feColorMatrix>
-        </filter>
-
-        <filter id="a11y-deuteranopia" color-interpolation-filters="sRGB">
-          <feColorMatrix
-            values="
-        		 		0.367 0.861 -0.228 0.000 0.000
-        				0.280 0.673 0.047 0.000 0.000
-        				-0.012 0.043 0.969 0.000 0.000
-        				0.000 0.000 0.000 1.000 0.000"
-          ></feColorMatrix>
-        </filter>
-
-        <filter id="a11y-tritanopia" color-interpolation-filters="sRGB">
-          <feColorMatrix
-            values="
-        			  1.255528 -0.076749 -0.178779 0.000 0.000
-        			  -0.078411 0.930809 0.147602 0.000 0.000
-        			  0.004733 0.691367 0.303900 0.000 0.000
-        			  0.000 0.000 0.000 1.000 0.000"
-          ></feColorMatrix>
-        </filter>
-
-        <filter id="a11y-achromatopsia" color-interpolation-filters="sRGB">
-          <feColorMatrix
-            values="
-            		0.21, 0.72, 0.07, 0, 0
-              		0.21, 0.72, 0.07, 0, 0
-              		0.21, 0.72, 0.07, 0, 0
-              		0, 0, 0, 1, 0"
-          ></feColorMatrix>
-        </filter> */}
       </defs>
+
       <g class="card" opacity="0">
         <path
-          d="M3.672 2.293h4.253c.13 0 .234.104.234.234v2.622c0 .13-.104.233-.234.233H3.672a.233.233 0 01-.234-.233V2.527c0-.13.104-.234.234-.234z"
+          d="M2.58 2.293h4.253c.13 0 .234.104.234.234v2.622c0 .13-.104.233-.234.233H2.58a.233.233 0 01-.234-.233V2.527c0-.13.104-.234.234-.234z"
           fill="#fff"
           paint-order="markers fill stroke"
         />
+        <g class="card-art">
+          <path
+            d="M6.909 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
+            fill="#5858ff"
+            paint-order="markers fill stroke"
+            class="moon"
+            transform="scale(0)"
+          />
+          <path
+            d="M6.246 3.202a.293.293 0 01-.527.176c.054-.403.38-.404.396-.421.08.052.131.142.131.245z"
+            class="moon-shadow"
+            fill="#fff"
+          />
+          <path
+            d="M6.107 2.638s-.24.124-.34.498c-.101.373-.016.402.09.43.108.029.196.047.296-.327.1-.373-.045-.601-.045-.601z"
+            fill="#fe2dff"
+            class="flower-petal-3"
+            paint-order="markers fill stroke"
+            transform="scale(0)"
+          />
+          <path
+            d="M5.862 2.436s-.235.215-.235.67c0 .454.105.46.234.46.131 0 .237-.006.237-.46 0-.455-.235-.67-.235-.67z"
+            fill="#ff2db5"
+            class="flower-petal-2"
+            paint-order="markers fill stroke"
+            transform="scale(0)"
+          />
+          <path
+            d="M5.866 5.376V3.404"
+            fill="none"
+            stroke="green"
+            stroke-width=".059"
+            class="flower-stem"
+            transform="scale(0)"
+          />
+          <g
+            class="flower-leaf-1"
+            paint-order="markers fill stroke"
+            transform="scale(0)"
+          >
+            <path
+              class="leaf-light-1"
+              d="M5.152 3.778s.26.1.452.1.17-.068.244-.101z"
+              fill="#8fff8f"
+            />
+            <path
+              class="leaf-dark-1"
+              d="M5.152 3.778s.26-.1.452-.1.244.045.244.099z"
+              fill="green"
+            />
+          </g>
+          <g
+            class="flower-leaf-0"
+            paint-order="markers fill stroke"
+            transform="scale(0)"
+          >
+            <path
+              class="leaf-light-0"
+              d="M6.641 4.311s-.284.11-.495.11c-.21 0-.192-.064-.268-.11z"
+              fill="#8fff8f"
+            />
+            <path
+              class="leaf-dark-0"
+              d="M6.641 4.311s-.283-.11-.494-.11c-.212 0-.27.05-.27.11z"
+              fill="green"
+            />
+          </g>
+          <g class="flower-closed-bud" transform="scale(0)">
+            <path
+              d="M5.877 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
+              fill="#ff2d79"
+              class="flower-petal-1"
+              paint-order="markers fill stroke"
+            />
+            <path
+              d="M5.708 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
+              fill="#d42100"
+              class="flower-petal-0"
+              paint-order="markers fill stroke"
+            />
+          </g>
+        </g>
+        <text
+          style="line-height:1.25"
+          x="2.888"
+          y="4.521"
+          class="card-text"
+          font-size="1.873"
+          font-family="sans-serif"
+          letter-spacing="0"
+          word-spacing="0"
+          fill="#ff9b9b"
+          stroke-width=".108"
+          opacity="0"
+        >
+          <tspan
+            x="2.888"
+            y="4.521"
+            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+            font-weight="400"
+            font-family="Ubuntu"
+          >
+            Hi
+          </tspan>
+        </text>
+      </g>
 
-        <g class="card-content" filter="url(#a11y-protanopia)">
-          <g class="card-art">
-            <path
-              d="M8.001 2.748a.292.292 0 11-.584 0 .292.292 0 01.584 0z"
-              fill="#5858ff"
-              paint-order="markers fill stroke"
-              class="moon"
-            />
-            <path
-              d="M7.338 3.202a.293.293 0 01-.527.176c.054-.403.38-.404.396-.421.08.052.131.142.131.245z"
-              class="moon-shadow"
-              fill="#fff"
-            />
-            <path
-              d="M7.2 2.638s-.242.124-.342.498c-.1.373-.015.402.091.43.108.029.196.047.296-.327.1-.373-.045-.601-.045-.601z"
-              fill="#fe2dff"
-              class="flower-petal-3"
-              paint-order="markers fill stroke"
-            />
-            <path
-              d="M6.954 2.436s-.235.215-.235.67c0 .454.105.46.234.46.131 0 .237-.006.237-.46 0-.455-.234-.67-.234-.67z"
-              fill="#ff2db5"
-              class="flower-petal-2"
-              paint-order="markers fill stroke"
-            />
-            <path
-              d="M6.958 5.376V3.404"
-              fill="none"
-              stroke="green"
-              stroke-width=".059"
-              class="flower-stem"
-            />
-            <g class="flower-leaf-1" paint-order="markers fill stroke">
-              <path
-                d="M6.244 3.778s.26.1.452.1.17-.068.244-.101z"
-                fill="#8fff8f"
-              />
-              <path
-                d="M6.244 3.778s.26-.1.452-.1.244.045.244.099z"
-                fill="green"
-              />
+      <g class="talk-bubble" opacity="0">
+        <rect
+          class="talk-bubble-rect"
+          x="1.056"
+          y="1.994"
+          width="4.242"
+          height="3.686"
+          ry=".25"
+          fill="#fff"
+          stroke="#000"
+          stroke-dashoffset="16.97"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width=".104"
+        />
+        <g
+          class="talk-bubble-tail"
+          // @ts-ignore
+          fill="#fff"
+          transform="scale(0)"
+        >
+          <path
+            class="talk-bubble-tail-rect"
+            d="M5.24 3.191h.079v1.333H5.24z"
+          />
+          <path
+            d="M5.298 5.387V4.46l.727-.585-.727-.585v-.974"
+            stroke="#000"
+            stroke-dashoffset="16.97"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width=".104"
+          />
+        </g>
+        <g clip-path="url(#a11y-b)">
+          <g class="talk-bubble-content">
+            <g class="contrast">
+              <g class="color-container">
+                <circle
+                  cx="4.324"
+                  cy="2.74"
+                  r=".404"
+                  fill="none"
+                  stroke="#000"
+                  stroke-dashoffset="16.97"
+                  stroke-linecap="round"
+                  stroke-width=".047"
+                />
+                <circle
+                  class="color"
+                  cx="4.324"
+                  cy="2.74"
+                  r=".28"
+                  fill="#ff9b9b"
+                />
+              </g>
+              <g class="contrast-small-fail">
+                <path d="M4.32 3.502a.355.355 0 10.003 0z" fill="#fff" />
+                <path
+                  d="M4.32 3.43a.427.427 0 00-.424.426.427.427 0 00.427.428.427.427 0 00.428-.427.427.427 0 00-.428-.428.427.427 0 00-.004 0zm-.168.202l.171.172.171-.171.053.052-.17.171.17.171-.053.053-.17-.17-.172.17-.052-.052.17-.17-.17-.172z"
+                  fill="#ba115b"
+                />
+              </g>
+              <g class="contrast-large-fail">
+                <path d="M4.32 4.58a.355.355 0 10.003 0z" fill="#fff" />
+                <path
+                  d="M4.32 4.508a.427.427 0 00-.424.427.427.427 0 00.427.428.427.427 0 00.428-.429.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.168.204l.171.17.171-.17.053.052-.17.17.17.172-.053.052-.17-.17-.172.17-.052-.052.17-.172-.17-.17z"
+                  fill="#ba115b"
+                />
+              </g>
+              <g font-family="sans-serif" letter-spacing="0" word-spacing="0">
+                <text
+                  x="1.544"
+                  y="4.214"
+                  font-size="1.029"
+                  stroke-width=".223"
+                  style="line-height:1.25"
+                >
+                  <tspan
+                    x="1.544"
+                    y="4.214"
+                    font-family="Ubuntu"
+                    font-weight="400"
+                    stroke-width=".05"
+                    style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                  >
+                    AA
+                  </tspan>
+                </text>
+                <text
+                  x="1.544"
+                  y="5.329"
+                  font-size="1.029"
+                  stroke-width=".223"
+                  style="line-height:1.25"
+                >
+                  <tspan
+                    x="1.544"
+                    y="5.329"
+                    font-family="Ubuntu"
+                    font-weight="400"
+                    stroke-width=".05"
+                    style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                  >
+                    AAA
+                  </tspan>
+                </text>
+                <text
+                  x="1.499"
+                  y="3.083"
+                  font-size=".98"
+                  stroke-width=".057"
+                  style="line-height:1.25"
+                  class="contrast-text"
+                >
+                  <tspan
+                    x="1.499"
+                    y="3.083"
+                    font-family="Ubuntu"
+                    style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                  >
+                    3.3
+                  </tspan>
+                </text>
+              </g>
+              <g class="contrast-large-success" opacity="0">
+                <circle cx="4.324" cy="4.934" r=".427" fill="#19ad19" />
+                <path
+                  class="success-check"
+                  d="M4.076 4.945l.15.15.338-.338"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-dasharray=".69"
+                  stroke-dashoffset=".69"
+                  stroke-width=".075"
+                />
+              </g>
+              <g class="contrast-small-success" opacity="0">
+                <circle cx="4.324" cy="3.857" r=".427" fill="#19ad19" />
+                <path
+                  class="success-check"
+                  d="M4.076 3.867l.15.15.338-.338"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-dasharray=".69"
+                  stroke-dashoffset=".69"
+                  stroke-width=".075"
+                />
+              </g>
             </g>
-            <g class="flower-leaf-0" paint-order="markers fill stroke">
+            <g class="rgb" opacity="0">
+              <text
+                class="rgb-b"
+                x="1.472"
+                y="5.328"
+                fill="#0808d7"
+                font-family="sans-serif"
+                font-size="1.029"
+                letter-spacing="0"
+                stroke-width=".223"
+                word-spacing="0"
+                style="line-height:1.25"
+              >
+                <tspan
+                  x="1.472"
+                  y="5.328"
+                  font-family="Ubuntu"
+                  font-weight="400"
+                  stroke-width=".05"
+                  style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                >
+                  <tspan font-weight="500">B</tspan>lue
+                </tspan>
+              </text>
+              <text
+                class="rgb-r"
+                x="1.476"
+                y="3.081"
+                fill="#d20000"
+                font-family="sans-serif"
+                font-size=".98"
+                letter-spacing="0"
+                stroke-width=".057"
+                word-spacing="0"
+                style="line-height:1.25"
+              >
+                <tspan
+                  x="1.476"
+                  y="3.081"
+                  font-family="Ubuntu"
+                  style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                >
+                  <tspan font-weight="500">R</tspan>ed
+                </tspan>
+              </text>
               <path
-                d="M7.734 4.311s-.285.11-.495.11c-.211 0-.193-.064-.27-.11z"
-                fill="#8fff8f"
+                class="block-r"
+                d="M1.237 2.8h2.201"
+                fill="none"
+                stroke="#939393"
+                stroke-linecap="round"
+                stroke-width=".13"
+                stroke-dashoffset="2.25"
+                stroke-dasharray="2.25"
+              />
+              <text
+                class="rgb-g"
+                x="1.501"
+                y="4.212"
+                fill="#0c8e00"
+                font-family="sans-serif"
+                font-size="1.029"
+                letter-spacing="0"
+                stroke-width=".223"
+                word-spacing="0"
+                style="line-height:1.25"
+              >
+                <tspan
+                  x="1.501"
+                  y="4.212"
+                  font-family="Ubuntu"
+                  font-weight="400"
+                  stroke-width=".05"
+                  style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal"
+                >
+                  <tspan font-weight="500">G</tspan>reen
+                </tspan>
+              </text>
+              <path
+                class="block-g"
+                d="M1.237 3.916h3.34"
+                fill="none"
+                stroke="#939393"
+                stroke-linecap="round"
+                stroke-width=".13"
+                stroke-dashoffset="3.359"
+                stroke-dasharray="3.359"
               />
               <path
-                d="M7.734 4.311s-.284-.11-.495-.11c-.212 0-.27.05-.27.11z"
-                fill="green"
-              />
-            </g>
-            <g paint-order="markers fill stroke" class="flower-closed-bud">
-              <path
-                d="M6.969 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
-                fill="#ff2d79"
-                class="flower-petal-1"
-              />
-              <path
-                d="M6.8 2.957s-.032-.174-.032.214.09.393.2.393c.235-.02-.14-.412-.168-.607z"
-                fill="#d42100"
-                class="flower-petal-0"
+                class="block-b"
+                d="M1.237 5.055h2.647"
+                fill="none"
+                stroke="#939393"
+                stroke-linecap="round"
+                stroke-width=".13"
+                stroke-dashoffset="2.647"
+                stroke-dasharray="2.647"
               />
             </g>
           </g>
-          <text
-            style="line-height:1.25"
-            x="3.98"
-            y="4.521"
-            class="card-text"
-            font-size="1.873"
-            font-family="sans-serif"
-            letter-spacing="0"
-            word-spacing="0"
-            stroke-width=".108"
-            opacity="0"
-            fill="#ff9b9b"
-          >
-            <tspan
-              x="3.98"
-              y="4.521"
-              style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-              font-weight="400"
-              font-family="Ubuntu"
-            >
-              Hi
-            </tspan>
-          </text>
         </g>
       </g>
-      <g class="contrast" opacity="0">
+
+      <g class="person-container" clip-path="url(#a11y-a)">
         <path
-          d="M1.518 2.02a.212.212 0 00-.213.213V5.45a.212.212 0 00.213.213h3.51a.212.212 0 00.212-.213v-.97l1.013-.585L5.24 3.31V2.233a.212.212 0 00-.212-.213z"
-          fill="#fff"
-          stroke="#000"
-          stroke-width=".104"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-dashoffset="16.97"
-          paint-order="markers fill stroke"
-        />
-        <g class="color-container">
-          <circle
-            cx="4.551"
-            cy="2.688"
-            r=".404"
-            fill="none"
-            stroke="#000"
-            stroke-width=".047"
-            stroke-linecap="round"
-            stroke-dashoffset="16.97"
-          />
-          <circle cx="4.551" cy="2.688" r=".28" class="color" fill="#ff9b9b" />
-        </g>
-        <g class="contrast-small-fail">
-          <path fill="#fff" d="M4.548 3.449a.355.355 0 10.003 0z" />
-          <path
-            d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.203l.171.172.171-.172.053.053-.171.171.171.171-.053.053-.17-.171-.172.17-.052-.052.17-.17-.17-.172z"
-            fill="#ba115b"
-          />
-        </g>
-        <g class="contrast-small-success" opacity="0">
-          <path d="M4.548 3.432a.372.372 0 10.003 0z" fill="#fff" />
-          <path
-            fill="#19ad19"
-            d="M4.547 3.377a.427.427 0 00-.423.427.427.427 0 00.427.427.427.427 0 00.428-.427.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.052-.053-.052-.13-.13.052-.053.13.13z"
-          />
-        </g>
-        <g class="contrast-large-fail">
-          <path fill="#fff" d="M4.548 4.527a.355.355 0 10.003 0z" />
-          <path
-            d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm-.167.204l.171.17.171-.17.053.052-.171.171.171.172-.053.052-.17-.171-.172.171-.052-.052.17-.172-.17-.17z"
-            fill="#ba115b"
-          />
-        </g>
-        <g class="contrast-large-success" opacity="0">
-          <path d="M4.548 4.51a.372.372 0 10.003 0z" fill="#fff" />
-          <path
-            fill="#19ad19"
-            d="M4.547 4.455a.427.427 0 00-.423.427.427.427 0 00.427.428.427.427 0 00.428-.428.427.427 0 00-.428-.427.427.427 0 00-.004 0zm.225.219l.053.052-.312.312-.052.053-.053-.053-.13-.13.052-.053.13.13z"
-          />
-        </g>
-        <text
-          style="line-height:1.25"
-          x="1.781"
-          y="4.119"
-          font-size="1.029"
-          font-family="sans-serif"
-          letter-spacing="0"
-          word-spacing="0"
-          stroke-width=".223"
-        >
-          <tspan
-            x="1.781"
-            y="4.119"
-            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-            font-weight="400"
-            font-family="Ubuntu"
-            stroke-width=".05"
-          >
-            AA
-          </tspan>
-        </text>
-        <text
-          style="line-height:1.25"
-          x="1.781"
-          y="5.277"
-          font-size="1.029"
-          font-family="sans-serif"
-          letter-spacing="0"
-          word-spacing="0"
-          stroke-width=".223"
-        >
-          <tspan
-            x="1.781"
-            y="5.277"
-            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-            font-weight="400"
-            font-family="Ubuntu"
-            stroke-width=".05"
-          >
-            AAA
-          </tspan>
-        </text>
-        <text
-          style="line-height:1.25"
-          x="1.726"
-          y="3.03"
-          font-size=".98"
-          font-family="sans-serif"
-          letter-spacing="0"
-          word-spacing="0"
-          stroke-width=".057"
-          class="contrast-text"
-        >
-          <tspan
-            x="1.726"
-            y="3.03"
-            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-            font-weight="400"
-            font-family="Ubuntu"
-          >
-            2
-          </tspan>
-        </text>
-      </g>
-      <g class="rgb" opacity="0">
-        <rect
-          width="3.236"
-          height="1.144"
-          x="1.261"
-          y="2.073"
-          ry=".227"
-          fill="#fff"
-          paint-order="markers fill stroke"
-          stroke="#000"
-          stroke-width=".1"
-        />
-        <text x="1.711" y="3.041" font-size="2.674" stroke-width=".223">
-          <tspan
-            x="1.711"
-            y="3.041"
-            style="-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
-            font-weight="400"
-            font-size="1.176"
-            font-family="Ubuntu"
-            stroke-width=".05"
-          >
-            <tspan
-              class="rgb-r"
-              fill="#d20000"
-              stroke-width=".011"
-              style="-inkscape-font-specification:'Ubuntu Medium'"
-              font-weight="500"
-            >
-              R
-            </tspan>
-            <tspan
-              class="rgb-g"
-              fill="#0d9c00"
-              stroke-width=".011"
-              style="-inkscape-font-specification:'Ubuntu Medium'"
-              font-weight="500"
-            >
-              G
-            </tspan>
-            <tspan
-              class="rgb-b"
-              fill="#0000d6"
-              stroke-width=".011"
-              style="-inkscape-font-specification:'Ubuntu Medium'"
-              font-weight="500"
-            >
-              B
-            </tspan>
-          </tspan>
-        </text>
-        <use
-          {...{ "xlink:href": "#a11y-a" }}
-          transform="translate(.77)"
-          width="100%"
-          height="100%"
-          class="block-g"
-          opacity="0"
-        />
-        <g class="block-r" opacity="0">
-          <path
-            d="M2.082 2.317a.332.332 0 00-.331.332.332.332 0 00.33.33.332.332 0 00.332-.33.332.332 0 00-.331-.332zm-.265.332c0-.146.12-.265.265-.265.06 0 .116.02.162.056l-.37.371a.26.26 0 01-.057-.162zm.265.265a.262.262 0 01-.163-.057l.37-.37a.26.26 0 01.058.162c0 .145-.12.265-.265.265z"
-            id="a11y-a"
-            fill="#000"
-            fill-rule="evenodd"
-            stroke="none"
-            stroke-width=".059"
-          />
-        </g>
-        <use
-          {...{ "xlink:href": "#a11y-a" }}
-          transform="translate(1.54)"
-          width="100%"
-          height="100%"
-          class="block-b"
-          opacity="0"
-        />
-      </g>
-      <g clip-path="url(#a11y-b)" class="person-container">
-        <path
+          class="person"
           d="M5.001 2.347a.734.734 0 00.039-1.3.688.688 0 00-.334-.074.674.674 0 00-.334.074.767.767 0 00-.382.646c0 .294.223.598.508.691.137.045.37.028.503-.037zm-.894 4.304c.06-.05.091-.117.168-.364.11-.353.22-.783.301-1.183.058-.281.085-.348.14-.348.067 0 .107.106.203.537.108.48.288 1.142.346 1.27.07.152.286.192.41.075.09-.085.093-.178.012-.441-.253-.827-.41-1.64-.456-2.375-.031-.487-.016-.596.091-.65a1.38 1.38 0 01.326-.049c.596-.037 1.18-.116 1.264-.17.194-.127.106-.462-.123-.464-.041 0-.245.02-.453.047-.98.121-2.233.127-3.384.015-.365-.036-.448-.021-.515.088-.108.178-.003.375.216.407.176.025.995.087 1.154.087.18 0 .292.03.366.1.051.048.055.07.055.304 0 .659-.147 1.549-.399 2.41-.117.402-.145.588-.096.648.107.13.26.153.374.056z"
           fill="#888f9b"
-          class="person"
-          style="transform-origin: left; transform-box: fill-box;"
         />
       </g>
     </svg>

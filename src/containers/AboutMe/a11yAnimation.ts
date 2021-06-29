@@ -1,8 +1,74 @@
-import { setSameStylesOnDuplicatedEls } from "../../utils";
 import { MainTimeline, TInteractivity } from "./animateProjectPromise";
 
 const msg = ["Hi", "is", "it", "ok", "to", "be", "an", "ai", "or", "no"];
 let msgIdx = 0;
+
+type TColors = {
+  rgb: string;
+  p: string;
+  d: string;
+  t: string;
+  a: string;
+};
+// the svg filters that I used don't work in Safari, results in blank graphic. Instead hard-coded colors from a map, it's doable because there's not a lot of colors
+const graphic = {
+  text: {
+    rgb: "#a52c2c",
+    p: "#3e3a2b",
+    d: "#584e2b",
+    t: "#c4232d",
+    a: "#464646",
+  },
+  greenDark: {
+    rgb: "green",
+    p: "#876500",
+    d: "#6e5606",
+    t: "#007758",
+    a: "#5c5c5c",
+  },
+  greenLight: {
+    rgb: "#8fff8f",
+    p: "#ffe78a",
+    d: "#efda94",
+    t: "#86f7dc",
+    a: "#dfdfdf",
+  },
+  moon: {
+    rgb: "#5858ff",
+    p: "#3669ff",
+    d: "#3260fa",
+    t: "#3a718b",
+    a: "#646464",
+  },
+  petal0: {
+    rgb: "#d42100",
+    p: "#433200",
+    d: "#6a5200",
+    t: "#ff0e18",
+    a: "#454545",
+  },
+  petal1: {
+    rgb: "#ff2d79",
+    p: "#3d4d7c",
+    d: "#696b74",
+    t: "#ff2845",
+    a: "#5f5f5f",
+  },
+  petal2: {
+    rgb: "#ff2db5",
+    p: "#3153bb",
+    d: "#5b6eae",
+    t: "#ff3157",
+    a: "#636363",
+  },
+  petal3: {
+    rgb: "#fe2dff",
+    p: "#225aff",
+    d: "#4a71f6",
+    t: "#ff3c6e",
+    a: "#696969",
+  },
+};
 
 const interactivity: TInteractivity[] = [
   {
@@ -22,9 +88,6 @@ const interactivity: TInteractivity[] = [
   },
 ];
 
-// these particular filters don't work in Safari, results in blank graphic. Instead hard-coded colors from a map, it's doable because there's not a lot of colors
-
-let init = true;
 export const a11yAnimation = ({
   target,
   mTimeline,
@@ -34,38 +97,27 @@ export const a11yAnimation = ({
 }) => {
   const query = (s: string): HTMLElement => target.querySelector(s)!;
   const cardEl = query(".card");
-  let cardContent0: HTMLElement;
-  let cardContent1: HTMLElement;
 
-  if (init) {
-    cardContent0 = query(".card-content");
-    cardContent1 = cardContent0.cloneNode(true) as HTMLElement;
-    cardContent1.style.opacity = "0";
-    cardEl.appendChild(cardContent1);
-  } else {
-    const res = target.querySelectorAll(
-      ".card-content"
-    ) as NodeListOf<HTMLElement>;
-    cardContent0 = res[0];
-    cardContent1 = res[1];
-  }
-
-  init = false;
   const contrastEndNum = 7;
   const contrastStartNum = 2;
   const cardTextEndColor = "#a52c2c";
   const cardTextStartColor = "#ff9b9b";
 
+  const cardContent = query(".card-content");
   const contrastEl = query(".contrast");
+  const talkBubbleEl = query(".talk-bubble");
+  const talkBubbleContent = query(".talk-bubble-content");
+  const talkBubbleContentMask = query(".talk-bubble-content-mask");
+  const talkBubbleRect = query(".talk-bubble-rect");
+  const talkBubbleTail = query(".talk-bubble-tail");
+  const talkBubbleTailRect = query(".talk-bubble-tail-rect");
   const colorEl = query(".color");
   const contrastSmallFailEl = query(".contrast-small-fail");
   const contrastLargeFailEl = query(".contrast-large-fail");
   const contrastSmallSuccessEl = query(".contrast-small-success");
   const contrastLargeSuccessEl = query(".contrast-large-success");
   const contrastTextEl = query(".contrast-text");
-  const [cardTextEl0, cardTextEl1] = target.querySelectorAll(
-    ".card-text"
-  ) as NodeListOf<HTMLElement>;
+  const cardTextEl = query(".card-text");
   const rgbEl = query(".rgb");
   const rgbREl = query(".rgb-r");
   const rgbGEl = query(".rgb-g");
@@ -76,38 +128,83 @@ export const a11yAnimation = ({
   const personEl = query(".person");
   const moonEl = query(".moon");
   const flowerClosedBudEl = query(".flower-closed-bud");
+  const flowerPetal0 = query(".flower-petal-0");
+  const flowerPetal1 = query(".flower-petal-1");
+  const flowerPetal2 = query(".flower-petal-2");
+  const flowerPetal3 = query(".flower-petal-3");
   const flowerLeaf0El = query(".flower-leaf-0");
+  const leafLight0 = query(".leaf-light-0");
+  const leafDark0 = query(".leaf-dark-0");
   const flowerLeaf1El = query(".flower-leaf-1");
+  const leafLight1 = query(".leaf-light-1");
+  const leafDark1 = query(".leaf-dark-1");
   const flowerStemEl = query(".flower-stem");
   const personContainerEl = query(".person-container");
 
-  const resetStyles = () => {
-    contrastSmallSuccessEl.style.opacity = "";
-    contrastLargeSuccessEl.style.opacity = "";
-    contrastSmallFailEl.style.opacity = "";
-    contrastLargeFailEl.style.opacity = "";
+  const graphicElColorMap: [HTMLElement, TColors][] = [
+    [moonEl, graphic.moon],
+    [cardTextEl, graphic.text],
+    [flowerStemEl, graphic.greenDark],
+    [leafDark0, graphic.greenDark],
+    [leafDark1, graphic.greenDark],
+    [leafLight0, graphic.greenLight],
+    [leafLight1, graphic.greenLight],
+    [flowerPetal0, graphic.petal0],
+    [flowerPetal1, graphic.petal1],
+    [flowerPetal2, graphic.petal2],
+    [flowerPetal3, graphic.petal3],
+  ];
 
-    rgbEl.style.opacity = "";
-    rgbREl.style.fillOpacity = "";
-    rgbGEl.style.fillOpacity = "";
-    rgbBEl.style.fillOpacity = "";
-    blockREl.style.opacity = "";
-    blockGEl.style.opacity = "";
-    blockBEl.style.opacity = "";
-    contrastTextEl.textContent = contrastStartNum.toFixed(1);
-    colorEl.style.fill = cardTextStartColor;
-    cardTextEl0.style.fill = cardTextStartColor;
-    cardTextEl0.style.transition = "";
-    colorEl.style.transition = "";
+  const emulateVision = (
+    type:
+      | "protanopia"
+      | "deuteranopia"
+      | "tritanopia"
+      | "achromatopsia"
+      | "none",
+    transition: boolean = true
+  ) => {
+    const getColorProp = (): keyof TColors => {
+      switch (type) {
+        case "protanopia":
+        case "deuteranopia":
+        case "tritanopia":
+        case "achromatopsia":
+          return type[0] as keyof TColors;
+        default:
+          return "rgb";
+      }
+    };
+
+    const colorProp = getColorProp();
+
+    graphicElColorMap.forEach((items) => {
+      const [el, colors] = items;
+      el.style.fill = colors[colorProp];
+
+      if (transition) {
+        el.style.transition = "fill 1500ms";
+      } else {
+        el.style.transition = "";
+      }
+    });
   };
 
-  // cardContent0. = "url(#a11y-protanopia)";
-  // cardContent0.setAttribute("filter", "url(#a11y-protanopia)");
-  // setTimeout(() => {
-  //   cardContent0.style.transform = "translate(0, 0)";
-  // }, 200);
+  const resetStyles = () => {
+    contrastTextEl.textContent = contrastStartNum.toFixed(1);
+    colorEl.style.fill = cardTextStartColor;
+    cardTextEl.style.fill = cardTextStartColor;
+    cardTextEl.style.transition = "";
+    colorEl.style.transition = "";
+
+    rgbREl.style.fill = "";
+    rgbGEl.style.fill = "";
+    rgbBEl.style.fill = "";
+  };
 
   const start = () => {
+    emulateVision("none", false);
+
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -115,18 +212,15 @@ export const a11yAnimation = ({
           [
             {
               opacity: 0,
-              x: 0,
             },
             {
               opacity: 1,
-              x: 1,
             },
           ],
           {
             duration: 500,
           }
         );
-
         mTimeline.animate(
           personContainerEl,
           [
@@ -137,8 +231,8 @@ export const a11yAnimation = ({
             },
             {
               scale: 0.25,
-              x: 6,
-              y: 3.6,
+              x: 0.325,
+              y: 0.755,
             },
           ],
           {
@@ -155,7 +249,7 @@ export const a11yAnimation = ({
             },
             {
               scale: 2.5,
-              x: -55,
+              x: -45,
             },
           ],
           {
@@ -203,6 +297,7 @@ export const a11yAnimation = ({
           ],
           {
             duration,
+            origin: "bottom",
             delay: 100,
           }
         );
@@ -236,6 +331,7 @@ export const a11yAnimation = ({
           {
             duration,
             delay: duration - 100,
+            origin: "left",
           }
         );
         mTimeline.animate(
@@ -255,6 +351,7 @@ export const a11yAnimation = ({
           {
             duration,
             delay: duration - 100,
+            origin: "right",
           }
         );
       },
@@ -263,22 +360,10 @@ export const a11yAnimation = ({
 
     mTimeline.scene(
       () => {
-        mTimeline.setTimeout(() => {
-          setSameStylesOnDuplicatedEls({
-            parent: target,
-            els: [
-              flowerClosedBudEl,
-              flowerLeaf0El,
-              flowerLeaf1El,
-              moonEl,
-              flowerStemEl,
-              cardTextEl0,
-            ],
-          });
-        }, 900);
+        cardTextEl.style.fill = cardTextStartColor;
 
         mTimeline.animate(
-          cardTextEl0,
+          cardTextEl,
           [
             {
               opacity: 0,
@@ -288,7 +373,7 @@ export const a11yAnimation = ({
             },
           ],
           {
-            duration: 300,
+            duration: 500,
             delay: 500,
           }
         );
@@ -297,7 +382,7 @@ export const a11yAnimation = ({
           personContainerEl,
           [
             {
-              x: 6.2,
+              x: 0.556,
             },
           ],
           {
@@ -311,18 +396,16 @@ export const a11yAnimation = ({
             {
               rotate: 0,
               x: 0,
-              y: 0,
             },
             {
               rotate: -20,
-              x: 5,
-              y: 0.5,
+              x: 4.8,
             },
           ],
           { duration: 500 }
         );
       },
-      { duration: 500 }
+      { duration: 1400 }
     );
   };
 
@@ -330,7 +413,34 @@ export const a11yAnimation = ({
     mTimeline.scene(
       () => {
         mTimeline.animate(
-          contrastEl,
+          target,
+          [
+            {
+              x: -55,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+
+        mTimeline.animate(
+          cardEl,
+          [
+            {
+              x: 0,
+            },
+            {
+              x: 2.25,
+            },
+          ],
+          {
+            duration: 500,
+          }
+        );
+
+        mTimeline.animate(
+          talkBubbleEl,
           [
             {
               opacity: 0,
@@ -338,48 +448,151 @@ export const a11yAnimation = ({
             },
             {
               opacity: 1,
-              x: -1.35,
+              x: -1,
             },
           ],
           {
+            delay: 200,
+            duration: 500,
+          }
+        );
+
+        mTimeline.animate(
+          talkBubbleTail,
+          [
+            {
+              scaleX: 0,
+            },
+            {
+              scaleX: 1,
+            },
+          ],
+          {
+            origin: "left",
+            delay: 500,
+            duration: 500,
+          }
+        );
+        mTimeline.animate(
+          talkBubbleTailRect,
+          [
+            {
+              scaleX: 1,
+            },
+            {
+              scaleX: 1.1,
+            },
+          ],
+          {
+            origin: "right",
+            delay: 600,
             duration: 500,
           }
         );
       },
-      { duration: 750 }
+      { duration: 950 }
     );
 
     mTimeline.scene(
       () => {
-        cardTextEl0.style.fill = cardTextEndColor;
+        cardTextEl.style.fill = cardTextEndColor;
         colorEl.style.fill = cardTextEndColor;
-        cardTextEl0.style.transition = "fill 1600ms";
-        colorEl.style.transition = "fill 1600ms";
+        cardTextEl.style.transition = "fill 2000ms";
+        colorEl.style.transition = "fill 2000ms";
+
+        const animateChecks = (
+          failEl: Element,
+          sucessEl: Element,
+          delay: number
+        ) => {
+          // stroke-dasharray=".69"
+          const successCheckStroke = sucessEl.querySelector(
+            ".success-check"
+          ) as HTMLElement;
+          const strokeDashoffset = 0.69;
+          successCheckStroke.style.strokeDashoffset =
+            strokeDashoffset.toString();
+
+          mTimeline.animate(
+            successCheckStroke,
+            [
+              {
+                strokeDashoffset,
+              },
+              {
+                strokeDashoffset: 0,
+              },
+            ],
+            { duration: 300, delay: delay + 200 }
+          );
+
+          mTimeline.animate(
+            failEl,
+            [
+              {
+                opacity: 1,
+              },
+              {
+                opacity: 0,
+              },
+            ],
+            { duration: 200, delay }
+          );
+
+          mTimeline.animate(
+            sucessEl,
+            [
+              {
+                opacity: 0,
+              },
+              {
+                opacity: 1,
+              },
+            ],
+            { duration: 200, delay }
+          );
+        };
 
         mTimeline.countAnimation({
           el: contrastTextEl,
-          duration: 1500,
+          duration: 2000,
           startNum: contrastStartNum,
           endNum: contrastEndNum,
           fixed: 1,
         });
 
-        mTimeline.setTimeout(() => {
-          contrastSmallSuccessEl.style.opacity = "1";
-          contrastSmallFailEl.style.opacity = "0";
-        }, 600);
-
-        mTimeline.setTimeout(() => {
-          contrastLargeSuccessEl.style.opacity = "1";
-          contrastLargeFailEl.style.opacity = "0";
-        }, 1500);
+        animateChecks(contrastSmallFailEl, contrastSmallSuccessEl, 800);
+        animateChecks(contrastLargeFailEl, contrastLargeSuccessEl, 1800);
       },
-      { duration: 2500 }
+      { duration: 3000 }
     );
 
     mTimeline.scene(
       () => {
-        cardTextEl1.style.fill = cardTextEndColor;
+        mTimeline.animate(
+          talkBubbleRect,
+          [
+            {
+              attrX: 3.556,
+              width: 1.742,
+            },
+          ],
+          { duration: 500, easing: "ease-in" }
+        );
+
+        mTimeline.animate(
+          talkBubbleContent,
+          [
+            {
+              x: 0,
+            },
+            {
+              x: 2.5,
+            },
+          ],
+          { duration: 500, easing: "ease-in" }
+        );
+
         mTimeline.animate(
           contrastEl,
           [
@@ -387,8 +600,17 @@ export const a11yAnimation = ({
               opacity: 0,
             },
           ],
-          { duration: 200 }
+          { duration: 300, delay: 200 }
         );
+      },
+      { duration: 500 }
+    );
+
+    mTimeline.scene(
+      () => {
+        mTimeline.animate(talkBubbleRect, null, { duration: 500 });
+
+        mTimeline.animate(talkBubbleContent, null, { duration: 500 });
 
         mTimeline.animate(
           rgbEl,
@@ -396,117 +618,157 @@ export const a11yAnimation = ({
             {
               opacity: 0,
               x: 0,
-              y: 0,
             },
             {
               opacity: 1,
-              x: -0.5,
-              y: 0.2,
+              x: 0.3,
             },
           ],
-          { duration: 200, delay: 200 }
+          { duration: 400 }
         );
       },
       { duration: 1000 }
     );
 
-    const toggleCardContent = ({
-      showFirstEl,
-      duration = 600,
+    const animateRGBTitle = ({
+      reset,
+      set,
     }: {
-      showFirstEl: boolean;
-      duration?: number;
+      set?: HTMLElement[][];
+      reset?: HTMLElement[][];
     }) => {
-      const el0 = showFirstEl ? cardContent1 : cardContent0;
-      const el1 = !showFirstEl ? cardContent1 : cardContent0;
+      if (set) {
+        set.forEach((els) => {
+          const [rgbEl, blockEl] = els;
 
-      mTimeline.animate(el0, [{ opacity: 1 }, { opacity: 0 }], {
-        duration,
-      });
-      mTimeline.animate(el1, [{ opacity: 0 }, { opacity: 1 }], {
-        duration,
+          rgbEl.style.fill = "#b3b3b3";
+          rgbEl.style.transition = "fill 250ms";
+
+          mTimeline.animate(
+            blockEl,
+            [
+              {
+                strokeDashoffset: 0,
+              },
+            ],
+            { duration: 500 }
+          );
+        });
+      }
+
+      if (!reset) return;
+
+      reset.forEach((els) => {
+        const [rgbEl, blockEl] = els;
+
+        const fill = rgbEl.getAttribute("fill")!;
+        rgbEl.style.fill = fill;
+
+        mTimeline.animate(blockEl, null, { duration: 500 });
       });
     };
+
     mTimeline.scene(
       () => {
-        cardContent1.style.filter = "url(#a11y-protanopia)";
-
-        toggleCardContent({ showFirstEl: false });
-
-        blockREl.style.opacity = "1";
-        rgbREl.style.fillOpacity = "0";
+        emulateVision("protanopia");
+        animateRGBTitle({ set: [[rgbREl, blockREl]] });
       },
-      { duration: 1500 }
+      { duration: 1800 }
     );
 
     mTimeline.scene(
       () => {
-        cardContent0.style.filter = "url(#a11y-deuteranopia)";
-        toggleCardContent({ showFirstEl: true });
-
-        blockREl.style.opacity = "0";
-        rgbREl.style.fillOpacity = "1";
-
-        blockGEl.style.opacity = "1";
-        rgbGEl.style.fillOpacity = "0";
+        emulateVision("deuteranopia");
+        animateRGBTitle({
+          set: [[rgbGEl, blockGEl]],
+          reset: [[rgbREl, blockREl]],
+        });
       },
-      { duration: 1500 }
+      { duration: 1800 }
     );
 
     mTimeline.scene(
       () => {
-        cardContent1.style.filter = "url(#a11y-tritanopia)";
-        toggleCardContent({ showFirstEl: false });
-
-        blockGEl.style.opacity = "0";
-        rgbGEl.style.fillOpacity = "1";
-
-        blockBEl.style.opacity = "1";
-        rgbBEl.style.fillOpacity = "0";
+        emulateVision("tritanopia");
+        animateRGBTitle({
+          set: [[rgbBEl, blockBEl]],
+          reset: [[rgbGEl, blockGEl]],
+        });
       },
-      { duration: 1500 }
+      { duration: 1800 }
     );
 
     mTimeline.scene(
       () => {
-        cardContent0.style.filter = "url(#a11y-achromatopsia)";
-        toggleCardContent({ showFirstEl: true });
-
-        blockREl.style.opacity = "1";
-        rgbREl.style.fillOpacity = "0";
-        blockGEl.style.opacity = "1";
-        rgbGEl.style.fillOpacity = "0";
+        emulateVision("achromatopsia");
+        animateRGBTitle({
+          set: [
+            [rgbREl, blockREl],
+            [rgbGEl, blockGEl],
+          ],
+        });
       },
-      { duration: 1500 }
+      { duration: 1800 }
     );
 
     mTimeline.scene(
       () => {
-        cardContent1.style.filter = "";
-
-        blockREl.style.opacity = "0";
-        blockGEl.style.opacity = "0";
-        blockBEl.style.opacity = "0";
-        rgbREl.style.fillOpacity = "1";
-        rgbGEl.style.fillOpacity = "1";
-        rgbBEl.style.fillOpacity = "1";
-
-        toggleCardContent({ showFirstEl: false });
-      },
-      { duration: 1000 }
-    );
-
-    mTimeline.scene(
-      () => {
-        cardContent0.style.filter = "";
-
-        mTimeline.animate(rgbEl, [{ opacity: 1 }, { opacity: 0 }], {
+        mTimeline.animate(
+          target,
+          [
+            {
+              x: -45,
+            },
+          ],
+          {
+            duration: 400,
+          }
+        );
+        mTimeline.animate(talkBubbleEl, [{ opacity: 0 }], {
+          duration: 380,
+          delay: 100,
+        });
+        mTimeline.animate(talkBubbleRect, [{ width: 2.042 }], {
           duration: 400,
         });
-
-        toggleCardContent({ showFirstEl: true, duration: 0 });
+        mTimeline.animate(cardEl, [{ x: 0 }], { duration: 400 });
+        mTimeline.animate(talkBubbleTail, [{ x: -2.2 }], { duration: 400 });
+        mTimeline.animate(talkBubbleContentMask, [{ x: -2.2 }], {
+          duration: 400,
+        });
       },
-      { duration: 800 }
+      { duration: 400 }
+    );
+
+    mTimeline.scene(
+      () => {
+        emulateVision("none");
+        setTimeout(() => {
+          cardTextEl.style.fill = cardTextStartColor;
+        });
+
+        mTimeline.reset(
+          [
+            talkBubbleEl,
+            talkBubbleContent,
+            talkBubbleContentMask,
+            talkBubbleRect,
+            talkBubbleTail,
+            talkBubbleTailRect,
+            contrastEl,
+            contrastSmallFailEl,
+            contrastSmallSuccessEl,
+            contrastLargeFailEl,
+            contrastLargeSuccessEl,
+            rgbEl,
+            blockREl,
+            blockGEl,
+            blockBEl,
+          ],
+          { duration: 0 }
+        );
+      },
+      { duration: 1800 }
     );
   };
 
