@@ -1,3 +1,4 @@
+import reflow from "../../utils/reflow";
 import {
   MainTimeline,
   TInteractivity,
@@ -146,6 +147,7 @@ const interactivity: TInteractivity[] = [
         ],
         {
           duration: 200,
+
           disable: true,
         }
       );
@@ -168,6 +170,8 @@ const interactivity: TInteractivity[] = [
     event: ({ currentTarget, mTimeline }) => {
       const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
 
+      const loadingBarMask = query(".loading-bar-mask");
+      const loadingBar = query(".loading-bar");
       const titleWindows10 = query(".title-bar-windows10");
       const browserWindowsXp = query(".browser-windowsxp");
       const titleMac = query(".title-bar-mac");
@@ -281,7 +285,7 @@ const interactivity: TInteractivity[] = [
               y: 0,
             },
             {
-              x: 1.8,
+              x: 1.815,
               y: -0.5,
             },
           ],
@@ -298,7 +302,7 @@ const interactivity: TInteractivity[] = [
             },
             {
               scaleX: 1.55,
-              x: -2,
+              x: 0.65,
               y: -0.5,
             },
           ],
@@ -334,6 +338,47 @@ const interactivity: TInteractivity[] = [
         reset: !state.expanded,
       });
 
+      if (state.expanded) {
+        loadingBar.style.strokeDasharray = "7.3px";
+        loadingBar.style.strokeDashoffset = "7.3px";
+        loadingBar.setAttribute("d", "m2.132 4.799h7.3");
+        loadingBar.classList.add("active");
+      } else {
+        loadingBar.style.strokeDasharray = "5.1px";
+        loadingBar.setAttribute("d", "m2.132 4.799h5.1");
+        loadingBar.classList.remove("active");
+      }
+
+      mTimeline.animate(
+        loadingBar,
+        [
+          {
+            x: 0,
+            y: 0,
+          },
+          {
+            x: -0.4,
+            y: -0.5,
+          },
+        ],
+        { duration, reset: !state.expanded }
+      );
+
+      mTimeline.animate(
+        loadingBarMask,
+        [
+          {
+            x: 0,
+            scaleX: 1,
+          },
+          {
+            x: -0.09,
+            scaleX: 1.442,
+          },
+        ],
+        { duration, origin: "left", reset: !state.expanded }
+      );
+
       mTimeline.animate(
         heroBg,
         [
@@ -345,7 +390,7 @@ const interactivity: TInteractivity[] = [
           },
           {
             x: 0.655,
-            y: -0.48,
+            y: -0.18,
             scaleX: 1.442,
             scaleY: 1.25,
           },
@@ -366,8 +411,11 @@ export const performanceAnimation = ({
 }) => {
   const query = (s: string): HTMLElement => target.querySelector(s)!;
 
+  const loadingBar = query(".loading-bar");
   const airplaneEl = query(".airplane");
+  const airplaneRotateEl = query(".airplane-rotate");
   const browserEl = query(".browser");
+  const browserRotateEl = query(".browser-rotate");
   const pageEl = query(".page");
   const urlBarEl = query(".url-bar");
   const filesEl = query(".files");
@@ -384,6 +432,15 @@ export const performanceAnimation = ({
   const pageBtn = query(".page-btn");
 
   const start = () => {
+    const duration = 600;
+    const delayCut = 193.846;
+
+    if (loadingBar.classList.contains("active")) {
+      loadingBar.style.strokeDasharray = "";
+      loadingBar.setAttribute("d", "m2.132 4.799h5.1");
+      loadingBar.classList.remove("active");
+    }
+    // 450
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -392,18 +449,49 @@ export const performanceAnimation = ({
             {
               x: 0,
               y: 0,
-              rotate: 0,
               scale: 1,
             },
             {
-              x: -2.5,
-              y: -2,
-              rotate: -90,
+              x: -1.5,
+              y: -0.5,
               scale: 0,
             },
           ],
           {
-            duration: 600,
+            duration,
+          }
+        );
+
+        mTimeline.animate(
+          airplaneRotateEl,
+          [
+            {
+              rotate: 0,
+            },
+            {
+              rotate: -90,
+            },
+          ],
+          {
+            duration,
+            origin: "-5 50%",
+          }
+        );
+
+        mTimeline.animate(
+          browserRotateEl,
+          [
+            {
+              rotate: 90,
+            },
+            {
+              rotate: 0,
+            },
+          ],
+          {
+            duration: duration * 1.7,
+            delay: duration - delayCut,
+            origin: "250% -350%",
           }
         );
 
@@ -411,28 +499,24 @@ export const performanceAnimation = ({
           browserEl,
           [
             {
-              x: -2.5,
-              y: -2.3,
-              scale: 0,
-              rotate: 40,
+              x: -1.59,
+              y: -2.6,
+              scale: 0.01,
             },
             {
-              x: -3.5,
-              y: -1.2,
-              scale: 0.3,
-              rotate: 20,
+              x: -2.15,
+              y: 2.2,
+              scale: 0.2,
             },
             {
               x: 0,
               y: -1,
               scale: 1,
-              rotate: 0,
             },
           ],
           {
-            delay: 400,
-            duration: 800,
-            easing: "linear",
+            duration: duration * 1.7,
+            delay: duration - delayCut,
           }
         );
 
@@ -463,10 +547,8 @@ export const performanceAnimation = ({
         mTimeline.animate(
           urlBarEl,
           [
-            { opacity: 0, y: 0, scale: 0.1, offset: 0 },
-            // Chrome get's glitchy when transform-box is fill-box, the element translates from it's original position
-            { opacity: 1, y: -1, scale: 0.0001, offset: 0.1 },
-            { opacity: 1, y: -1, scale: 1, offset: 1 },
+            { y: -1, scale: 0 },
+            { y: -1, scale: 1 },
           ],
           {
             duration: 500,
@@ -492,7 +574,7 @@ export const performanceAnimation = ({
           }
         );
 
-        mTimeline.animate(urlBarEl, [{ y: -4.5, scale: 1.2 }], {
+        mTimeline.animate(urlBarEl, [{ y: -4, scale: 1.2 }], {
           duration: 800,
         });
       },
@@ -504,8 +586,8 @@ export const performanceAnimation = ({
         mTimeline.animate(
           filesEl,
           [
-            { opacity: 0, y: 0.5 },
-            { opacity: 1, y: 0.5 },
+            { opacity: 0, y: 1 },
+            { opacity: 1, y: 1 },
           ],
           {
             duration: 500,
@@ -524,11 +606,9 @@ export const performanceAnimation = ({
           filesEl,
           [
             {
-              y: 0.5,
               scale: 1,
             },
             {
-              y: 3,
               scale: 1.8,
             },
           ],
@@ -568,6 +648,8 @@ export const performanceAnimation = ({
 
     mTimeline.scene(
       () => {
+        let loadingBarDashoffset = 5.1;
+
         const animateFiles = (el: Element, multiplier: number) => {
           const prevFileTranslateX = 0.3;
 
@@ -576,12 +658,13 @@ export const performanceAnimation = ({
             [
               {
                 x: prevFileTranslateX * multiplier,
+                y: 0,
               },
               {
                 x: 0,
                 y: 0,
               },
-              { y: 2 },
+              { y: 2.25 },
             ],
             { duration: 800, delay: 200 * multiplier, easing: "linear" }
           );
@@ -593,8 +676,53 @@ export const performanceAnimation = ({
         animateFiles(fileImg0El, 3);
         animateFiles(fileImg1El, 4);
         animateFiles(fileImg2El, 5);
+
+        if (loadingBar.classList.contains("active")) {
+          loadingBarDashoffset = 7.3;
+        }
+
+        // ???
+        loadingBar.style.strokeDashoffset = `${loadingBarDashoffset}px`;
+        mTimeline.animate(loadingBar, [{ opacity: 1 }], { duration: 0 });
+
+        mTimeline.setTimeout(() => {
+          mTimeline.animate(
+            loadingBar,
+            [
+              {
+                strokeDashoffset: loadingBarDashoffset,
+                offset: 0,
+              },
+              {
+                strokeDashoffset: 4.5,
+                offset: 0.1,
+              },
+              {
+                strokeDashoffset: 4.5,
+                offset: 0.2,
+              },
+              {
+                strokeDashoffset: 2.5,
+                offset: 0.5,
+              },
+              {
+                strokeDashoffset: 2.5,
+                offset: 0.6,
+              },
+              {
+                strokeDashoffset: 2.0,
+                offset: 0.7,
+              },
+              {
+                strokeDashoffset: 0,
+                offset: 1,
+              },
+            ],
+            { duration: 1500 }
+          );
+        }, 800);
       },
-      { duration: 1800 }
+      { duration: 2500 }
     );
 
     mTimeline.scene(
@@ -651,22 +779,12 @@ export const performanceAnimation = ({
         mTimeline.animate(
           percentEl,
           [
-            { opacity: 0, x: 0, y: 0, scale: 0.01, offset: 0 },
             {
-              opacity: 0,
-              x: -0.5,
-              y: -2.5,
-              scale: 0.0001,
-              offset: 0.1,
-            },
-            {
-              opacity: 1,
               x: -0.5,
               y: -2.5,
               scale: 0,
-              offset: 0.2,
             },
-            { opacity: 1, scale: 1, x: -0.5, y: -2.5, offset: 1 },
+            { scale: 1, x: -0.5, y: -2.5 },
           ],
           { duration: 500 }
         );
@@ -701,30 +819,17 @@ export const performanceAnimation = ({
         mTimeline.animate(
           checkmarkEl,
           [
-            { opacity: 0, x: -0.5, y: -2.5, scale: 0, rotate: 90, offset: 0 },
             {
-              opacity: 0,
-              x: -0.5,
-              y: -2.5,
-              scale: 0,
-              rotate: 90,
-              offset: 0.1,
-            },
-            {
-              opacity: 1,
               scale: 0,
               x: -0.5,
               y: -2.5,
               rotate: 90,
-              offset: 0.2,
             },
             {
-              opacity: 1,
               scale: 1,
               x: -0.5,
               y: -2.5,
               rotate: 0,
-              offset: 1,
             },
           ],
           { duration: 500 }
@@ -735,41 +840,24 @@ export const performanceAnimation = ({
 
     mTimeline.scene(
       () => {
-        const resetFiles = (el: Element) => {
-          mTimeline.animate(
-            el,
-            [
-              {
-                x: 0,
-                y: 0,
-              },
-            ],
-            { duration: 0 }
-          );
-        };
+        mTimeline.animate(loadingBar, [{ opacity: 0 }], { duration: 0 });
 
-        mTimeline.animate(percentEl, [{ opacity: 0 }], {
-          duration: 0,
-        });
-        mTimeline.animate(filesEl, [{ y: 0.5, scale: 1 }], {
-          duration: 0,
-        });
-        mTimeline.animate(checkmarkEl, [{ opacity: 0 }], {
-          duration: 500,
-        });
-        mTimeline.animate(pageEl, [{ opacity: 0 }], {
-          duration: 500,
-        });
-        mTimeline.animate(pageBtn, [{ opacity: 0 }], {
-          duration: 500,
-        });
+        mTimeline.reset(
+          [
+            percentEl,
+            filesEl,
+            fileHTMLEl,
+            fileCSSEl,
+            fileJSEl,
+            fileImg0El,
+            fileImg1El,
+            fileImg2El,
+            urlBarEl,
+          ],
+          { duration: 0 }
+        );
 
-        resetFiles(fileHTMLEl);
-        resetFiles(fileCSSEl);
-        resetFiles(fileJSEl);
-        resetFiles(fileImg0El);
-        resetFiles(fileImg1El);
-        resetFiles(fileImg2El);
+        mTimeline.reset([checkmarkEl, pageEl, pageBtn], { duration: 500 });
       },
       { duration: 500 }
     );

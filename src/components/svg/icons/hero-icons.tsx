@@ -26,7 +26,7 @@ export const A11yIcon = () => {
             fill="#5858ff"
             paint-order="markers fill stroke"
             class="moon"
-            transform="scale(0)"
+            opacity="0"
           />
           <path
             d="M6.246 3.202a.293.293 0 01-.527.176c.054-.403.38-.404.396-.421.08.052.131.142.131.245z"
@@ -38,14 +38,14 @@ export const A11yIcon = () => {
             fill="#fe2dff"
             class="flower-petal-3"
             paint-order="markers fill stroke"
-            transform="scale(0)"
+            opacity="0"
           />
           <path
             d="M5.862 2.436s-.235.215-.235.67c0 .454.105.46.234.46.131 0 .237-.006.237-.46 0-.455-.235-.67-.235-.67z"
             fill="#ff2db5"
             class="flower-petal-2"
             paint-order="markers fill stroke"
-            transform="scale(0)"
+            opacity="0"
           />
           <path
             d="M5.866 5.376V3.404"
@@ -53,12 +53,12 @@ export const A11yIcon = () => {
             stroke="green"
             stroke-width=".059"
             class="flower-stem"
-            transform="scale(0)"
+            opacity="0"
           />
           <g
             class="flower-leaf-1"
             paint-order="markers fill stroke"
-            transform="scale(0)"
+            opacity="0"
           >
             <path
               class="leaf-light-1"
@@ -74,7 +74,7 @@ export const A11yIcon = () => {
           <g
             class="flower-leaf-0"
             paint-order="markers fill stroke"
-            transform="scale(0)"
+            opacity="0"
           >
             <path
               class="leaf-light-0"
@@ -87,7 +87,7 @@ export const A11yIcon = () => {
               fill="green"
             />
           </g>
-          <g class="flower-closed-bud" transform="scale(0)">
+          <g class="flower-closed-bud" opacity="0">
             <path
               d="M5.877 2.6s-.201.183-.201.571c0 .388.09.393.2.393.112 0 .202-.005.202-.393s-.2-.571-.2-.571z"
               fill="#ff2d79"
@@ -146,7 +146,7 @@ export const A11yIcon = () => {
           class="talk-bubble-tail"
           // @ts-ignore
           fill="#fff"
-          transform="scale(0)"
+          opacity="0"
         >
           <path
             class="talk-bubble-tail-rect"
@@ -397,6 +397,25 @@ export const PerformanceIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.413 7.684">
       <defs>
+        <clipPath id="perf-n">
+          <path
+            class="loading-bar-mask"
+            d="m2.132 4.625h5.151v0.52575h-5.151z"
+            fill="#fff"
+          />
+        </clipPath>
+        <linearGradient
+          id="perf-m"
+          x1="2.132"
+          x2="7.1213"
+          y1="4.7515"
+          y2="4.7515"
+          gradientTransform="translate(0 .04851)"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#f75eff" offset="0" />
+          <stop stop-color="#4031ff" offset="1" />
+        </linearGradient>
         <linearGradient id="perf-d">
           <stop offset="0" stop-color="#629bff" />
           <stop offset="1" stop-color="#003eaa" stop-opacity=".996" />
@@ -418,16 +437,6 @@ export const PerformanceIcon = () => {
           <stop offset=".453" stop-color="#1969f4" />
           <stop offset="1" stop-color="#3880ff" />
         </linearGradient>
-        {/* <linearGradient
-          {...{ "xlink:href": "#perf-b" }}
-          id="perf-g"
-          gradientUnits="userSpaceOnUse"
-          gradientTransform="matrix(.24306 0 0 .24306 -24.461 -87.63)"
-          x1="121.506"
-          y1="387.748"
-          x2="121.506"
-          y2="377.14"
-        /> */}
         <linearGradient
           {...{ "xlink:href": "#perf-c" }}
           id="perf-h"
@@ -468,19 +477,9 @@ export const PerformanceIcon = () => {
           x2="121.506"
           y2="377.14"
         />
-        {/* <linearGradient
-          {...{ "xlink:href": "#perf-b" }}
-          id="perf-f"
-          gradientUnits="userSpaceOnUse"
-          gradientTransform="matrix(.24306 0 0 .24306 -24.461 -87.63)"
-          x1="121.506"
-          y1="387.748"
-          x2="121.506"
-          y2="377.14"
-        /> */}
       </defs>
-      <g class="perf-container" style="transform-origin: center;">
-        <g class="files" opacity="0" style="transform-origin: center;">
+      <g class="perf-container">
+        <g class="files" style="pointer-events: none;" opacity="0">
           <g class="file-img-2">
             <path d="M4.98.861L4.837.697a.026.026 0 00-.02-.009h-.363a.03.03 0 00-.03.03v.716a.03.03 0 00.03.03h.502a.03.03 0 00.03-.03V.878A.026.026 0 004.98.861z" />
             <path
@@ -545,321 +544,331 @@ export const PerformanceIcon = () => {
             />
           </g>
         </g>
-        <g
-          class="browser"
-          style="transform-origin: center; transform: translate(-2.5px, -2.3px) scale(0, 0) rotate(0deg);"
-        >
-          <rect
-            width="5.15"
-            height="3.397"
-            x="2.132"
-            y="4.248"
-            ry=".237"
-            class="browser-body"
-            fill="#fff"
-          />
-          <g class="page" opacity="0">
-            <path
-              fill="#43b7ff"
-              paint-order="markers fill stroke"
-              d="M2.132 4.413h5.151v1.469H2.132z"
-              class="hero-bg"
-              style="transform-origin: center;"
+        <g class="browser" opacity="0">
+          <g class="browser-rotate">
+            <rect
+              width="5.15"
+              height="3.397"
+              x="2.132"
+              y="4.248"
+              ry=".237"
+              class="browser-body"
+              fill="#fff"
             />
 
             <path
-              d="M3.039 7.515h1.207M3.039 6.107h3.445m-3.445.31h2.945m-2.945.309h3.096"
-              class="page-txt"
-              stroke="gray"
-              stroke-width=".064"
+              opacity="0"
+              class="loading-bar"
+              d="m2.132 4.799h5.1"
+              stroke-dasharray="5.1"
+              clip-path="url(#perf-n)"
+              fill="none"
+              stroke="url(#perf-m)"
+              stroke-linecap="round"
+              stroke-width=".35"
             />
-            <g class="heros-img">
-              <g
-                class="hero-windowsxp"
-                // @ts-ignore
-                fill="#0000007a"
-                opacity="0"
-              >
-                <path d="M6.165 5.264l-.117.405c-.101-.07-.212-.126-.446-.028l.114-.4.001-.001c.234-.097.347-.046.448.024zM6.226 5.303l-.115.4c.101.07.214.125.448.027l.111-.39c-.238.082-.342.032-.444-.037z" />
-                <path d="M6.185 5.19l.115-.4c-.102-.07-.214-.125-.449-.027l-.115.403a.595.595 0 01.228-.056c.094 0 .16.04.22.08zM6.36 4.832l-.115.403c.102.07.224.126.448.025l.116-.402c-.234.097-.347.043-.448-.026z" />
+            <g class="page" opacity="0">
+              <path
+                fill="#43b7ff"
+                paint-order="markers fill stroke"
+                d="M2.132 4.413h5.151v1.469H2.132z"
+                class="hero-bg"
+              />
+
+              <path
+                d="M3.039 7.515h1.207M3.039 6.107h3.445m-3.445.31h2.945m-2.945.309h3.096"
+                class="page-txt"
+                stroke="gray"
+                stroke-width=".064"
+              />
+              <g class="heros-img">
+                <g
+                  class="hero-windowsxp"
+                  // @ts-ignore
+                  fill="#0000007a"
+                  opacity="0"
+                >
+                  <path d="M6.165 5.264l-.117.405c-.101-.07-.212-.126-.446-.028l.114-.4.001-.001c.234-.097.347-.046.448.024zM6.226 5.303l-.115.4c.101.07.214.125.448.027l.111-.39c-.238.082-.342.032-.444-.037z" />
+                  <path d="M6.185 5.19l.115-.4c-.102-.07-.214-.125-.449-.027l-.115.403a.595.595 0 01.228-.056c.094 0 .16.04.22.08zM6.36 4.832l-.115.403c.102.07.224.126.448.025l.116-.402c-.234.097-.347.043-.448-.026z" />
+                </g>
+                <path
+                  d="M6.158 5.715l-.001-.442.6.003-.001.524zm-.504-.068v-.378l.451.004v.435zm0-.795l.45-.065.001.437-.452.003zm.503-.072l.598-.087.001.518-.6.012z"
+                  class="hero-windows10"
+                  fill="#0000007a"
+                />
+
+                <path
+                  d="M6.47 5.68c-.051.05-.108.042-.162.019a.205.205 0 00-.17 0c-.075.032-.115.023-.16-.019-.256-.263-.218-.664.073-.68.07.004.12.04.161.042.062-.012.121-.048.187-.043.08.006.139.037.179.094a.208.208 0 00.025.374.53.53 0 01-.133.214zm-.264-.682a.215.215 0 01.197-.223c.015.135-.123.236-.197.223z"
+                  class="hero-mac"
+                  opacity="0"
+                  fill="#0000007a"
+                />
               </g>
               <path
-                d="M6.158 5.715l-.001-.442.6.003-.001.524zm-.504-.068v-.378l.451.004v.435zm0-.795l.45-.065.001.437-.452.003zm.503-.072l.598-.087.001.518-.6.012z"
-                class="hero-windows10"
-                fill="#0000007a"
+                fill="#43b7ff"
+                paint-order="markers fill stroke"
+                d="M3.03 6.925h.693v.415H3.03zm.953 0h.693v.415h-.693z"
+                class="page-img-bg"
               />
-
               <path
-                d="M6.47 5.68c-.051.05-.108.042-.162.019a.205.205 0 00-.17 0c-.075.032-.115.023-.16-.019-.256-.263-.218-.664.073-.68.07.004.12.04.161.042.062-.012.121-.048.187-.043.08.006.139.037.179.094a.208.208 0 00.025.374.53.53 0 01-.133.214zm-.264-.682a.215.215 0 01.197-.223c.015.135-.123.236-.197.223z"
-                class="hero-mac"
-                opacity="0"
+                d="M3.225 7.02l.068.12.07.119h-.276l.069-.12zm.945.233l-.111-.077-.012-.134.123-.058.122.058-.011.134z"
                 fill="#0000007a"
+                paint-order="markers fill stroke"
+                class="page-img-img"
               />
             </g>
-            <path
-              fill="#43b7ff"
-              paint-order="markers fill stroke"
-              d="M3.03 6.925h.693v.415H3.03zm.953 0h.693v.415h-.693z"
-              class="page-img-bg"
-            />
-            <path
-              d="M3.225 7.02l.068.12.07.119h-.276l.069-.12zm.945.233l-.111-.077-.012-.134.123-.058.122.058-.011.134z"
-              fill="#0000007a"
-              paint-order="markers fill stroke"
-              class="page-img-img"
-            />
-          </g>
-          <g class="title-bars">
-            <g class="browser-windowsxp" opacity="0">
-              <rect
-                width="5.053"
-                height="3.087"
-                x="2.18"
-                y="4.544"
-                class="frame"
-                fill="none"
-                stroke="#0056eb"
-                stroke-width=".097"
-                stroke-linecap="round"
-                stroke-dashoffset="16.97"
-              />
+            <g class="title-bars">
+              <g class="browser-windowsxp" opacity="0">
+                <rect
+                  width="5.053"
+                  height="3.087"
+                  x="2.18"
+                  y="4.544"
+                  class="frame"
+                  fill="none"
+                  stroke="#0056eb"
+                  stroke-width=".097"
+                  stroke-linecap="round"
+                  stroke-dashoffset="16.97"
+                />
 
-              <g class="title-bar-windowsxp">
+                <g class="title-bar-windowsxp">
+                  <path
+                    d="M6.763 3.985v.645h.52v-.39a.256.256 0 00-.256-.255z"
+                    class="title-right"
+                    fill="url(#perf-e)"
+                    paint-order="markers fill stroke"
+                  />
+                  <path
+                    d="M2.615 3.985v.645h4.254v-.645z"
+                    class="title-mid"
+                    fill="url(#perf-e)"
+                    paint-order="markers fill stroke"
+                  />
+                  <path
+                    d="M2.388 3.985a.256.256 0 00-.256.256v.389h.564v-.645z"
+                    class="title-left"
+                    fill="url(#perf-e)"
+                    paint-order="markers fill stroke"
+                  />
+                  <g class="title-bar-buttons">
+                    <g class="title-bar-close">
+                      <rect
+                        width=".482"
+                        height=".482"
+                        x="6.661"
+                        y="4.089"
+                        ry=".095"
+                        class="hover"
+                        fill="url(#perf-h)"
+                        stroke="#fff"
+                        stroke-width=".026"
+                        stroke-linecap="round"
+                        stroke-dashoffset="16.97"
+                      />
+                      <path
+                        d="M6.75 4.486l.304-.305m-.305 0l.305.305"
+                        fill="none"
+                        stroke="#fff"
+                        stroke-width=".064"
+                      />
+                    </g>
+                    <g class="title-bar-collapse">
+                      <rect
+                        width=".482"
+                        height=".482"
+                        x="5.36"
+                        y="4.089"
+                        ry=".095"
+                        class="hover"
+                        fill="url(#perf-i)"
+                        stroke="#fff"
+                        stroke-width=".026"
+                        stroke-linecap="round"
+                        stroke-dashoffset="16.97"
+                      />
+                      <path
+                        d="M5.645 4.44h-.202"
+                        fill="none"
+                        stroke="#fff"
+                        stroke-width=".064"
+                      />
+                    </g>
+                    <g class="title-bar-expand">
+                      <rect
+                        width=".482"
+                        height=".482"
+                        x="6.01"
+                        y="4.089"
+                        ry=".095"
+                        class="hover"
+                        fill="url(#perf-j)"
+                        stroke="#fff"
+                        stroke-width=".026"
+                        stroke-linecap="round"
+                        stroke-dashoffset="16.97"
+                      />
+                      <path
+                        d="M6.112 4.24h.279m-.28-.044h.28v.279h-.28z"
+                        class="expand"
+                        fill="none"
+                        stroke="#fff"
+                        stroke-width=".05"
+                      />
+                      <path
+                        d="M6.183 4.28v-.075h.213v.173h-.054m-.235-.097h.212v.173h-.212z"
+                        class="minimize"
+                        fill="none"
+                        stroke="#fff"
+                        stroke-width=".039"
+                        stroke-linecap="round"
+                        stroke-dashoffset="16.97"
+                        paint-order="markers fill stroke"
+                        opacity="0"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g class="title-bar-windows10" opacity="0">
                 <path
-                  d="M6.763 3.985v.645h.52v-.39a.256.256 0 00-.256-.255z"
+                  d="M6.763 4.147v.434h.52v-.434z"
                   class="title-right"
-                  fill="url(#perf-e)"
-                  paint-order="markers fill stroke"
+                  fill="#fff"
                 />
                 <path
-                  d="M2.615 3.985v.645h4.254v-.645z"
+                  d="M2.615 4.147v.434H6.87v-.434z"
                   class="title-mid"
-                  fill="url(#perf-e)"
-                  paint-order="markers fill stroke"
+                  fill="#fff"
                 />
                 <path
-                  d="M2.388 3.985a.256.256 0 00-.256.256v.389h.564v-.645z"
+                  d="M2.132 4.147v.434h.564v-.434z"
                   class="title-left"
-                  fill="url(#perf-e)"
-                  paint-order="markers fill stroke"
+                  fill="#fff"
                 />
                 <g class="title-bar-buttons">
                   <g class="title-bar-close">
-                    <rect
-                      width=".482"
-                      height=".482"
-                      x="6.661"
-                      y="4.089"
-                      ry=".095"
+                    <path
+                      d="M6.427 4.147h.856v.433h-.856z"
                       class="hover"
-                      fill="url(#perf-h)"
-                      stroke="#fff"
-                      stroke-width=".026"
-                      stroke-linecap="round"
-                      stroke-dashoffset="16.97"
+                      fill="#fff"
                     />
                     <path
-                      d="M6.75 4.486l.304-.305m-.305 0l.305.305"
+                      d="M6.742 4.477l.226-.227m-.226 0l.226.227"
+                      class="hover-icon"
                       fill="none"
-                      stroke="#fff"
-                      stroke-width=".064"
+                      stroke="#000"
+                      stroke-width=".03"
                     />
                   </g>
                   <g class="title-bar-collapse">
-                    <rect
-                      width=".482"
-                      height=".482"
-                      x="5.36"
-                      y="4.089"
-                      ry=".095"
+                    <path
                       class="hover"
-                      fill="url(#perf-i)"
-                      stroke="#fff"
-                      stroke-width=".026"
-                      stroke-linecap="round"
-                      stroke-dashoffset="16.97"
+                      fill="#fff"
+                      d="M4.716 4.147h.856v.433h-.856z"
                     />
                     <path
-                      d="M5.645 4.44h-.202"
+                      d="M5.26 4.364h-.233"
                       fill="none"
-                      stroke="#fff"
-                      stroke-width=".064"
+                      stroke="#000"
+                      stroke-width=".03"
                     />
                   </g>
                   <g class="title-bar-expand">
-                    <rect
-                      width=".482"
-                      height=".482"
-                      x="6.01"
-                      y="4.089"
-                      ry=".095"
+                    <path
                       class="hover"
-                      fill="url(#perf-j)"
-                      stroke="#fff"
-                      stroke-width=".026"
-                      stroke-linecap="round"
-                      stroke-dashoffset="16.97"
+                      fill="#fff"
+                      d="M5.572 4.147h.856v.433h-.856z"
                     />
                     <path
-                      d="M6.112 4.24h.279m-.28-.044h.28v.279h-.28z"
-                      class="expand"
-                      fill="none"
-                      stroke="#fff"
-                      stroke-width=".05"
-                    />
-                    <path
-                      d="M6.183 4.28v-.075h.213v.173h-.054m-.235-.097h.212v.173h-.212z"
+                      d="M6.055 4.414h.035v-.14h-.14v.035m-.041.145h.14v-.14h-.14z"
                       class="minimize"
                       fill="none"
-                      stroke="#fff"
-                      stroke-width=".039"
+                      stroke="#000"
+                      opacity="0"
+                      stroke-width=".02"
+                    />
+                    <path
+                      class="expand"
+                      fill="none"
+                      stroke="#000"
+                      stroke-width=".028"
                       stroke-linecap="round"
                       stroke-dashoffset="16.97"
                       paint-order="markers fill stroke"
-                      opacity="0"
+                      d="M5.896 4.26h.208v.208h-.208z"
                     />
                   </g>
                 </g>
               </g>
-            </g>
-            <g class="title-bar-windows10" opacity="0">
-              <path
-                d="M6.763 4.147v.434h.52v-.434z"
-                class="title-right"
-                fill="#fff"
-              />
-              <path
-                d="M2.615 4.147v.434H6.87v-.434z"
-                class="title-mid"
-                fill="#fff"
-              />
-              <path
-                d="M2.132 4.147v.434h.564v-.434z"
-                class="title-left"
-                fill="#fff"
-              />
-              <g class="title-bar-buttons">
-                <g class="title-bar-close">
-                  <path
-                    d="M6.427 4.147h.856v.433h-.856z"
-                    class="hover"
-                    fill="#fff"
-                  />
-                  <path
-                    d="M6.742 4.477l.226-.227m-.226 0l.226.227"
-                    class="hover-icon"
-                    fill="none"
-                    stroke="#000"
-                    stroke-width=".03"
-                  />
-                </g>
-                <g class="title-bar-collapse">
-                  <path
-                    class="hover"
-                    fill="#fff"
-                    d="M4.716 4.147h.856v.433h-.856z"
-                  />
-                  <path
-                    d="M5.26 4.364h-.233"
-                    fill="none"
-                    stroke="#000"
-                    stroke-width=".03"
-                  />
-                </g>
-                <g class="title-bar-expand">
-                  <path
-                    class="hover"
-                    fill="#fff"
-                    d="M5.572 4.147h.856v.433h-.856z"
-                  />
-                  <path
-                    d="M6.055 4.414h.035v-.14h-.14v.035m-.041.145h.14v-.14h-.14z"
-                    class="minimize"
-                    fill="none"
-                    stroke="#000"
-                    opacity="0"
-                    stroke-width=".02"
-                  />
-                  <path
-                    class="expand"
-                    fill="none"
-                    stroke="#000"
-                    stroke-width=".028"
-                    stroke-linecap="round"
-                    stroke-dashoffset="16.97"
-                    paint-order="markers fill stroke"
-                    d="M5.896 4.26h.208v.208h-.208z"
-                  />
-                </g>
-              </g>
-            </g>
-            <g class="title-bar-mac">
-              <path
-                d="M6.763 4.08v.546h.52v-.291a.255.255 0 00-.256-.254z"
-                class="title-right"
-              />
-              <path d="M2.615 4.08v.546H6.87V4.08z" class="title-mid" />
-              <path
-                d="M2.388 4.079a.256.256 0 00-.256.256v.29h.564v-.544h-.308z"
-                class="title-left"
-              />
-              <g class="title-bar-buttons">
-                <g class="title-bar-close">
-                  <circle
-                    cx="2.437"
-                    cy="4.37"
-                    r=".115"
-                    fill="#ff2a2a"
-                    paint-order="markers fill stroke"
-                  />
-                  <g
-                    class="hover"
-                    // @ts-ignore
-                    fill="none"
-                    stroke="#640000"
-                    stroke-width=".03"
-                  >
-                    <path d="M2.379 4.311l.116.117M2.379 4.428l.116-.117" />
+              <g class="title-bar-mac">
+                <path
+                  d="M6.763 4.08v.546h.52v-.291a.255.255 0 00-.256-.254z"
+                  class="title-right"
+                />
+                <path d="M2.615 4.08v.546H6.87V4.08z" class="title-mid" />
+                <path
+                  d="M2.388 4.079a.256.256 0 00-.256.256v.29h.564v-.544h-.308z"
+                  class="title-left"
+                />
+                <g class="title-bar-buttons">
+                  <g class="title-bar-close">
+                    <circle
+                      cx="2.437"
+                      cy="4.37"
+                      r=".115"
+                      fill="#ff2a2a"
+                      paint-order="markers fill stroke"
+                    />
+                    <g
+                      class="hover"
+                      // @ts-ignore
+                      fill="none"
+                      stroke="#640000"
+                      stroke-width=".03"
+                    >
+                      <path d="M2.379 4.311l.116.117M2.379 4.428l.116-.117" />
+                    </g>
                   </g>
-                </g>
-                <g class="title-bar-collapse">
-                  <circle
-                    cx="2.86"
-                    cy="4.37"
-                    r=".115"
-                    fill="#fc0"
-                    paint-order="markers fill stroke"
-                  />
-                  <path
-                    d="M2.794 4.37h.131"
-                    class="hover"
-                    fill="none"
-                    stroke="#5c4a00"
-                    stroke-width=".04"
-                  />
-                </g>
-                <g class="title-bar-expand">
-                  <circle
-                    cx="3.282"
-                    cy="4.37"
-                    r=".115"
-                    fill="#00eb13"
-                    paint-order="markers fill stroke"
-                  />
-                  <g
-                    class="minimize hover"
-                    // @ts-ignore
-                    fill="#006100"
-                  >
-                    <path d="M3.373 4.375l-.086.086-.007-.093z" />
-                    <path d="M3.19 4.364l.086-.086.007.093z" />
+                  <g class="title-bar-collapse">
+                    <circle
+                      cx="2.86"
+                      cy="4.37"
+                      r=".115"
+                      fill="#fc0"
+                      paint-order="markers fill stroke"
+                    />
+                    <path
+                      d="M2.794 4.37h.131"
+                      class="hover"
+                      fill="none"
+                      stroke="#5c4a00"
+                      stroke-width=".04"
+                    />
                   </g>
-                  <g
-                    class="expand hover"
-                    // @ts-ignore
-                    fill="#006100"
-                  >
-                    <path d="M3.254 4.427l.085-.085.007.092zM3.31 4.312l-.086.086-.006-.093z" />
+                  <g class="title-bar-expand">
+                    <circle
+                      cx="3.282"
+                      cy="4.37"
+                      r=".115"
+                      fill="#00eb13"
+                      paint-order="markers fill stroke"
+                    />
+                    <g
+                      class="minimize hover"
+                      // @ts-ignore
+                      fill="#006100"
+                    >
+                      <path d="M3.373 4.375l-.086.086-.007-.093z" />
+                      <path d="M3.19 4.364l.086-.086.007.093z" />
+                    </g>
+                    <g
+                      class="expand hover"
+                      // @ts-ignore
+                      fill="#006100"
+                    >
+                      <path d="M3.254 4.427l.085-.085.007.092zM3.31 4.312l-.086.086-.006-.093z" />
+                    </g>
                   </g>
                 </g>
               </g>
@@ -909,11 +918,7 @@ export const PerformanceIcon = () => {
           </g>
         </g>
         <g class="result-score" style="pointer-events: none;">
-          <g
-            class="percent"
-            opacity="0"
-            style="transform-origin: center; transform-box: fill-box;"
-          >
+          <g class="percent" opacity="0">
             <circle
               transform="rotate(-90)"
               cx="-7.507"
@@ -922,20 +927,21 @@ export const PerformanceIcon = () => {
               fill="#afe9af"
               paint-order="markers fill stroke"
             />
-            <circle
-              transform="rotate(-90)"
-              r="1.179"
-              cy="7.01"
-              cx="-7.507"
-              class="percent-progress-bar"
-              fill="none"
-              stroke="#006d00"
-              stroke-width=".274"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-dashoffset="16.97"
-              paint-order="markers fill stroke"
-            />
+            <g transform="rotate(-90)">
+              <circle
+                r="1.179"
+                cy="7.01"
+                cx="-7.507"
+                class="percent-progress-bar"
+                fill="none"
+                stroke="#006d00"
+                stroke-width=".274"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-dashoffset="16.97"
+                paint-order="markers fill stroke"
+              />
+            </g>
             <text
               style="line-height:1.25;text-align:center"
               x="6.988"
@@ -960,11 +966,7 @@ export const PerformanceIcon = () => {
               </tspan>
             </text>
           </g>
-          <g
-            class="checkmark"
-            opacity="0"
-            style="transform-origin: center; transform-box: fill-box;"
-          >
+          <g class="checkmark" opacity="0">
             <path d="M6.999 6.36a1.147 1.147 0 10.01 0z" fill="#fff" />
             <path
               fill="green"
@@ -972,11 +974,7 @@ export const PerformanceIcon = () => {
             />
           </g>
         </g>
-        <g
-          class="url-bar"
-          opacity="0"
-          style="transform-origin: center; transform-box: fill-box; pointer-events: none;"
-        >
+        <g class="url-bar" opacity="0" style="pointer-events: none;">
           <rect
             width="4.398"
             height=".704"
@@ -1016,29 +1014,30 @@ export const PerformanceIcon = () => {
         class="airplane"
         // @ts-ignore
         fill="#888f9b"
-        style="transform-origin: center; transform-box: fill-box; pointer-events: none;"
       >
-        <path d="M4.705 6.408s.315-.613.385-2.346l2.287.414.002-.214-2.25-1.285-.02-1.28s-.08-.539-.335-.74c-.05-.037-.087-.033-.138 0-.255.201-.335.74-.335.74l-.02 1.28-2.25 1.285.002.214 2.287-.414c.07 1.733.385 2.346.385 2.346" />
-        <path d="M6.032 6.182v-.314l-1.327-.46-1.323.46v.319l1.323-.212z" />
-        <rect width=".392" height=".635" x="5.435" y="2.875" ry=".102" />
-        <rect width=".392" height=".635" x="6.034" y="3.177" ry=".102" />
-        <rect
-          width=".392"
-          height=".635"
-          x="-3.987"
-          y="2.875"
-          ry=".102"
-          transform="scale(-1 1)"
-        />
-        <rect
-          width=".392"
-          height=".635"
-          x="-3.387"
-          y="3.177"
-          ry=".102"
-          transform="scale(-1 1)"
-        />
-        <path d="M2.896 4.549a.106.106 0 00-.106.106.106.106 0 000 .01l.09 1.545L3 4.67a.106.106 0 000-.016.106.106 0 00-.105-.106zm-.731.329a.106.106 0 00-.107.107.106.106 0 00.001.01l.089 1.543.122-1.537a.106.106 0 000-.016.106.106 0 00-.105-.107zm4.437-.329a.106.106 0 00-.106.106.106.106 0 000 .01l.089 1.544.122-1.538a.106.106 0 00.001-.016.106.106 0 00-.106-.106zm.674.329a.106.106 0 00-.106.107.106.106 0 000 .01l.09 1.543.121-1.537a.106.106 0 00.002-.016.106.106 0 00-.107-.107z" />
+        <g class="airplane-rotate">
+          <path d="M4.705 6.408s.315-.613.385-2.346l2.287.414.002-.214-2.25-1.285-.02-1.28s-.08-.539-.335-.74c-.05-.037-.087-.033-.138 0-.255.201-.335.74-.335.74l-.02 1.28-2.25 1.285.002.214 2.287-.414c.07 1.733.385 2.346.385 2.346" />
+          <path d="M6.032 6.182v-.314l-1.327-.46-1.323.46v.319l1.323-.212z" />
+          <rect width=".392" height=".635" x="5.435" y="2.875" ry=".102" />
+          <rect width=".392" height=".635" x="6.034" y="3.177" ry=".102" />
+          <rect
+            width=".392"
+            height=".635"
+            x="-3.987"
+            y="2.875"
+            ry=".102"
+            transform="scale(-1 1)"
+          />
+          <rect
+            width=".392"
+            height=".635"
+            x="-3.387"
+            y="3.177"
+            ry=".102"
+            transform="scale(-1 1)"
+          />
+          <path d="M2.896 4.549a.106.106 0 00-.106.106.106.106 0 000 .01l.09 1.545L3 4.67a.106.106 0 000-.016.106.106 0 00-.105-.106zm-.731.329a.106.106 0 00-.107.107.106.106 0 00.001.01l.089 1.543.122-1.537a.106.106 0 000-.016.106.106 0 00-.105-.107zm4.437-.329a.106.106 0 00-.106.106.106.106 0 000 .01l.089 1.544.122-1.538a.106.106 0 00.001-.016.106.106 0 00-.106-.106zm.674.329a.106.106 0 00-.106.107.106.106 0 000 .01l.09 1.543.121-1.537a.106.106 0 00.002-.016.106.106 0 00-.107-.107z" />
+        </g>
       </g>
     </svg>
   );

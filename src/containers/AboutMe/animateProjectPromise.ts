@@ -18,6 +18,23 @@ const parseAttr = (attr: string) => {
   return attr;
 };
 
+const parseOrigin = (origin: string) => {
+  switch (origin) {
+    case "center":
+      return "50% 50%";
+    case "left":
+      return "0% 50%";
+    case "right":
+      return "100% 50%";
+    case "top":
+      return "50% 0%";
+    case "bottom":
+      return "50% 100%";
+    default:
+      return origin;
+  }
+};
+
 type TAnimateStyle = {
   x?: number;
   y?: number;
@@ -35,8 +52,6 @@ type TAnimateStyle = {
   opacity?: number;
 };
 
-type TOrigin = "center" | "left" | "right" | "top" | "bottom";
-
 export type TKeyframeStyle = TAnimateStyle & { offset?: number };
 
 type TElStyles = {
@@ -51,7 +66,7 @@ type TElAnimation = {
   bbox: DOMRect;
   styles: TElStyles;
   disabled: boolean;
-  origin: TOrigin;
+  origin: string;
 };
 
 export type TInteractivity = {
@@ -122,7 +137,7 @@ export class MainTimeline {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;
 
-      if (!currentTarget.classList.contains("active")) return;
+      // if (!currentTarget.classList.contains("active")) return;
 
       const isVisible = (el: HTMLElement): boolean => {
         if (el === currentTarget) return true;
@@ -242,6 +257,7 @@ export class MainTimeline {
 
       init![key] = fromVal || 0;
     };
+    if (!("opacity" in current)) current.opacity = 1;
 
     for (const _key in mainKeyframe) {
       const key = _key as keyof TAnimateStyle;
@@ -279,32 +295,24 @@ export class MainTimeline {
     const { current } = styles;
 
     const parseOrigin = (position: "x" | "y") => {
-      let originNum: number[] = [];
-      let idx = position === "x" ? 0 : 1;
-      switch (origin) {
-        case "center":
-          originNum = [50, 50];
-          break;
-        case "left":
-          originNum = [0, 50];
-          break;
-        case "right":
-          originNum = [100, 50];
-          break;
-        case "top":
-          originNum = [50, 0];
-          break;
-        case "bottom":
-          originNum = [50, 100];
-          break;
-      }
+      const idx = position === "x" ? 0 : 1;
+      const originXY = origin.split(" ");
+      const isPercent = !!originXY[idx].match(/%/);
+      const val = isPercent
+        ? Number(originXY[idx].replace(/%/, "")) / 100
+        : Number(originXY[idx]);
 
-      return originNum[idx] / 100;
+      return { isPercent, val };
     };
 
     const getOrigin = (position: "x" | "y") => {
       const dimension = position === "x" ? "width" : "height";
-      return bbox[position] + bbox[dimension] * parseOrigin(position);
+      const { val, isPercent } = parseOrigin(position);
+
+      if (isPercent) {
+        return bbox[position] + bbox[dimension] * val;
+      }
+      return bbox[position] + val;
     };
 
     const getScale = (position?: "x" | "y") => {
@@ -388,10 +396,11 @@ export class MainTimeline {
       disable,
       resetSavedStyle,
       basedBBox,
+      onEnd,
     }: {
       duration: number;
       easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
-      origin?: TOrigin;
+      origin?: string;
       delay?: number;
       reset?: boolean;
       /**
@@ -400,6 +409,7 @@ export class MainTimeline {
       disable?: boolean;
       resetSavedStyle?: boolean;
       basedBBox?: Element;
+      onEnd?: () => void;
     }
   ) {
     const durations: number[] = [];
@@ -479,12 +489,13 @@ export class MainTimeline {
 
     if (!currentElAnimation) {
       const el = (basedBBox ? basedBBox : _el) as SVGGraphicsElement;
+
       currentElAnimation = {
         animationId: null,
         finished: false,
         disabled: false,
         bbox: el.getBBox(),
-        origin: origin,
+        origin: parseOrigin(origin),
         styles: {
           current: { ...keyframes[0] },
           init: { ...keyframes[0] },
@@ -509,9 +520,12 @@ export class MainTimeline {
     }
 
     if (disable) {
+      const lastKeyframe =
+        keyframes.length === 1 ? [] : keyframes[keyframes.length - 1];
+
       currentElAnimation.styles.saved = {
         ...currentElAnimation.styles.current,
-        ...keyframes[keyframes.length - 1],
+        ...lastKeyframe,
       };
     }
 
@@ -599,6 +613,7 @@ export class MainTimeline {
 
           currentElAnimation.finished = true;
 
+          onEnd && onEnd();
           // @ts-ignore
           // console.timeEnd(`hi ${_el.className.baseVal}`);
           return;
@@ -767,11 +782,20 @@ export class MainTimeline {
     this.timeoutMap.clear();
 
     for (const [el] of animationEntries) {
+      const hasInitOpacity = el.getAttribute("opacity") === "0";
+
       this.animate(el, null, {
         duration,
         easing: "ease-in-out",
         disable: false,
         reset: true,
+        onEnd: () => {
+          el.setAttribute("transform", "");
+          if (hasInitOpacity) {
+            // console.log(el);
+            el.style.opacity = "";
+          }
+        },
       });
     }
 
