@@ -105,8 +105,16 @@ const interactivity: TInteractivity[] = [
       state.collapsed = false;
       console.log("open");
 
+      const browserBodyContainer = currentTarget.querySelector(
+        ".browser-body-container"
+      )!;
       const browser = currentTarget.querySelector(".browser")!;
       const titleBars = currentTarget.querySelector(".title-bars")!;
+
+      mTimeline.animate(browserBodyContainer, null, {
+        duration: 200,
+        origin: "top",
+      });
 
       mTimeline.animate(browser, null, {
         duration: 200,
@@ -134,7 +142,28 @@ const interactivity: TInteractivity[] = [
       state.collapsed = true;
 
       const browser = currentTarget.querySelector(".browser")!;
+      const browserBodyContainer = currentTarget.querySelector(
+        ".browser-body-container"
+      )!;
       const titleBars = currentTarget.querySelector(".title-bars")!;
+
+      mTimeline.animate(
+        browserBodyContainer,
+        [
+          {
+            y: 0,
+            scaleY: 1,
+          },
+          {
+            y: 0.2,
+            scaleY: 0.941,
+          },
+        ],
+        {
+          duration: 200,
+          origin: "top",
+        }
+      );
 
       mTimeline.animate(
         browser,
@@ -339,12 +368,12 @@ const interactivity: TInteractivity[] = [
       });
 
       if (state.expanded) {
-        loadingBar.style.strokeDasharray = "7.3px";
-        loadingBar.style.strokeDashoffset = "7.3px";
+        loadingBar.style.strokeDasharray = "7.31";
+        loadingBar.style.strokeDashoffset = "7.31";
         loadingBar.setAttribute("d", "m2.132 4.799h7.3");
         loadingBar.classList.add("active");
       } else {
-        loadingBar.style.strokeDasharray = "5.1px";
+        loadingBar.style.strokeDasharray = "5.1";
         loadingBar.setAttribute("d", "m2.132 4.799h5.1");
         loadingBar.classList.remove("active");
       }
@@ -361,7 +390,7 @@ const interactivity: TInteractivity[] = [
             y: -0.5,
           },
         ],
-        { duration, reset: !state.expanded }
+        { duration: 0, reset: !state.expanded }
       );
 
       mTimeline.animate(
@@ -678,12 +707,14 @@ export const performanceAnimation = ({
         animateFiles(fileImg2El, 5);
 
         if (loadingBar.classList.contains("active")) {
-          loadingBarDashoffset = 7.3;
+          loadingBarDashoffset = 7.31;
         }
 
-        // ???
-        loadingBar.style.strokeDashoffset = `${loadingBarDashoffset}px`;
-        mTimeline.animate(loadingBar, [{ opacity: 1 }], { duration: 0 });
+        mTimeline.animate(
+          loadingBar,
+          [{ opacity: 1, strokeDashoffset: loadingBarDashoffset }],
+          { duration: 0 }
+        );
 
         mTimeline.setTimeout(() => {
           mTimeline.animate(
@@ -752,6 +783,9 @@ export const performanceAnimation = ({
           ],
           {
             duration: 300,
+            onEnd: () => {
+              mTimeline.animate(loadingBar, [{ opacity: 0 }], { duration: 0 });
+            },
           }
         );
         mTimeline.animate(
@@ -837,11 +871,10 @@ export const performanceAnimation = ({
       },
       { duration: 1000 }
     );
+    return;
 
     mTimeline.scene(
       () => {
-        mTimeline.animate(loadingBar, [{ opacity: 0 }], { duration: 0 });
-
         mTimeline.reset(
           [
             percentEl,

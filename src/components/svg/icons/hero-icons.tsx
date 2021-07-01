@@ -546,15 +546,17 @@ export const PerformanceIcon = () => {
         </g>
         <g class="browser" opacity="0">
           <g class="browser-rotate">
-            <rect
-              width="5.15"
-              height="3.397"
-              x="2.132"
-              y="4.248"
-              ry=".237"
-              class="browser-body"
-              fill="#fff"
-            />
+            <g class="browser-body-container">
+              <rect
+                width="5.15"
+                height="3.397"
+                x="2.132"
+                y="4.248"
+                ry=".237"
+                class="browser-body"
+                fill="#fff"
+              />
+            </g>
 
             <path
               opacity="0"
