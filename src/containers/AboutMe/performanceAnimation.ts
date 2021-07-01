@@ -1,4 +1,3 @@
-import reflow from "../../utils/reflow";
 import {
   MainTimeline,
   TInteractivity,
@@ -140,6 +139,7 @@ const interactivity: TInteractivity[] = [
     event: ({ currentTarget, mTimeline }) => {
       if (state.collapsed) return;
       state.collapsed = true;
+      // 3.3970000743865967
 
       const browser = currentTarget.querySelector(".browser")!;
       const browserBodyContainer = currentTarget.querySelector(
@@ -155,8 +155,8 @@ const interactivity: TInteractivity[] = [
             scaleY: 1,
           },
           {
-            y: 0.2,
-            scaleY: 0.941,
+            y: 0.4,
+            scaleY: 0.882,
           },
         ],
         {
@@ -558,7 +558,7 @@ export const performanceAnimation = ({
             },
             {
               scale: 2.5,
-              x: -32,
+              x: -2,
             },
           ],
           {
@@ -767,7 +767,7 @@ export const performanceAnimation = ({
             {
               scale: 1.2,
               x: -1,
-              y: -3,
+              y: -2,
             },
           ],
           {
@@ -815,10 +815,10 @@ export const performanceAnimation = ({
           [
             {
               x: -0.5,
-              y: -2.5,
+              y: -1.5,
               scale: 0,
             },
-            { scale: 1, x: -0.5, y: -2.5 },
+            { scale: 1, x: -0.5, y: -1.5 },
           ],
           { duration: 500 }
         );
@@ -856,13 +856,13 @@ export const performanceAnimation = ({
             {
               scale: 0,
               x: -0.5,
-              y: -2.5,
+              y: -1.5,
               rotate: 90,
             },
             {
               scale: 1,
               x: -0.5,
-              y: -2.5,
+              y: -1.5,
               rotate: 0,
             },
           ],

@@ -127,7 +127,7 @@ export const A11yIcon = () => {
         </text>
       </g>
 
-      <g class="talk-bubble" opacity="0">
+      <g class="talk-bubble" opacity="0" style="pointer-events: none;">
         <rect
           class="talk-bubble-rect"
           x="1.056"
