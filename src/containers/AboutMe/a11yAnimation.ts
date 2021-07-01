@@ -180,7 +180,12 @@ export const a11yAnimation = ({
 
     graphicElColorMap.forEach((items) => {
       const [el, colors] = items;
-      el.style.fill = colors[colorProp];
+
+      if (el.className === "flower-stem") {
+        el.style.stroke = colors[colorProp];
+      } else {
+        el.style.fill = colors[colorProp];
+      }
 
       if (transition) {
         el.style.transition = "fill 1500ms";
