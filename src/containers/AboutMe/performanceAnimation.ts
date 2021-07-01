@@ -871,7 +871,6 @@ export const performanceAnimation = ({
       },
       { duration: 1000 }
     );
-    return;
 
     mTimeline.scene(
       () => {
