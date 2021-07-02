@@ -1,4 +1,4 @@
-import { camelToKebabCase } from "../../utils";
+import { camelToKebabCase, round } from "../../utils";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
@@ -137,7 +137,7 @@ export class MainTimeline {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;
 
-      // if (!currentTarget.classList.contains("active")) return;
+      if (!currentTarget.classList.contains("active")) return;
 
       const isVisible = (el: HTMLElement): boolean => {
         if (el === currentTarget) return true;
@@ -314,6 +314,7 @@ export class MainTimeline {
       }
       return bbox[position] + val;
     };
+    // 4.0185
 
     const getScale = (position?: "x" | "y") => {
       const scaleXResult =
@@ -330,16 +331,18 @@ export class MainTimeline {
           : 1;
 
       if (position) {
-        return position === "x" ? scaleXResult! : scaleYResult!;
+        const result = position === "x" ? scaleXResult! : scaleYResult!;
+        return round(result, 4);
       }
 
-      return `scale(${scaleXResult} ${scaleYResult})`;
+      return `scale(${round(scaleXResult!, 4)} ${round(scaleYResult!, 4)})`;
     };
 
     const getRotate = () => {
-      return `rotate(${current.rotate || 0} ${
-        getOrigin("x") * (getScale("x") as number)
-      } ${getOrigin("y") * (getScale("y") as number)})`;
+      return `rotate(${round(current.rotate || 0, 4)} ${round(
+        getOrigin("x") * (getScale("x") as number),
+        4
+      )} ${round(getOrigin("y") * (getScale("y") as number), 4)})`;
     };
 
     const translateOrigin = (position: "x" | "y") => {
@@ -347,9 +350,10 @@ export class MainTimeline {
     };
 
     const getTranslate = () => {
-      return `translate(${(current.x || 0) + translateOrigin("x")}, ${
-        (current.y || 0) + translateOrigin("y")
-      })`;
+      return `translate(${round(
+        (current.x || 0) + translateOrigin("x"),
+        4
+      )}, ${round((current.y || 0) + translateOrigin("y"), 4)})`;
     };
 
     if (

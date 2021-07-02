@@ -142,6 +142,17 @@ const AboutMe = () => {
     });
   });
 
+  const setZindex = (type: string) => {
+    switch (type) {
+      case "responsive":
+        return 2;
+      case "a11y":
+        return 0;
+      case "performance":
+        return 1;
+    }
+  };
+
   return (
     <section id="about-me" class="about-me">
       <div class="about-me-inner">
@@ -184,6 +195,10 @@ const AboutMe = () => {
                           : ""
                       }`}
                       onMouseEnter={() => mouseEnterProjectPromise(idx())}
+                      style={{
+                        position: "relative",
+                        "z-index": setZindex(props.type),
+                      }}
                     >
                       <span class="about-me-icon-container">
                         <span
