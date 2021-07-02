@@ -181,7 +181,7 @@ export const a11yAnimation = ({
     graphicElColorMap.forEach((items) => {
       const [el, colors] = items;
 
-      if (el.className === "flower-stem") {
+      if (el.getAttribute("class") === "flower-stem") {
         el.style.stroke = colors[colorProp];
       } else {
         el.style.fill = colors[colorProp];
