@@ -12,10 +12,10 @@ import useMatchMedia from "../../hooks/useMatchMedia";
 export type TLogoPath = HTMLElement;
 
 /**
- * Problem in Mobile: When selecting hero icon, it jitters while shadow animation is moving due to complex shadow mask
+ * Problem in Mobile: When selecting hero icon, it jitters while shadow animation is moving due to bloated shadow mask
  *
  * Solution:
- * 1. when selecting hero icon and no other icons are running, pause hero, and then run after shadow animation is done. Shadow animation
+ * 1. when selecting hero icon and no other icons are running, pause hero icon, and then run after shadow animation is done.
  * 2. When selecting hero icon and other icon is running, don't move shadow.
  * 3. When selection outside hero icon to close hero icon animation, run shadow animation after hero icon animation is done
  */
@@ -46,6 +46,8 @@ const AboutMeLogo = () => {
     bcr = svgEl.getBoundingClientRect();
     return bcr;
   };
+
+  const getPositionAndAnimate = (x: number, y: number) => {};
 
   const onMousemove = (e: MouseEvent) => {
     if (touchstartFired) {
@@ -82,6 +84,10 @@ const AboutMeLogo = () => {
     animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
   };
 
+  const onTouchStart = () => {
+    touchstartFired = true;
+  };
+
   const createIntersectionObserver = () => {
     return new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -94,10 +100,6 @@ const AboutMeLogo = () => {
         setHero({ active: isVisible });
       });
     });
-  };
-
-  const onTouchStart = () => {
-    touchstartFired = true;
   };
 
   const addHeroEvents = () => {
@@ -114,53 +116,57 @@ const AboutMeLogo = () => {
     document.body.removeEventListener("touchmove", onTouchmove);
   };
 
-  //   onMount(() => {
-  //     const observer = createIntersectionObserver();
-  //     observer.observe(sentinelHeroAnimationEl);
-  //
-  //     window.addEventListener(
-  //       "resize",
-  //       debounce(
-  //         () => {
-  //           bcr = svgEl.getBoundingClientRect();
-  //         },
-  //         100,
-  //         { trailing: true }
-  //       )
-  //     );
-  //
-  //     const generate = () => {
-  //       if (paths) return;
-  //
-  //       paths = createDuplicatedPaths(svgEl);
-  //       hideFullNameLetterCombo();
-  //       setAnimationReady(true);
-  //     };
-  //
-  //     document.body.addEventListener("mousemove", function init() {
-  //       generate();
-  //       document.body.removeEventListener("mousemove", init);
-  //     });
-  //
-  //     document.body.addEventListener("touchmove", function init() {
-  //       generate();
-  //       document.body.removeEventListener("touchmove", init);
-  //     });
-  //   });
+  onMount(() => {
+    const observer = createIntersectionObserver();
+    observer.observe(sentinelHeroAnimationEl);
 
-  //   createEffect(() => {
-  //     if (animationReady()) {
-  //       setAnimationReady(false);
-  //       addHeroEvents();
-  //     }
-  //
-  //     if (context.hero.active && !context.blog.active) {
-  //       addHeroEvents();
-  //     } else {
-  //       addedEventsListeners = false;
-  //       removeHeroEvents();
-  //     }
-  //   });
+    window.addEventListener(
+      "resize",
+      debounce(
+        () => {
+          bcr = svgEl.getBoundingClientRect();
+        },
+        100,
+        { trailing: true }
+      )
+    );
+
+    const generate = () => {
+      if (paths) return;
+
+      paths = createDuplicatedPaths(svgEl);
+      hideFullNameLetterCombo();
+      setAnimationReady(true);
+    };
+
+    document.body.addEventListener("mousemove", function init() {
+      generate();
+      document.body.removeEventListener("mousemove", init);
+    });
+
+    document.body.addEventListener("touchmove", function init() {
+      generate();
+      document.body.removeEventListener("touchmove", init);
+    });
+  });
+
+  createEffect(() => {
+    if (animationReady()) {
+      setAnimationReady(false);
+      addHeroEvents();
+    }
+
+    if (
+      context.hero.active &&
+      context.hero.shadowActive &&
+      !context.blog.active
+    ) {
+      addHeroEvents();
+    } else {
+      addedEventsListeners = false;
+      removeHeroEvents();
+    }
+  });
 
   return (
     <h1

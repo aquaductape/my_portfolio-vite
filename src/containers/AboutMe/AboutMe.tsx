@@ -1,4 +1,3 @@
-// import { gsap } from "gsap";
 import {
   iconGithub,
   iconLinkedin,
@@ -112,12 +111,23 @@ const AboutMe = () => {
   };
 
   const mouseEnterProjectPromise = (idx: number) => {
+    if (!minWidth_400.matches && !projectPromiseAnimationActive()) {
+      const heroShadowDuration = 450;
+
+      setTimeout(() => {
+        setHero({ shadowActive: false });
+        updateProjectPromise(idx);
+      }, heroShadowDuration);
+
+      return;
+    }
     updateProjectPromise(idx);
   };
 
-  const mouseLeaveProjectPromise = () => {
+  const mouseLeaveProjectPromise = (e: MouseEvent) => {
     batch(() => {
-      setHero({ bgActive: true });
+      setHero({ bgActive: true, shadowActive: true });
+      setHero({ clientCoordinates: { x: e.clientX, y: e.clientY } });
       setProjectPromiseAnimationActive("");
       setProjectPromises(
         { from: 0, to: projectPromises.length - 1 },

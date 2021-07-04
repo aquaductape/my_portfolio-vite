@@ -20,6 +20,11 @@ type THeader = {
 type THero = {
   bgActive: boolean;
   active: boolean;
+  shadowActive: boolean;
+  clientCoordinates: {
+    x: number | null;
+    y: number | null;
+  };
 };
 
 type TBlog = {
@@ -65,6 +70,8 @@ const globalState = (): TGlobalState => ({
   hero: {
     bgActive: false,
     active: false,
+    shadowActive: false,
+    clientCoordinates: { x: null, y: null },
   },
   smoothScroll: {
     active: false,
@@ -138,15 +145,27 @@ const GlobalProvider = (props: { children: any }) => {
   const store: TGlobalContext = [
     state,
     {
-      setHero: ({ bgActive, active }) => {
-        if (bgActive != null) {
-          setState("hero", "bgActive", bgActive);
-        }
+      setHero: ({ bgActive, active, shadowActive, clientCoordinates }) => {
+        batch(() => {
+          if (bgActive != null) {
+            setState("hero", "bgActive", bgActive);
+          }
 
-        if (active != null) {
-          setState("hero", "active", active);
-        }
+          if (active != null) {
+            setState("hero", "active", active);
+          }
+
+          if (shadowActive != null) {
+            setState("hero", "shadowActive", shadowActive);
+          }
+
+          if (clientCoordinates != null) {
+            setState("hero", "clientCoordinates", "x", clientCoordinates.x);
+            setState("hero", "clientCoordinates", "y", clientCoordinates.y);
+          }
+        });
       },
+
       setBlog: ({ active, type, import: _import, finishedStaging }) => {
         batch(() => {
           if (active !== undefined) {
