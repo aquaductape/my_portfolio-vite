@@ -438,10 +438,19 @@ section {
   }
 }
 
+.capture-interaction {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .about-me-list {
   display: flex;
   align-items: center;
   padding: 2.5px 0;
+  position: relative;
 
   .about-me-icon {
     transition: transform 500ms, opacity 500ms;
@@ -487,10 +496,18 @@ section {
     > span {
       transform: translateY(10px);
     }
+
+    .capture-interaction {
+      transform: translateY(10px);
+    }
   }
   &.deactivate[data-project-promise-id="responsive"] {
     > span {
       transform: translateY(-10px);
+    }
+
+    .capture-interaction {
+      transform: translateY(-15px);
     }
   }
 }

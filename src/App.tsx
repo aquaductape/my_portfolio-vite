@@ -29,6 +29,17 @@ const _Blog = () => {
 };
 
 function App() {
+  // onMount(() => {
+  //   console.log(
+  //     "%cHey!",
+  //     "color: #00ceff; -webkit-text-stroke: 3px black; font-size: 90px; font-weight: bold;"
+  //   );
+  //   console.log(
+  //     "%cyou're awesome",
+  //     "color: #00ceff; font-size: 12px; background-color: #000; padding: 5px;"
+  //   );
+  // });
+
   return (
     <>
       <GlobalProvider>

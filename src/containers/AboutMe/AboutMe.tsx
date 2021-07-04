@@ -15,6 +15,7 @@ import {
   on,
   createSignal,
   useContext,
+  onMount,
 } from "solid-js";
 import { ResumeIcon } from "../../components/svg/icons/icons";
 import {
@@ -47,6 +48,7 @@ type TProjectPromise = {
 
 const AboutMe = () => {
   const [_, { setHero }] = useContext(GlobalContext);
+  const { minWidth_400 } = useMatchMedia();
 
   const socialLinks: TSocialLink[] = [
     {
@@ -99,18 +101,18 @@ const AboutMe = () => {
   const [init, setInit] = createSignal(true);
   let projectPromisesGroupEl!: HTMLUListElement;
 
-  const mouseEnterProjectPromise = (idx: number) => {
-    const filteredPP = projectPromises
-      .map((_, idx) => idx)
-      .filter((pIdx) => idx !== pIdx);
-
+  const updateProjectPromise = (idx: number) => {
     batch(() => {
       setInit(false);
       setHero({ bgActive: false });
-      setProjectPromises(filteredPP, "active", false);
+      setProjectPromises({}, "active", false);
       setProjectPromises(idx, "active", true);
       setProjectPromiseAnimationActive(projectPromises[idx].type);
     });
+  };
+
+  const mouseEnterProjectPromise = (idx: number) => {
+    updateProjectPromise(idx);
   };
 
   const mouseLeaveProjectPromise = () => {
@@ -141,17 +143,6 @@ const AboutMe = () => {
       }
     });
   });
-
-  const setZindex = (type: string) => {
-    switch (type) {
-      case "responsive":
-        return 2;
-      case "a11y":
-        return 0;
-      case "performance":
-        return 1;
-    }
-  };
 
   return (
     <section id="about-me" class="about-me">
@@ -194,12 +185,15 @@ const AboutMe = () => {
                           ? "deactivate"
                           : ""
                       }`}
-                      onMouseEnter={() => mouseEnterProjectPromise(idx())}
-                      style={{
-                        position: "relative",
-                        "z-index": setZindex(props.type),
-                      }}
                     >
+                      <div
+                        className="capture-interaction"
+                        onMouseEnter={() => mouseEnterProjectPromise(idx())}
+                        style={{
+                          display: props.active ? "none" : "block",
+                          "z-index": 2,
+                        }}
+                      ></div>
                       <span class="about-me-icon-container">
                         <span
                           class={`about-me-icon ${

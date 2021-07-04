@@ -141,10 +141,10 @@ export const a11yAnimation = ({
   const flowerStemEl = query(".flower-stem");
   const personContainerEl = query(".person-container");
 
-  const graphicElColorMap: [HTMLElement, TColors][] = [
+  const graphicElColorMap: [HTMLElement, TColors, boolean?][] = [
     [moonEl, graphic.moon],
     [cardTextEl, graphic.text],
-    [flowerStemEl, graphic.greenDark],
+    [flowerStemEl, graphic.greenDark, true],
     [leafDark0, graphic.greenDark],
     [leafDark1, graphic.greenDark],
     [leafLight0, graphic.greenLight],
@@ -179,16 +179,13 @@ export const a11yAnimation = ({
     const colorProp = getColorProp();
 
     graphicElColorMap.forEach((items) => {
-      const [el, colors] = items;
+      const [el, colors, changeStroke] = items;
+      const styleColorProp = changeStroke ? "stroke" : "fill";
 
-      if (el.getAttribute("class") === "flower-stem") {
-        el.style.stroke = colors[colorProp];
-      } else {
-        el.style.fill = colors[colorProp];
-      }
+      el.style[styleColorProp] = colors[colorProp];
 
       if (transition) {
-        el.style.transition = "fill 1500ms";
+        el.style.transition = `${styleColorProp} 1500ms`;
       } else {
         el.style.transition = "";
       }
