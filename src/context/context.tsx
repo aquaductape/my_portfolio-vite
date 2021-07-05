@@ -70,7 +70,7 @@ const globalState = (): TGlobalState => ({
   hero: {
     bgActive: false,
     active: false,
-    shadowActive: false,
+    shadowActive: true,
     clientCoordinates: { x: null, y: null },
   },
   smoothScroll: {

@@ -47,10 +47,15 @@ const AboutMeLogo = () => {
     return bcr;
   };
 
-  const getPositionAndAnimate = (x: number, y: number) => {};
+  const getPositionAndAnimate = (
+    x: number,
+    y: number,
+    transition?: boolean
+  ) => {
+    if (!animationReady) return;
+    console.log({ transition, touchstartFired });
 
-  const onMousemove = (e: MouseEvent) => {
-    if (touchstartFired) {
+    if (transition && touchstartFired) {
       touchstartFired = false;
       paths.forEach((path) => (path.style.transition = "transform 350ms"));
 
@@ -59,29 +64,24 @@ const AboutMeLogo = () => {
         paths.forEach((path) => (path.style.transition = ""));
       }, 400);
     }
-    if (!animationReady) return;
-    // console.log("mouse");
 
     const bcr = getBCR();
     const midX = bcr.width / 2;
     const midY = bcr.height / 2;
-    const deltaX = e.clientX - bcr.left - midX;
-    const deltaY = e.clientY - bcr.top - midY;
+    const deltaX = x - bcr.left - midX;
+    const deltaY = y - bcr.top - midY;
 
     animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
   };
 
+  const onMousemove = (e: MouseEvent) => {
+    getPositionAndAnimate(e.clientX, e.clientY, true);
+  };
+
   const onTouchmove = (e: TouchEvent) => {
-    if (!animationReady) return;
-
     const touch = e.touches[0] || e.changedTouches[0];
-    const bcr = getBCR();
-    const midX = bcr.width / 2;
-    const midY = bcr.height / 2;
-    const deltaX = touch.clientX - bcr.left - midX;
-    const deltaY = touch.clientY - bcr.top - midY;
 
-    animateDuplicatedPath({ deltaX, deltaY, paths, deltaSize });
+    getPositionAndAnimate(touch.clientX, touch.clientY);
   };
 
   const onTouchStart = () => {
@@ -162,6 +162,12 @@ const AboutMeLogo = () => {
       !context.blog.active
     ) {
       addHeroEvents();
+
+      if (context.hero.clientCoordinates.x) {
+        const { x, y } = context.hero.clientCoordinates;
+        touchstartFired = true;
+        getPositionAndAnimate(x, y!, true);
+      }
     } else {
       addedEventsListeners = false;
       removeHeroEvents();

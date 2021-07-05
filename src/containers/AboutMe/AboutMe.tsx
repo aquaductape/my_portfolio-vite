@@ -125,16 +125,24 @@ const AboutMe = () => {
   };
 
   const mouseLeaveProjectPromise = (e: MouseEvent) => {
+    const heroIconCloseDuration = 900;
+    const isMobile = !minWidth_400.matches;
+
     batch(() => {
-      setHero({ bgActive: true, shadowActive: true });
-      setHero({ clientCoordinates: { x: e.clientX, y: e.clientY } });
+      setHero({ bgActive: !isMobile });
       setProjectPromiseAnimationActive("");
-      setProjectPromises(
-        { from: 0, to: projectPromises.length - 1 },
-        "active",
-        false
-      );
+      setProjectPromises({}, "active", false);
     });
+
+    if (!isMobile) return;
+
+    setTimeout(() => {
+      setHero({
+        bgActive: true,
+        shadowActive: true,
+        clientCoordinates: { x: e.clientX, y: e.clientY },
+      });
+    }, heroIconCloseDuration);
   };
 
   createEffect(() => {
@@ -158,7 +166,7 @@ const AboutMe = () => {
     <section id="about-me" class="about-me">
       <div class="about-me-inner">
         <div class="about-me-content">
-          {/* <AboutMeLogo></AboutMeLogo> */}
+          <AboutMeLogo></AboutMeLogo>
           <div class="about-me-intro">
             <p class="about-me-intro__declaration">
               Dedicated self-taught Front-End developer.
