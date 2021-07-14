@@ -72,6 +72,7 @@ type TElAnimation = {
   styles: TElStyles;
   disabled: boolean;
   origin: string;
+  htmlTransition: string;
 };
 
 export type TInteractivity = {
@@ -262,7 +263,7 @@ export class MainTimeline {
 
       init![key] = fromVal || 0;
     };
-    if (!("opacity" in current)) current.opacity = 1;
+    if (!("opacity" in current) && elAnimation.isSVG) current.opacity = 1;
 
     for (const _key in mainKeyframe) {
       const key = _key as keyof TAnimateStyle;
@@ -296,7 +297,7 @@ export class MainTimeline {
     el: HTMLElement;
     elAnimation: TElAnimation;
   }) {
-    const { bbox, origin, styles, isSVG } = elAnimation;
+    const { bbox, origin, styles, isSVG, htmlTransition } = elAnimation;
     const { current } = styles;
 
     const parseOrigin = (position: "x" | "y") => {
@@ -407,6 +408,7 @@ export class MainTimeline {
     if (!isSVG) {
       el.style.transform = `${getRotateForHTML()} ${getScaleForHTML()} ${getTranslateForHTML()}`;
       el.style.transformOrigin = "center";
+      el.style.transition = htmlTransition;
     }
   }
 
@@ -422,6 +424,7 @@ export class MainTimeline {
       disable,
       resetSavedStyle,
       basedBBox,
+      htmlTransition = "",
       onEnd,
     }: {
       duration: number;
@@ -429,6 +432,7 @@ export class MainTimeline {
       origin?: string;
       delay?: number;
       reset?: boolean;
+      htmlTransition?: string;
       /**
        * current lexical animation will run, but future animations will not. Future animations won't run, but end keyframe will be saved and be used once future animation is renabled with `resetSavedStyle`
        */
@@ -524,6 +528,7 @@ export class MainTimeline {
         bbox: isSVG ? el.getBBox() : ({} as DOMRect),
         isSVG,
         origin: parseOrigin(origin),
+        htmlTransition,
         styles: {
           current: { ...keyframes[0] },
           init: { ...keyframes[0] },
@@ -628,6 +633,10 @@ export class MainTimeline {
         duration = durations[durationIdx];
 
         if (durationIdx > durations.length - 1) {
+          if (!currentElAnimation.isSVG) {
+            (_el as HTMLElement).style.transition = "";
+          }
+
           this._updateElVals({
             elAnimation: currentElAnimation,
             keyframes,

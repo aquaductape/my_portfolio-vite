@@ -558,7 +558,7 @@ export const performanceAnimation = ({
             },
             {
               scale: 2.5,
-              x: -2,
+              x: -6,
             },
           ],
           {

@@ -1,3 +1,4 @@
+import useMatchMedia from "../../hooks/useMatchMedia";
 import { MainTimeline, TInteractivity } from "./animateProjectPromise";
 
 const msg = ["Hi", "is", "it", "ok", "to", "be", "an", "ai", "or", "no"];
@@ -95,6 +96,7 @@ export const a11yAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
+  const { minWidth_620 } = useMatchMedia();
   const query = (s: string): HTMLElement => target.querySelector(s)!;
   const cardEl = query(".card");
 
@@ -140,6 +142,9 @@ export const a11yAnimation = ({
   const leafDark1 = query(".leaf-dark-1");
   const flowerStemEl = query(".flower-stem");
   const personContainerEl = query(".person-container");
+  const descriptionTextEl = document.querySelector(
+    ".active-a11y .about-me-promise-description"
+  ) as HTMLElement;
 
   const graphicElColorMap: [HTMLElement, TColors, boolean?][] = [
     [moonEl, graphic.moon],
@@ -207,6 +212,22 @@ export const a11yAnimation = ({
   const start = () => {
     emulateVision("none", false);
 
+    // debugger;
+    // mTimeline.animate(
+    //   descriptionTextEl,
+    //   [
+    //     {
+    //       x: 0,
+    //     },
+    //     {
+    //       x: 20,
+    //     },
+    //   ],
+    //   {
+    //     duration: 300,
+    //   }
+    // );
+    // return;
     mTimeline.scene(
       () => {
         mTimeline.animate(
@@ -251,13 +272,31 @@ export const a11yAnimation = ({
             },
             {
               scale: 2.5,
-              x: -45,
+              x: -23,
             },
           ],
           {
             duration: 500,
           }
         );
+
+        if (!minWidth_620.matches) {
+          mTimeline.animate(
+            descriptionTextEl,
+            [
+              {
+                x: 0,
+              },
+              {
+                x: 20,
+              },
+            ],
+            {
+              duration: 300,
+              htmlTransition: "opacity 500ms",
+            }
+          );
+        }
       },
       { duration: 500 }
     );
@@ -418,13 +457,27 @@ export const a11yAnimation = ({
           target,
           [
             {
-              x: -55,
+              x: minWidth_620.matches ? -35 : -20,
             },
           ],
           {
             duration: 500,
           }
         );
+
+        if (!minWidth_620.matches) {
+          mTimeline.animate(
+            descriptionTextEl,
+            [
+              {
+                x: 45,
+              },
+            ],
+            {
+              duration: 500,
+            }
+          );
+        }
 
         mTimeline.animate(
           cardEl,
@@ -721,13 +774,28 @@ export const a11yAnimation = ({
           target,
           [
             {
-              x: -45,
+              x: -23,
             },
           ],
           {
             duration: 400,
           }
         );
+
+        if (!minWidth_620.matches) {
+          mTimeline.animate(
+            descriptionTextEl,
+            [
+              {
+                x: 30,
+              },
+            ],
+            {
+              duration: 500,
+            }
+          );
+        }
+
         mTimeline.animate(talkBubbleEl, [{ opacity: 0 }], {
           duration: 380,
           delay: 100,
@@ -779,6 +847,7 @@ export const a11yAnimation = ({
   mTimeline.svg = target;
   mTimeline.resetStyles = resetStyles;
   mTimeline.interactivity = interactivity;
+  // start();
   mTimeline.start = start;
   mTimeline.loop = loop;
   mTimeline.play();
