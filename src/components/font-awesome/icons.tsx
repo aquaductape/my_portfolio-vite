@@ -1,20 +1,20 @@
-// import { library, icon, config } from "@fortawesome/fontawesome-svg-core";
-// import "@fortawesome/fontawesome-svg-core/styles.css";
-// import {
-//   faGithub,
-//   faLinkedin,
-//   faStackOverflow,
-// } from "@fortawesome/free-brands-svg-icons";
-// import { faDownload, faLink, faCode } from "@fortawesome/free-solid-svg-icons";
+import { library, icon, config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import {
+  faGithub,
+  faLinkedin,
+  faStackOverflow,
+} from "@fortawesome/free-brands-svg-icons";
+import { faDownload, faLink, faCode } from "@fortawesome/free-solid-svg-icons";
 
 // config.autoAddCss = false;
 
-// library.add(
-//   // faGithub, faLinkedin, faStackOverflow,
-//   faDownload,
-//   faLink,
-//   faCode
-// );
+library.add(
+  // faGithub, faLinkedin, faStackOverflow,
+  faDownload,
+  faLink,
+  faCode
+);
 
 // export const iconGithub = icon({ prefix: "fab", iconName: "github" }).html[0];
 // export const iconLinkedin = icon({ prefix: "fab", iconName: "linkedin" })
