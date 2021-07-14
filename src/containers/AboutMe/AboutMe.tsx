@@ -202,16 +202,15 @@ const AboutMe = () => {
                           ? "deactivate"
                           : ""
                       }`}
-                      onMouseEnter={() => mouseEnterProjectPromise(idx())}
                     >
-                      {/* <div
+                      <div
                         className="capture-interaction"
                         onMouseEnter={() => mouseEnterProjectPromise(idx())}
                         style={{
                           display: props.active ? "none" : "block",
                           "z-index": 2,
                         }}
-                      ></div> */}
+                      ></div>
                       <span class="about-me-icon-container">
                         <span
                           class={`about-me-icon ${
