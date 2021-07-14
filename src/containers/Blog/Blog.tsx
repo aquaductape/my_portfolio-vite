@@ -1,4 +1,3 @@
-import { iconCode, iconLink } from "../../components/font-awesome/icons";
 import {
   createEffect,
   createSignal,
@@ -15,6 +14,10 @@ import CONSTANTS from "../../constants";
 import style from "./Blog.module.scss";
 import Nav from "./Nav/Nav";
 import { setUrlHash } from "../NavigationBar/Links";
+import {
+  iconLinkJSX,
+  iconSourceCodeJSX,
+} from "../../components/font-awesome/icons";
 
 const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
   const [context, { setHeader, setBlog, setSmoothScroll, setTableOfContents }] =
@@ -335,7 +338,7 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
                 target="blank"
                 ref={linkWebsiteRef}
               >
-                <span innerHTML={iconLink}></span>
+                <span>{iconLinkJSX()}</span>
                 Website
               </a>
               <a
@@ -344,7 +347,7 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
                 target="blank"
                 ref={linkSourcCodeRef}
               >
-                <span innerHTML={iconCode}></span>
+                <span>{iconSourceCodeJSX()}</span>
                 Source Code
               </a>
             </div>
