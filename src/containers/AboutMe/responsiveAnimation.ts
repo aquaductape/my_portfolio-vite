@@ -119,7 +119,7 @@ export const responsiveAnimation = ({
               x: 0,
             },
             {
-              scale: 8.5,
+              scale: 1.5,
               x: -2,
             },
           ],

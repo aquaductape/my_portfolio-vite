@@ -1,4 +1,4 @@
-import { camelToKebabCase, round } from "../../utils";
+import { camelToKebabCase } from "../../utils";
 import { a11yAnimation, a11yEnd } from "./a11yAnimation";
 import { performanceAnimation, performanceEnd } from "./performanceAnimation";
 import { responsiveAnimation, responsiveEnd } from "./responsiveAnimation";
@@ -16,6 +16,10 @@ const parseAttr = (attr: string) => {
   const matchingRes = attr.match(/^attr-(.)/)!;
   if (matchingRes && matchingRes[1]) attr = matchingRes[1];
   return attr;
+};
+
+const isSVGNode = (el: Element) => {
+  return el instanceof SVGElement && el.tagName !== "svg";
 };
 
 const parseOrigin = (origin: string) => {
@@ -64,6 +68,7 @@ type TElAnimation = {
   animationId: number | null;
   finished: boolean;
   bbox: DOMRect;
+  isSVG: boolean;
   styles: TElStyles;
   disabled: boolean;
   origin: string;
@@ -291,7 +296,7 @@ export class MainTimeline {
     el: HTMLElement;
     elAnimation: TElAnimation;
   }) {
-    const { bbox, origin, styles } = elAnimation;
+    const { bbox, origin, styles, isSVG } = elAnimation;
     const { current } = styles;
 
     const parseOrigin = (position: "x" | "y") => {
@@ -331,18 +336,16 @@ export class MainTimeline {
           : 1;
 
       if (position) {
-        const result = position === "x" ? scaleXResult! : scaleYResult!;
-        return round(result, 4);
+        return position === "x" ? scaleXResult! : scaleYResult!;
       }
 
-      return `scale(${round(scaleXResult!, 4)} ${round(scaleYResult!, 4)})`;
+      return `scale(${scaleXResult!} ${scaleYResult!})`;
     };
 
     const getRotate = () => {
-      return `rotate(${round(current.rotate || 0, 4)} ${round(
-        getOrigin("x") * (getScale("x") as number),
-        4
-      )} ${round(getOrigin("y") * (getScale("y") as number), 4)})`;
+      return `rotate(${current.rotate || 0} ${
+        getOrigin("x") * (getScale("x") as number)
+      } ${getOrigin("y") * (getScale("y") as number)})`;
     };
 
     const translateOrigin = (position: "x" | "y") => {
@@ -350,19 +353,31 @@ export class MainTimeline {
     };
 
     const getTranslate = () => {
-      return `translate(${round(
-        (current.x || 0) + translateOrigin("x"),
-        4
-      )}, ${round((current.y || 0) + translateOrigin("y"), 4)})`;
+      return `translate(${(current.x || 0) + translateOrigin("x")}, ${
+        (current.y || 0) + translateOrigin("y")
+      })`;
+    };
+
+    const getTranslateForHTML = () => {
+      return `translate(${current.x || 0}px, ${current.y || 0}px)`;
+    };
+
+    const getRotateForHTML = () => {
+      return `rotate(${current.rotate || 0}deg)`;
+    };
+
+    const getScaleForHTML = () => {
+      return `scale(${getScale("x")}, ${getScale("y")})`;
     };
 
     if (
-      "x" in current ||
-      "y" in current ||
-      "scale" in current ||
-      "scaleX" in current ||
-      "scaleY" in current ||
-      "rotate" in current
+      isSVG &&
+      ("x" in current ||
+        "y" in current ||
+        "scale" in current ||
+        "scaleX" in current ||
+        "scaleY" in current ||
+        "rotate" in current)
     ) {
       const transform = `${getTranslate()} ${getRotate()} ${getScale()}`;
       // if (transform.match(/NaN/)) debugger;
@@ -370,13 +385,15 @@ export class MainTimeline {
       el.setAttribute("transform", transform);
     }
 
-    for (let attr of elAttributes) {
-      // @ts-ignore
-      const val = current[attr] as string;
-      if (val == null) continue;
+    if (isSVG) {
+      for (let attr of elAttributes) {
+        // @ts-ignore
+        const val = current[attr] as string;
+        if (val == null) continue;
 
-      attr = parseAttr(attr);
-      el.setAttribute(attr, val);
+        attr = parseAttr(attr);
+        el.setAttribute(attr, val);
+      }
     }
 
     if ("opacity" in current) {
@@ -385,6 +402,11 @@ export class MainTimeline {
 
     if ("strokeDashoffset" in current) {
       el.style.strokeDashoffset = current.strokeDashoffset!.toString();
+    }
+
+    if (!isSVG) {
+      el.style.transform = `${getRotateForHTML()} ${getScaleForHTML()} ${getTranslateForHTML()}`;
+      el.style.transformOrigin = "center";
     }
   }
 
@@ -493,12 +515,14 @@ export class MainTimeline {
 
     if (!currentElAnimation) {
       const el = (basedBBox ? basedBBox : _el) as SVGGraphicsElement;
+      const isSVG = isSVGNode(el);
 
       currentElAnimation = {
         animationId: null,
         finished: false,
         disabled: false,
-        bbox: el.getBBox(),
+        bbox: isSVG ? el.getBBox() : ({} as DOMRect),
+        isSVG,
         origin: parseOrigin(origin),
         styles: {
           current: { ...keyframes[0] },
