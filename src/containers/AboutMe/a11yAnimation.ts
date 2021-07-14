@@ -97,7 +97,8 @@ export const a11yAnimation = ({
   mTimeline: MainTimeline;
 }) => {
   const { minWidth_620 } = useMatchMedia();
-  const query = (s: string): HTMLElement => target.querySelector(s)!;
+  const query = (s: string): HTMLElement =>
+    target.querySelector(s) as HTMLElement;
   const cardEl = query(".card");
 
   const contrastEndNum = 7;

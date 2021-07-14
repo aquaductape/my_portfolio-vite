@@ -30,13 +30,13 @@ const AboutMeLogo = () => {
   let bcr!: DOMRect;
   let svgEl!: HTMLElement;
   let paths: TLogoPath[];
-  let deltaSize = minWidth_400.matches ? 15 : 5;
+  let deltaSize = minWidth_400.matches ? 15 : devicePixelRatio;
   let sentinelHeroAnimationEl!: HTMLDivElement;
   let addedEventsListeners = false;
   let touchstartFired = false;
 
   minWidth_400.addEventListener("change", (e) => {
-    deltaSize = e.matches ? 15 : 5;
+    deltaSize = e.matches ? 15 : devicePixelRatio;
   });
 
   const getBCR = () => {

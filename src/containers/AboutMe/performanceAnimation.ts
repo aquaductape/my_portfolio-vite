@@ -20,7 +20,8 @@ const interactivity: TInteractivity[] = [
   {
     selector: ".page-btn",
     event: ({ currentTarget }) => {
-      const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
+      const query = (s: string): HTMLElement =>
+        currentTarget.querySelector(s) as HTMLElement;
 
       const heroBg = query(".hero-bg");
       const heroWindows10 = query(".hero-windows10");
@@ -102,8 +103,6 @@ const interactivity: TInteractivity[] = [
     event: ({ currentTarget, mTimeline }) => {
       if (!state.collapsed) return;
       state.collapsed = false;
-      console.log("open");
-
       const browserBodyContainer = currentTarget.querySelector(
         ".browser-body-container"
       )!;
@@ -197,7 +196,8 @@ const interactivity: TInteractivity[] = [
   {
     selector: ".title-bar-expand",
     event: ({ currentTarget, mTimeline }) => {
-      const query = (s: string): HTMLElement => currentTarget.querySelector(s)!;
+      const query = (s: string): HTMLElement =>
+        currentTarget.querySelector(s) as HTMLElement;
 
       const loadingBarMask = query(".loading-bar-mask");
       const loadingBar = query(".loading-bar");
@@ -438,7 +438,8 @@ export const performanceAnimation = ({
   target: HTMLElement;
   mTimeline: MainTimeline;
 }) => {
-  const query = (s: string): HTMLElement => target.querySelector(s)!;
+  const query = (s: string): HTMLElement =>
+    target.querySelector(s) as HTMLElement;
 
   const loadingBar = query(".loading-bar");
   const airplaneEl = query(".airplane");
