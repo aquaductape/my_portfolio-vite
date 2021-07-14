@@ -56,23 +56,25 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
   let heroImgContainerElHeight = 0;
   let observerInit = true;
 
-  const createReizeObserver = () => {
-    return new ResizeObserver((entries) => {
-      if (observerInit) {
-        observerInit = false;
-        return;
-      }
+  const createReizeObserver = (): ResizeObserver => {
+    return new (window as any).ResizeObserver(
+      (entries: ResizeObserverEntry[]) => {
+        if (observerInit) {
+          observerInit = false;
+          return;
+        }
 
-      for (let entry of entries) {
-        const targetHeight = entry.contentRect.height;
-        const delta =
-          targetHeight < heroImgContainerElHeight
-            ? 0
-            : Math.abs((targetHeight - heroImgContainerElHeight) / 2) * -1;
+        for (let entry of entries) {
+          const targetHeight = entry.contentRect.height;
+          const delta =
+            targetHeight < heroImgContainerElHeight
+              ? 0
+              : Math.abs((targetHeight - heroImgContainerElHeight) / 2) * -1;
 
-        heroImgRef.style.transform = `translateY(${delta}px)`;
+          heroImgRef.style.transform = `translateY(${delta}px)`;
+        }
       }
-    });
+    );
   };
 
   const createIntersectionObserver = () => {
