@@ -45,7 +45,7 @@ export const Video = ({ src }: { src: string }) => {
 
   return (
     <div className={style["video-container"]}>
-      <video ref={videoElRef} muted loop controls playsinline preload="none">
+      <video ref={videoElRef} muted loop controls playsinline preload="auto">
         <source src={src} type="video/mp4" />
       </video>
     </div>
