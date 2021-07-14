@@ -14,6 +14,7 @@ import BlogPage from "./BlogPage";
 import CONSTANTS from "../../constants";
 import style from "./Blog.module.scss";
 import Nav from "./Nav/Nav";
+import { setUrlHash } from "../NavigationBar/Links";
 
 const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
   const [context, { setHeader, setBlog, setSmoothScroll, setTableOfContents }] =
@@ -239,12 +240,14 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
           smoothScrollTo({
             destination: 0,
             duration: 0,
+            native: false,
             onEnd: () => {
               setShowPost(true);
               // blogRef.style.height = "";
               // css position bug, when switching between position 'absolute' and 'fixed', there's a tiny shift
 
               setHeader({ enableShadow: false, enableTranslate: true });
+              setUrlHash({ id: "projects" });
 
               const resizeObserver = createReizeObserver();
               const intersectionObserver = createIntersectionObserver();

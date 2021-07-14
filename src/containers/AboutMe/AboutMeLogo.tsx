@@ -53,14 +53,12 @@ const AboutMeLogo = () => {
     transition?: boolean
   ) => {
     if (!animationReady) return;
-    console.log({ transition, touchstartFired });
 
     if (transition && touchstartFired) {
       touchstartFired = false;
       paths.forEach((path) => (path.style.transition = "transform 350ms"));
 
       setTimeout(() => {
-        // console.log("reset");
         paths.forEach((path) => (path.style.transition = ""));
       }, 400);
     }

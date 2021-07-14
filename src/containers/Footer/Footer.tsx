@@ -1,8 +1,8 @@
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
 import {
-  iconGithub,
-  iconLinkedin,
-  iconStackOverflow,
+  iconGithubJSX,
+  iconLinkedinJSX,
+  iconStackOverflowJSX,
 } from "../../components/font-awesome/icons";
 
 const Footer = () => {
@@ -31,8 +31,10 @@ const Footer = () => {
             title="Github"
             href="https://github.com/aquaductape"
             target="blank"
-            innerHTML={iconGithub}
-          ></a>
+            // innerHTML={iconGithubJSX}
+          >
+            {iconGithubJSX()}
+          </a>
         </div>
         <div className="pfooter-social-item">
           <a
@@ -41,8 +43,10 @@ const Footer = () => {
             title="LinkedIn"
             href="https://www.linkedin.com/in/caleb1taylor2/"
             target="blank"
-            innerHTML={iconLinkedin}
-          ></a>
+            // innerHTML={iconLinkedinJSX}
+          >
+            {iconLinkedinJSX()}
+          </a>
         </div>
         <div className="pfooter-social-item">
           <a
@@ -51,8 +55,10 @@ const Footer = () => {
             title="Stack Overflow"
             href="https://stackoverflow.com/users/8234457/caleb-taylor"
             target="blank"
-            innerHTML={iconStackOverflow}
-          ></a>
+            // innerHTML={iconStackOverflowJSX}
+          >
+            {iconStackOverflowJSX()}
+          </a>
         </div>
       </div>
     </footer>

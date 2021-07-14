@@ -16,12 +16,14 @@ const NavigationBar = () => {
   let prevWindowScrollY = 0;
   let topPageSentinelElRef!: HTMLDivElement;
   let debounceRef: any = null;
+  let onScrollAdded = false;
 
   const createIntersectionObserver = () => {
     return new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         const windowScrollY = window.scrollY;
         let isVisible = false;
+        if (!onScrollAdded) return;
 
         if (entry.isIntersecting) {
           isVisible = true;
@@ -89,10 +91,12 @@ const NavigationBar = () => {
     prevWindowScrollY = windowScrollY;
   };
 
-  const smartHideHeader = () => {
+  const initOnScrollHeader = () => {
     // sometimes when reloading the page scroll event runs twice
     // timeout prevents that
     setTimeout(() => {
+      onScrollAdded = true;
+
       debounceRef = debounce(onScrollHeader, 200, {
         leading: true,
         trailing: true,
@@ -157,7 +161,7 @@ const NavigationBar = () => {
 
   onMount(() => {
     prevWindowScrollY = window.scrollY || window.pageYOffset;
-    smartHideHeader();
+    initOnScrollHeader();
     onScrollHeader();
     setHasRendered(false);
     const observer = createIntersectionObserver();

@@ -2,6 +2,7 @@ import { JSX, onMount, useContext } from "solid-js";
 import CONSTANTS from "../../constants";
 import { setUrlHash } from "../../containers/NavigationBar/Links";
 import { GlobalContext, TGlobalContext } from "../../context/context";
+import { isBrowser } from "../../utils";
 
 type SpySectionProps = {
   hash: string;
@@ -40,7 +41,9 @@ const callback: IntersectionObserverCallback = (entries, observer) => {
   });
 };
 
-const observer = new IntersectionObserver(callback);
+const observer = isBrowser
+  ? new IntersectionObserver(callback)
+  : ({} as IntersectionObserver);
 let currentId = "";
 let init = true;
 let globalContext: TGlobalContext;

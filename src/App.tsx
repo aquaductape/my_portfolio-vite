@@ -2,7 +2,6 @@ import "focus-visible";
 import { lazy, onMount, Show, Suspense, useContext } from "solid-js";
 import SpySection from "./components/SpySection/SpySection";
 import AboutMe from "./containers/AboutMe/AboutMe";
-// import Blog from "./containers/Blog/Blog";
 import Contact from "./containers/Contact/Contact";
 import Footer from "./containers/Footer/Footer";
 import Graph from "./containers/Graph/Graph";

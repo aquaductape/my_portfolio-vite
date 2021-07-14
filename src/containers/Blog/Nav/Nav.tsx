@@ -65,10 +65,6 @@ const Nav = ({ project, navActive, refs, setScrollToId }: TNavProps) => {
     });
   };
 
-  createEffect(() => {
-    console.log("NAV", context.tableOfContents.headerActive);
-  });
-
   return (
     <div
       class={`${style["nav"]}  ${

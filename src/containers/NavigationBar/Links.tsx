@@ -58,7 +58,6 @@ const Links = () => {
     const hash = window.location.hash.slice(1);
 
     if (!links.includes(hash)) return;
-    console.log({ hash });
 
     setHeader({ activeLink: hash });
   });

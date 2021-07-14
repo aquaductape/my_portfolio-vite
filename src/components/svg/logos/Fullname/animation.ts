@@ -41,8 +41,8 @@ let disableStutter = false;
 let revertActive = false;
 let stutterTimeoutId = null as unknown as number;
 let disabledCounter = 0;
-const disabledCounterMax = 180;
-let randomCounterMax = Math.random() * 300 + 150;
+const genRandomCounterMax = () => Math.random() * 300 + 100;
+let randomCounterMax = genRandomCounterMax();
 
 const stutterRevert = ({
   max,
@@ -86,7 +86,7 @@ const animateStutter = ({
 }) => {
   disabledCounter++;
 
-  if (disabledCounter <= disabledCounterMax + randomCounterMax) {
+  if (disabledCounter <= randomCounterMax) {
     return;
   }
 
@@ -98,13 +98,13 @@ const animateStutter = ({
 
   window.clearTimeout(stutterTimeoutId);
   stutterTimeoutId = window.setTimeout(() => {
-    // paths.forEach((path) => (path.style.transition = "transform 250ms"));
+    paths.forEach((path) => (path.style.transition = "transform 250ms"));
 
-    randomCounterMax = Math.random() * 300 + 150;
+    randomCounterMax = genRandomCounterMax();
     stutterRevert({ max, paths, steps, x, y });
 
     setTimeout(() => {
-      // paths.forEach((path) => (path.style.transition = ""));
+      paths.forEach((path) => (path.style.transition = ""));
     }, 1200);
   }, 500);
 
@@ -183,5 +183,3 @@ export const hideFullNameLetterCombo = () => {
   el.style.transformBox = "fill-box";
   el.style.transition = "transform 800ms 100ms";
 };
-
-const animateTransition = () => {};

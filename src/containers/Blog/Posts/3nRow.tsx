@@ -25,11 +25,18 @@ import TableOfContents, {
 } from "../TableOfContents/TableOfContents";
 import { useContext } from "solid-js";
 import { GlobalContext } from "../../../context/context";
+import CONSTANTS from "../../../constants";
+import TechList from "./TechList";
 
 const Post3nRow = () => {
   const [_, { setTableOfContents }] = useContext(GlobalContext);
+  const title = "3nRow";
+  const skills = CONSTANTS.projects.find(
+    (project) => project.project === title
+  )!.skills;
+
   const tableOfContents: TTableOfContentsInput[] = [
-    { title: "How to Use" },
+    { title: "Summary" },
     { title: "Design" },
     {
       title: "Tech Stack",
@@ -51,12 +58,32 @@ const Post3nRow = () => {
     },
   ];
 
-  setTableOfContents({ contents: tableOfContents, anchorId: "how-to-use" });
+  setTableOfContents({ contents: tableOfContents, anchorId: "summary" });
 
   return (
     <div class={style["blog-post"]}>
       <MainTableOfContents></MainTableOfContents>
-      <Heading2>TLDR</Heading2>
+      <Heading2>Summary</Heading2>
+      <p>It’s a Tic Tac Toe game. </p>
+      <p>
+        For the client side, I didn’t use libraries or frameworks such as React
+        or jQuery, instead used plain Javascript with MVC pattern. This results
+        in a lighter and performant application.
+      </p>
+      <p>Game animations were done using SVG files.</p>
+      <p>
+        For backend, multiplayer is supported by Colyseus framework which runs
+        on Nodejs.
+      </p>
+      <p style="margin-top: 40px; font-size: 20px;">Tools & Technologies</p>
+      <TechList
+        items={[
+          ...skills.frontend,
+          ...skills.backend,
+          ...skills.buildTool,
+          ...skills.api,
+        ]}
+      ></TechList>
 
       <Heading2>Design</Heading2>
       <p>
@@ -68,7 +95,7 @@ const Post3nRow = () => {
       <ImgContainer
         src={consistencyImg}
         alt="Page layout is consistent, the main square is same size and shape relative to screen and holds main content"
-        size={"medium"}
+        styleSize={"medium"}
       ></ImgContainer>
 
       <p>
@@ -79,7 +106,7 @@ const Post3nRow = () => {
       <ImgContainer
         src={anatomyOfPlayerBtnImg}
         alt="Anatomy of Player Button, has three functions: Customize player, display player score, and display current player turn"
-        size={"medium"}
+        styleSize={"medium"}
       ></ImgContainer>
       <p>
         As you can see there's no text display of game state, such as which
@@ -141,7 +168,7 @@ const Post3nRow = () => {
       <ImgContainer
         src={mvcDiagramImg}
         alt="MCV (Model View Controller) Diagram"
-        size={"small"}
+        styleSize={"small"}
       ></ImgContainer>
       <p>
         There are many variations of MVC methodology, here's how I set up mine.
@@ -179,7 +206,7 @@ const Post3nRow = () => {
       <ImgContainer
         src={tooltipImg}
         alt="Comparing two tooltips, incorrect one is clipped by it's dropdown parent, and the other correctly displays in full view"
-        size={"medium"}
+        styleSize={"medium"}
       ></ImgContainer>
       <p>
         This requires a setup where the tooltip resides at the root placement so
@@ -278,7 +305,7 @@ const Post3nRow = () => {
         alt={
           "browser pixel render pipeline. Runs in following order: Javascript, Style, Layout, Painting then Composite."
         }
-        size={"xs-small"}
+        styleSize={"xs-small"}
       ></ImgContainer>
 
       <p>

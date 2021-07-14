@@ -18,11 +18,13 @@ const observerVideoCb: IntersectionObserverCallback = (entries) => {
       return;
     }
 
-    if (!entry.isIntersecting) {
-      videoEl.pause();
-      return;
-    }
-    videoEl.play();
+    try {
+      if (!entry.isIntersecting) {
+        videoEl.pause();
+        return;
+      }
+      videoEl.play();
+    } catch (err) {}
   });
 };
 
@@ -40,7 +42,7 @@ export const Video = ({ src }: { src: string }) => {
 
   return (
     <div className={style["video-container"]}>
-      <video ref={videoElRef} muted loop controls playsinline>
+      <video ref={videoElRef} muted loop controls playsinline preload="none">
         <source src={src} type="video/mp4" />
       </video>
     </div>
@@ -49,16 +51,20 @@ export const Video = ({ src }: { src: string }) => {
 
 export const ImgContainer = ({
   alt,
-  size,
+  styleSize,
   src,
 }: {
   src: string;
   alt: string;
-  size?: "xs-small" | "small" | "medium";
+  styleSize?: "xs-small" | "small" | "medium";
 }) => {
   return (
-    <div className={`${style["img-container"]} ${style[`media-${size}`]}`}>
-      <img src={src} alt={alt} />
+    <div
+      className={`${style["img-container"]} ${
+        styleSize ? style[`media-${styleSize}`] : ""
+      }`}
+    >
+      <img src={src} alt={alt} loading="lazy" />
     </div>
   );
 };
@@ -97,7 +103,7 @@ export const HyperLink = ({
 
     smoothScrollTo({
       destination: el,
-      duration: 300,
+      duration: 500,
       padding,
       onEnd: () => {
         el.focus();

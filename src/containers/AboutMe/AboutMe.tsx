@@ -1,7 +1,7 @@
 import {
-  iconGithub,
-  iconLinkedin,
-  iconStackOverflow,
+  iconGithubJSX,
+  iconLinkedinJSX,
+  iconStackOverflowJSX,
 } from "../../components/font-awesome/icons";
 
 import resumePDF from "../../assets/pdf/Caleb_Taylor_Resume.pdf?url";
@@ -26,7 +26,6 @@ import {
   endAnimateProjectPromise,
   startAnimateProjectPromise,
 } from "./animateProjectPromise";
-import FullnameLogo from "../../components/svg/logos/Fullname/FullnameLogo";
 import useMatchMedia from "../../hooks/useMatchMedia";
 import { GlobalContext } from "../../context/context";
 import AboutMeLogo from "./AboutMeLogo";
@@ -35,7 +34,7 @@ type TSocialLink = {
   href: string;
   ariaLabel: string;
   download?: string;
-  icon: string;
+  icon: () => JSX.Element;
 };
 
 type TProjectPromise = {
@@ -53,17 +52,17 @@ const AboutMe = () => {
     {
       ariaLabel: "Github",
       href: "https://github.com/aquaductape",
-      icon: iconGithub,
+      icon: iconGithubJSX,
     },
     {
       ariaLabel: "Stack Overflow",
       href: "https://stackoverflow.com/users/8234457/caleb-taylor",
-      icon: iconStackOverflow,
+      icon: iconStackOverflowJSX,
     },
     {
       ariaLabel: "LinkedIn",
       href: "https://github.com/aquaductape",
-      icon: iconLinkedin,
+      icon: iconLinkedinJSX,
     },
     {
       ariaLabel: "Download PDF Resume",
@@ -252,11 +251,11 @@ const AboutMe = () => {
                     rel="noreferrer noopener"
                     target="_blank"
                     download={item.download ? item.download : null}
-                    innerHTML={
-                      typeof item.icon === "string" ? item.icon : undefined
-                    }
+                    // innerHTML={
+                    //   typeof item.icon === "string" ? item.icon : undefined
+                    // }
                   >
-                    {typeof item.icon === "string" ? undefined : item.icon}
+                    {item.icon()}
                   </a>
                 </li>
               );

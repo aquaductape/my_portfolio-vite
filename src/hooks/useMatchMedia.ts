@@ -30,7 +30,6 @@ const useMatchMedia = ({
     });
 
     onCleanup(() => {
-      console.log("matchmedia cleanup");
       addEvents.forEach(({ type, onChange }) => {
         mqlGroup[type].removeEventListener("change", onChange);
       });
