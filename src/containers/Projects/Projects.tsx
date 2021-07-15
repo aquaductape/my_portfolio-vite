@@ -122,7 +122,7 @@ const Project = ({
           <a
             className="card-link-item"
             href={links.website}
-            target="blank"
+            target="_blank"
             data-flip-key={`link-website-${name}`}
           >
             <span>{iconLinkJSX()}</span>
@@ -131,7 +131,7 @@ const Project = ({
           <a
             className="card-link-item"
             href={links.sourceCode}
-            target="blank"
+            target="_blank"
             data-flip-key={`link-source-code-${name}`}
           >
             <span>{iconSourceCodeJSX()}</span>

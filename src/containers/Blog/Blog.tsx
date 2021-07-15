@@ -337,7 +337,7 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
               <a
                 className="card-link-item"
                 href={project.links.website}
-                target="blank"
+                target="_blank"
                 ref={linkWebsiteRef}
               >
                 <span>{iconLinkJSX()}</span>
@@ -346,7 +346,7 @@ const BlogInner = (props: { setShowBlog: (v: boolean) => boolean }) => {
               <a
                 className="card-link-item"
                 href={project.links.sourceCode}
-                target="blank"
+                target="_blank"
                 ref={linkSourcCodeRef}
               >
                 <span>{iconSourceCodeJSX()}</span>

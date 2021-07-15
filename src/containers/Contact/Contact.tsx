@@ -192,12 +192,12 @@ const Contact = () => {
 
   return (
     <section id="contact" class="contact-me" tabindex="-1">
-      <div
+      {/* <div
         ref={ariaLiveRegionRef}
         role="region"
         aria-live="polite"
         className="live-region sr-only"
-      ></div>
+      ></div> */}
       <h2 className="section-title">Contact Me</h2>
       <form ref={formRef} onSubmit={onSubmit} onKeyDown={onKeyDown} novalidate>
         <div className="card">

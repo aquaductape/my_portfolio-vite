@@ -45,7 +45,14 @@ export const Video = ({ src }: { src: string }) => {
 
   return (
     <div className={style["video-container"]}>
-      <video ref={videoElRef} muted loop controls playsinline preload="auto">
+      <video
+        ref={videoElRef}
+        muted
+        loop
+        controls
+        playsinline
+        preload="metadata"
+      >
         <source src={src} type="video/mp4" />
       </video>
     </div>
@@ -122,7 +129,7 @@ export const HyperLink = ({
         class={style["hyperlink"]}
         href={href}
         onClick={onClick}
-        target="blank"
+        target="_blank"
       >
         {text.trim()}
       </a>

@@ -8,11 +8,12 @@ import {
   redux,
   sass,
   typescript,
+  solidJS,
 } from "../../components/svg/icons/animated-icons";
 import Skill from "./Skill";
 
 const Skills = () => {
-  const icons: [JSX.Element, string][] = [
+  const icons: [(id: number) => JSX.Element, string][] = [
     [html, "HTML"],
     [css, "CSS"],
     [sass, "Sass"],
@@ -20,6 +21,7 @@ const Skills = () => {
     [typescript, "TypeScript"],
     [react, "React"],
     [redux, "Redux"],
+    [solidJS, "Solid"],
     [git, "Git"],
     // [npm, "NPM"]
     // [nodejs, "NodeJS"],
@@ -27,13 +29,10 @@ const Skills = () => {
     // [mysql, "MySQL"]
   ];
 
-  // const skillItems = icons.map(([icon, title], i) => {
-  //   return <Skill key={i} icon={icon} title={title}></Skill>;
-  // });
   const skillItems = (
     <For each={icons}>
       {([icon, title]) => {
-        return <Skill icon={icon} title={title}></Skill>;
+        return <Skill icon={icon as any} title={title}></Skill>;
       }}
     </For>
   );
