@@ -10,6 +10,7 @@ import NavigationBar from "./containers/NavigationBar/NavigationBar";
 import Projects from "./containers/Projects/Projects";
 import Skills from "./containers/Skills/Skills";
 import SVGDefs from "./containers/SVG/SVGDefs";
+import WhoAmI from "./containers/WhoAmI/WhoAmI";
 import GlobalProvider, { GlobalContext } from "./context/context";
 
 const Blog = lazy(() => {
@@ -57,6 +58,7 @@ function App() {
           {/* <SpySection hash="recent-coding-activity">
             <Graph></Graph>
           </SpySection> */}
+          {/* <WhoAmI></WhoAmI> */}
           <SpySection hash="contact" hasNavLink={true}>
             <Contact></Contact>
           </SpySection>

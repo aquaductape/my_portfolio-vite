@@ -1,4 +1,9 @@
 import { batch, createState, For, JSX } from "solid-js";
+import {
+  iconEmailJSX,
+  iconPhoneJSX,
+} from "../../components/font-awesome/icons";
+import S_Link from "../../components/S_Link/S_Link";
 
 type TFormInput = {
   name: string;
@@ -199,14 +204,45 @@ const Contact = () => {
         className="live-region sr-only"
       ></div> */}
       <h2 className="section-title">Contact Me</h2>
-      <form ref={formRef} onSubmit={onSubmit} onKeyDown={onKeyDown} novalidate>
-        <div className="card">
-          <div class="inputs">
-            <For each={state.inputs}>{InputContainer}</For>
+      <div className="contact-container">
+        <div class="card card-contact-info">
+          <div class="contact-info">
+            <h3 class="contact-info-title">Contact Info</h3>
+            <ul class="content">
+              <li class="list-item">
+                <span class="icon">{iconEmailJSX()}</span>
+                <span>
+                  <S_Link>
+                    <a
+                      class="contact-email"
+                      href="mailto:caleb1taylor2@gmail.com"
+                    >
+                      caleb1taylor2@gmail.com
+                    </a>
+                  </S_Link>
+                </span>
+              </li>
+              <li class="list-item">
+                <span class="icon">{iconPhoneJSX()}</span>
+                <span>(323) 637-1232</span>
+              </li>
+            </ul>
           </div>
         </div>
-        {buttonEl()}
-      </form>
+        <div className="card email-box">
+          <form
+            ref={formRef}
+            onSubmit={onSubmit}
+            onKeyDown={onKeyDown}
+            novalidate
+          >
+            <div class="inputs">
+              <For each={state.inputs}>{InputContainer}</For>
+            </div>
+            {buttonEl()}
+          </form>
+        </div>
+      </div>
     </section>
   );
 };

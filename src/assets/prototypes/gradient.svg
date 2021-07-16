@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 210 297">
+  <defs>
+    <linearGradient id="s-link-b">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" />
+    </linearGradient>
+    <linearGradient xlink:href="#s-link-b" id="s-link-a"  
+x1="0%" y1="0%" x2="100%" y2="0%"
+/>
+    <mask maskUnits="userSpaceOnUse" id="s-link-gradient">
+      <path fill="url(#s-link-a)" stroke-width=".53" stroke-linecap="round" d="M-5.074 74.018h272.428v58.754H-5.074z"/>
+    </mask>
+  </defs>
+  <g>
+    <path mask="url(#s-link-gradient)" transform="translate(-54.1 8.577)" fill="#bbb" d="M-5.074 74.018h272.428v58.754H-5.074z"/>
+  </g>
+</svg>

@@ -1,4 +1,6 @@
 .blog {
+  --s-link-alpha-color: var(--card-bg);
+
   &.onEnter {
     position: fixed;
     background: none;
